@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "351974741429",
+    "project_id": "doc-direct-database",
+    "storage_bucket": "doc-direct-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351974741429:android:0ddfb34b4851e9f87d75fc",
+        "android_client_info": {
+          "package_name": "com.projetdam.docdirect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351974741429-uiri0d0h3cv1psatrlomf4uf45vjnu5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxMrzlBnu8r2Gi7FDxzCstjib7CvfY61g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351974741429-uiri0d0h3cv1psatrlomf4uf45vjnu5p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

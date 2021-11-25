@@ -21,7 +21,7 @@ public class FilterFragment extends DialogFragment {
         public void onDialogNegativeClick(DialogFragment dialog);
     }
     NoticeDialogListener listener;
-    private boolean[] checkeditems;
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -41,6 +41,7 @@ public class FilterFragment extends DialogFragment {
 
 
     private ArrayList selectedItems;
+    private boolean[] checkeditems;
 
     public ArrayList getSelectedItems() {
         return selectedItems;

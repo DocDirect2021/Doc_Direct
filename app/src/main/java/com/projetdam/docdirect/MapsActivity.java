@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.databinding.ActivityMapsBinding;
 
+
 import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -87,7 +88,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
          //Add a marker in Paris and move the camera
         LatLng paris = new LatLng(48.864716, 2.349014);
         mMap.addMarker(new MarkerOptions().position(paris).title("Marker in Paris"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(paris));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paris, 12.0f));
+
 
     }
 }

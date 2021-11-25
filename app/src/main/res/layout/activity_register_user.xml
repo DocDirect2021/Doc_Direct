@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
+    tools:context=".RegisterUser">
     <ImageView
         android:id="@+id/banner"
         android:layout_width="150dp"
-        android:layout_height="170dp"
+        android:layout_height="160dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -18,38 +17,91 @@
         app:srcCompat="@drawable/logo_docdirect" />
 
     <EditText
-        android:id="@+id/edEmailSignUp"
+        android:id="@+id/edNom"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
+        android:hint="Nom"
+        android:inputType="text"
         android:textSize="24sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/banner" />
 
     <EditText
-        android:id="@+id/edPasswordSignUp"
+        android:id="@+id/edPrenom"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Prenom"
+        android:inputType="text"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edNom" />
+
+    <EditText
+        android:id="@+id/edDatNaiss"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Date Naissance"
+        android:inputType="date"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edPrenom" />
+
+
+    <EditText
+        android:id="@+id/edTelephone"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Telephone"
+        android:inputType="phone"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edDatNaiss" />
+
+    <EditText
+        android:id="@+id/edEmail"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edTelephone" />
+
+    <EditText
+        android:id="@+id/edPassword"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:textSize="24sp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edEmailSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/edEmail" />
 
     <Button
-        android:id="@+id/btSignIn"
+        android:id="@+id/registerUser"
         android:layout_width="380dp"
         android:layout_height="70dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="#CF6288"
-        android:text="LOGIN"
+        android:text="Créer le compte"
         android:textColor="#ffffff"
         android:textSize="26sp"
         android:textStyle="bold"
@@ -57,30 +109,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edPasswordSignUp" />
-
-    <TextView
-        android:id="@+id/forgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mot de passe oublié"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="25dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btSignIn" />
-
-    <TextView
-        android:id="@+id/register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="créer un compte"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="50dp"
-        app:layout_constraintLeft_toRightOf="@+id/forgotPassword"
-        app:layout_constraintTop_toTopOf="@+id/forgotPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/edPassword" />
 
     <ProgressBar
         android:id="@+id/progressBar"

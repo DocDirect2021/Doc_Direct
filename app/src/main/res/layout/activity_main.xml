@@ -20,7 +20,7 @@
     <EditText
         android:id="@+id/edEmailSignUp"
         android:layout_width="380dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginTop="60dp"
         android:ems="10"
         android:background="@drawable/custom_input"
@@ -38,7 +38,7 @@
     <EditText
         android:id="@+id/edPasswordSignUp"
         android:layout_width="380dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:ems="10"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
@@ -56,7 +56,7 @@
     <Button
         android:id="@+id/btSignIn"
         android:layout_width="380dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_marginTop="50dp"
         android:backgroundTint="#CF6288"
         android:text="LOGIN"

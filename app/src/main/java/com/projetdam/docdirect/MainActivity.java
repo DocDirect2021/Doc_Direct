@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         init();
 
+        // test ph
+        TempMisc.retrieveDb();
     }
 
     @Override

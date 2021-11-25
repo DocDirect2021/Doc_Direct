@@ -11,11 +11,25 @@
         <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_email_focused.xml" value="0.21875" />
         <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_lock.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_lock_focused.xml" value="0.21875" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_menu_01.xml" value="0.21875" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_menu_02.xml" value="0.21875" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_menu_03.xml" value="0.21875" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_menu_04.xml" value="0.21875" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_menu_05.xml" value="0.21875" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/ic_menu_06.xml" value="0.21875" />
         <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/shape_btn.xml" value="0.21875" />
         <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/activity_forgot_password.xml" value="0.3328125" />
         <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/activity_main.xml" value="0.346875" />
         <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/activity_profile.xml" value="0.3473731884057971" />
         <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/activity_register_user.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/fragment_accueil.xml" value="0.3625" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/fragment_compte.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/fragment_deconnexion.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/fragment_documents.xml" value="0.3625" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/fragment_rendez_vous.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/fragment_urgence.xml" value="0.20260416666666667" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/nav_header.xml" value="0.3625" />
+        <entry key="..\:/Users/chitha/AndroidStudioProjects/Doc_Direct/app/src/main/res/menu/menu_principal.xml" value="0.3625" />
       </map>
     </option>
   </component>

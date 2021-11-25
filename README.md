@@ -1,3 +1,3 @@
-# Doc_Direct
-Application de **prise de rendez-vous médiacel**.
+# Doc'Direct
+Application de **prise de rendez-vous médical**.
 >Il permet de 

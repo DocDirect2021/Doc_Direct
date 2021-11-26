@@ -44,25 +44,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private static final String emplacement
             = MainActivity.class.getSimpleName();
 
-    /** var **/
-    private static final String TAG = "Profile Activity";
 
-    private Button btSignOut;
-
-    private TextView txtNom;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
-    private String userID;
-
-
-
-
-    /** initialiser les widgets **/
-    private void init() {
-
-        btSignOut = findViewById(R.id.btSignOut);
-        txtNom = findViewById(R.id.txtNom);
-    }
 
     public void initUI() {
         toolbar = findViewById(R.id.toolbar);
@@ -74,32 +56,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        init();
 
-        //deconnexion
-        btSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
-                finish();
-            }
-        });
-
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        userID = mAuth.getCurrentUser().getUid();
-
-
-        DocumentReference documentReference = db.collection("users").document(userID);
-
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                txtNom.setText(documentSnapshot.getString("nom"));
-
-            }
-        });
 
         // Appel de la méthode d'initialisation de l'UI
         initUI();
@@ -162,10 +119,13 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         commit();
                 break;
             case R.id.nav_fragmentLogOut:
-                getSupportFragmentManager().
-                        beginTransaction().
-                        replace(R.id.fragment_container, new FragmentDeconnexion()).
-                        commit();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                finish();
+//                getSupportFragmentManager().
+//                        beginTransaction().
+//                        replace(R.id.fragment_container, new FragmentDeconnexion()).
+//                        commit();
                 break;
         }
 

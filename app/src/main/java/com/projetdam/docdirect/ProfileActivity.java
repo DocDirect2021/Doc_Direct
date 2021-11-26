@@ -37,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     // La gestion des fragments
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    FragmentAccueil f;
+    FragmentAccueil fa;
 
     // Gestion de la NavigationView
     private NavigationView navigationView;
@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         toolbar = findViewById(R.id.toolbar);
         drawer_layout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_navigationView);
-        f=new FragmentAccueil();
+        fa=new FragmentAccueil();
     }
 
     @Override
@@ -85,6 +85,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             addFragment();
             // Force l'affichage du 1er fragment au démarrage
             navigationView.setCheckedItem(R.id.nav_fragmentAccueil);
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.fragment_container,fa).
+                    commit();
         }
     }// create
 
@@ -95,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_fragmentAccueil:
                 getSupportFragmentManager().
                         beginTransaction().
-                        replace(R.id.fragment_container,f).
+                        replace(R.id.fragment_container,fa).
                         commit();
                 break;
             case R.id.nav_fragmentDocuments:
@@ -165,11 +169,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        f.onDialogPositiveClick(dialog);
+        fa.onDialogPositiveClick(dialog);
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        f.onDialogNegativeClick(dialog);
+        fa.onDialogNegativeClick(dialog);
     }
 }

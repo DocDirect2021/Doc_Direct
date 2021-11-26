@@ -34,25 +34,6 @@
 
         </FrameLayout>
 
-        <Button
-            android:id="@+id/btSignOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Logout"
-            android:textSize="20sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/txtNom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="88dp"
-            android:layout_marginEnd="260dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>

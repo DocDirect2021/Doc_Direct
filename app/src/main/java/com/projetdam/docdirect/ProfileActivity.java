@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,7 +26,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FilterFragment.NoticeDialogListener {
 
     /**
      * Variables globales fragment
@@ -36,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     // La gestion des fragments
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    FilterFragment f;
+    FragmentAccueil f;
 
     // Gestion de la NavigationView
     private NavigationView navigationView;
@@ -51,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         toolbar = findViewById(R.id.toolbar);
         drawer_layout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_navigationView);
+
     }
 
     @Override
@@ -88,7 +90,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        f=new FilterFragment();
+
         switch (item.getItemId()) {
             case R.id.nav_fragmentAccueil:
                 getSupportFragmentManager().
@@ -159,5 +161,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 //                beginTransaction().
 //                add(R.id.fragment_container, new FragmentAccueil()).
 //                commit();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        f.onDialogPositiveClick(dialog);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        f.onDialogNegativeClick(dialog);
     }
 }

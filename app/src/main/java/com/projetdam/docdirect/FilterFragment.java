@@ -14,7 +14,8 @@ import java.util.ArrayList;
 
 public class FilterFragment extends DialogFragment {
 
-
+    public FilterFragment() {
+    }
 
     public interface NoticeDialogListener {
         public void onDialogPositiveClick(DialogFragment dialog);

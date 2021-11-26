@@ -41,7 +41,10 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
     private FirebaseFirestore db;
+
+
     private CollectionReference docRef;
+
     private ArrayList<ModelDoctor> listDoc;
     private ArrayList listeco;
     private FilterFragment f;
@@ -171,7 +174,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             public boolean onQueryTextChange(String s) {
                 mMap.clear();
                 for(ModelDoctor doc:listDoc)
-                    if(doc.getName().contains(s)){
+                    if(doc.getName()!=null&&doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                         mMap.addMarker(new MarkerOptions().position(paris).title(""));
                     }

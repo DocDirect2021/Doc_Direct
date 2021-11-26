@@ -52,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         toolbar = findViewById(R.id.toolbar);
         drawer_layout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_navigationView);
-
+        f=new FragmentAccueil();
     }
 
     @Override

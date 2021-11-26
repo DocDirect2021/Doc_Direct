@@ -50,7 +50,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
         db = FirebaseFirestore.getInstance();
         listDoc = new ArrayList<ModelDoctor>();
         docRef = db.collection("doctors");
-
+        f = new FilterFragment();
         listeco = new ArrayList<Integer>();
 
         docRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -94,6 +94,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             View view = inflater.inflate(R.layout.fragment_accueil, container, false);
             imageButton=view.findViewById(R.id.imageButton);
             rechercheView=view.findViewById(R.id.rechercheView);
+
             init();
             SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
@@ -186,10 +187,10 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             public void onClick(View view) {
 
                 Bundle args = new Bundle();
-                f = new FilterFragment();
+
                 args.putIntegerArrayList("checked",listeco);
                 f.setArguments(args);
-                f.show(getChildFragmentManager(),"Filter");
+                f.show(getActivity().getSupportFragmentManager(),"Filter");
 
 
             }

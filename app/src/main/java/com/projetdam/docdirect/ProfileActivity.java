@@ -36,6 +36,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     // La gestion des fragments
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    FilterFragment f;
 
     // Gestion de la NavigationView
     private NavigationView navigationView;
@@ -87,11 +88,12 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        f=new FilterFragment();
         switch (item.getItemId()) {
             case R.id.nav_fragmentAccueil:
                 getSupportFragmentManager().
                         beginTransaction().
-                        replace(R.id.fragment_container, new FragmentAccueil()).
+                        replace(R.id.fragment_container,f).
                         commit();
                 break;
             case R.id.nav_fragmentDocuments:

@@ -28,7 +28,7 @@ public class TempMisc {
                             Log.i(TAG, count + " : " + doc.getDocumentID()
                                     + " / " + doc.getAddress()
                                     + " / " + doc.getCity()
-                                    + " / " + doc.getName()
+//                                    + " / " + doc.getName()
                                     + " / " + doc.getFirstName());
                             if (count >= 15) break;
                         }

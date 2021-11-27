@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,7 +26,7 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FilterFragment.NoticeDialogListener {
 
     /**
      * Variables globales fragment
@@ -36,6 +37,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     // La gestion des fragments
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    FragmentAccueil fa;
 
     // Gestion de la NavigationView
     private NavigationView navigationView;
@@ -44,62 +46,20 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     private static final String emplacement
             = MainActivity.class.getSimpleName();
 
-    /** var **/
-    private static final String TAG = "Profile Activity";
 
-    private Button btSignOut;
-
-    private TextView txtNom;
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
-    private String userID;
-
-
-
-
-    /** initialiser les widgets **/
-    private void init() {
-
-        btSignOut = findViewById(R.id.btSignOut);
-        txtNom = findViewById(R.id.txtNom);
-    }
 
     public void initUI() {
         toolbar = findViewById(R.id.toolbar);
         drawer_layout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_navigationView);
+        fa=new FragmentAccueil();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        init();
 
-        //deconnexion
-        btSignOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
-                finish();
-            }
-        });
-
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
-        userID = mAuth.getCurrentUser().getUid();
-
-
-        DocumentReference documentReference = db.collection("users").document(userID);
-
-        documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                txtNom.setText(documentSnapshot.getString("nom"));
-
-            }
-        });
 
         // Appel de la méthode d'initialisation de l'UI
         initUI();
@@ -125,16 +85,21 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             addFragment();
             // Force l'affichage du 1er fragment au démarrage
             navigationView.setCheckedItem(R.id.nav_fragmentAccueil);
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.fragment_container,fa).
+                    commit();
         }
     }// create
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.nav_fragmentAccueil:
                 getSupportFragmentManager().
                         beginTransaction().
-                        replace(R.id.fragment_container, new FragmentAccueil()).
+                        replace(R.id.fragment_container,fa).
                         commit();
                 break;
             case R.id.nav_fragmentDocuments:
@@ -162,10 +127,13 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                         commit();
                 break;
             case R.id.nav_fragmentLogOut:
-                getSupportFragmentManager().
-                        beginTransaction().
-                        replace(R.id.fragment_container, new FragmentDeconnexion()).
-                        commit();
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                finish();
+//                getSupportFragmentManager().
+//                        beginTransaction().
+//                        replace(R.id.fragment_container, new FragmentDeconnexion()).
+//                        commit();
                 break;
         }
 
@@ -197,5 +165,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 //                beginTransaction().
 //                add(R.id.fragment_container, new FragmentAccueil()).
 //                commit();
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        fa.onDialogPositiveClick(dialog);
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        fa.onDialogNegativeClick(dialog);
     }
 }

@@ -10,9 +10,12 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.maps.GoogleMap;
+
 import java.util.ArrayList;
 
-public class FilterFragment extends DialogFragment {
+public class FilterFragment extends DialogFragment  {
+
 
     public FilterFragment() {
     }
@@ -86,7 +89,7 @@ public class FilterFragment extends DialogFragment {
                             }
                         })
                 // Set the action buttons
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK, so save the selectedItems results somewhere
@@ -95,7 +98,7 @@ public class FilterFragment extends DialogFragment {
 
                     }
                 })
-                .setNegativeButton("Annuler", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         listener.onDialogNegativeClick(FilterFragment.this);

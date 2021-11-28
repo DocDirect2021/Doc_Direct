@@ -20,15 +20,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.projetdam.docdirect.commons.ModelDoctor;
-import com.projetdam.docdirect.databinding.ActivityMapsBinding;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,24 +41,18 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
     private ImageButton imageButton;
     private SearchView rechercheView;
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
     private FirebaseFirestore db;
-
-
-    private CollectionReference docRef;
-
     private ArrayList<ModelDoctor> listDoc;
     private ArrayList listeco;
-    private FilterFragment f;
+
 
     public void init() {
+
         db = FirebaseFirestore.getInstance();
         listDoc = new ArrayList<ModelDoctor>();
-        docRef = db.collection("doctors");
-        f = new FilterFragment();
+        Query query=db.collection("doctors").whereEqualTo("city","Paris");
         listeco = new ArrayList<Integer>();
-
-        docRef.whereEqualTo("city","Paris").limit(1000).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
@@ -151,8 +147,13 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
+        FilterFragment f = new FilterFragment();
+        Bundle args = new Bundle();
+        args.putIntegerArrayList("checked",listeco);
+        f.setArguments(args);
 
         LatLng paris = new LatLng(48.864716, 2.349014);
+
         mMap.addMarker(new MarkerOptions().position(paris).title("Marker in Paris"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paris, 12.0f));
 
@@ -172,12 +173,12 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
 
             @Override
             public boolean onQueryTextChange(String s) {
-                mMap.clear();
-                for(ModelDoctor doc:listDoc)
-                    if(doc.getName()!=null&&doc.getName().contains(s)){
-                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(paris).title(""));
-                    }
+//                mMap.clear();
+//                for(ModelDoctor doc:listDoc)
+//                    if(doc.getName()!=null&&doc.getName().contains(s)){
+//                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+//                        mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
+//                    }
                 return false;
             }
         });
@@ -189,11 +190,11 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             @Override
             public void onClick(View view) {
 
-                Bundle args = new Bundle();
 
-                args.putIntegerArrayList("checked",listeco);
-                f.setArguments(args);
+
                 f.show(getChildFragmentManager(),"Filter");
+
+
 
 
             }
@@ -202,7 +203,6 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-
 
         mMap.clear();
         ArrayList moTestArray =new ArrayList(Arrays.asList(getResources().getStringArray(R.array.specialites)));
@@ -217,7 +217,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
         for(ModelDoctor doc:listDoc)
             if(listec.contains(doc.getSpeciality())){
                 LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                mMap.addMarker(new MarkerOptions().position(paris).title(""));
+                Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()));
+
             }
     }
 

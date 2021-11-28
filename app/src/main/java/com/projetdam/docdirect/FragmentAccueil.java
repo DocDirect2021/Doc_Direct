@@ -56,7 +56,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
         f = new FilterFragment();
         listeco = new ArrayList<Integer>();
 
-        docRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        docRef.whereEqualTo("city","Paris").limit(1000).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
@@ -165,7 +165,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
                 for(ModelDoctor doc:listDoc)
                     if(doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(paris).title(""));
+                        mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
                     }
                 return false;
             }

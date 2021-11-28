@@ -98,7 +98,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             public boolean onQueryTextSubmit(String s) {
                 mMap.clear();
                 for(ModelDoctor doc:listDoc)
-                    if(doc.getName().contains(s)){
+                    if(doc.getName()!=null&&doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                         mMap.addMarker(new MarkerOptions().position(paris).title(""));
                     }
@@ -109,7 +109,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
             public boolean onQueryTextChange(String s) {
                 mMap.clear();
                 for(ModelDoctor doc:listDoc)
-                    if(doc.getName().contains(s)){
+                    if(doc.getName()!=null&&doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                         mMap.addMarker(new MarkerOptions().position(paris).title(""));
                     }

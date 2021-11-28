@@ -3,10 +3,40 @@ package com.projetdam.docdirect.commons;
 import com.google.firebase.firestore.GeoPoint;
 
 public class ModelDoctor {
+
     private String name;
     private String mail;
     private String phone;
+    private String city;
+    private String speciality;
+    private String firstname;
+    private String street;
+    private int postcode;
+    private int housenumber;
+    private int likes;
     private GeoPoint geoloc;
+
+
+
+
+
+
+    public ModelDoctor() {
+    }
+
+
+
+
+
+
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public GeoPoint getGeoloc() {
         return geoloc;
@@ -16,14 +46,37 @@ public class ModelDoctor {
         this.geoloc = geoloc;
     }
 
-    private String speciality;
-    private int lat;
-    private int lon;
-    private int likes;
-
-    public ModelDoctor() {
+    public int getPostcode() {
+        return postcode;
     }
 
+    public void setPostcode(int postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public int getHousenumber() {
+        return housenumber;
+    }
+
+    public void setHousenumber(int housenumber) {
+        this.housenumber = housenumber;
+    }
     public String getName() {
         return name;
     }
@@ -54,22 +107,6 @@ public class ModelDoctor {
 
     public void setSpeciality(String speciality) {
         this.speciality = speciality;
-    }
-
-    public int getLat() {
-        return lat;
-    }
-
-    public void setLat(int lat) {
-        this.lat = lat;
-    }
-
-    public int getLon() {
-        return lon;
-    }
-
-    public void setLon(int lon) {
-        this.lon = lon;
     }
 
     public int getLikes() {

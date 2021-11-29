@@ -19,7 +19,7 @@ import com.projetdam.docdirect.commons.ModelDoctor;
 
 import java.util.ArrayList;
 
-public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder> {
+public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder>  {
     Context context;
     ArrayList<ModelDoctor> doctorArrayList;
 
@@ -41,18 +41,18 @@ public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.title.setText(doctorArrayList.get(position).getName());
-        holder.artist.setText(doctorArrayList.get(position).getLikes());
+        //holder.artist.setText(doctorArrayList.get(position).getLikes());
         RequestOptions options=new RequestOptions()
                 .error(R.drawable.ic_launcher_foreground)
                 .placeholder(R.drawable.ic_baseline_person_pin_24);
         Context context=holder.cover.getContext();
-       // Uri imgUri=doctorArrayList.get(position).getAvatar();
-       // Glide.with(context).load(imgUri).apply(options).fitCenter().override(150,150).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.cover);
+        Uri imgUri=doctorArrayList.get(position).getAvatar();
+        Glide.with(context).load(imgUri).apply(options).fitCenter().override(150,150).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.cover);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return doctorArrayList.size();
     }
 
     public interface OnItemClickListener {

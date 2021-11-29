@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
     private ArrayList listeco;
     RecyclerView recyclerView;
     SupportMapFragment mapFragment;
+    AdapterDoctor adapterDoctor;
 
 
     public void init() {
@@ -56,17 +58,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
         listDoc = new ArrayList<ModelDoctor>();
         Query query=db.collection("doctors").whereEqualTo("city","Paris");
         listeco = new ArrayList<Integer>();
-        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    ModelDoctor doc = documentSnapshot.toObject(ModelDoctor.class);
-                    listDoc.add(doc);
 
-                }
-
-            }
-        });
 
     }
 
@@ -100,25 +92,46 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             imageButton=view.findViewById(R.id.imageButton);
             rechercheView=view.findViewById(R.id.rechercheView);
             recyclerView=view.findViewById(R.id.recyclerView);
+            RelativeLayout rl=view.findViewById(R.id.rl2);
+            rl.setClipToOutline(true);
+            init();
             LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(llm);
 
-
-            init();
-            AdapterDoctor adapterDoctor=new AdapterDoctor(view.getContext(),listDoc);
-
-            recyclerView.setAdapter(adapterDoctor);
-
-
-
-
-            adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
+            Query query=db.collection("doctors").whereEqualTo("city","Paris");
+            listeco = new ArrayList<Integer>();
+            query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
-                public void onItemClick(int pos, View v) {
-                    //playSong(pos);
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        ModelDoctor doc = documentSnapshot.toObject(ModelDoctor.class);
+                        listDoc.add(doc);
+
+                    }
+                    AdapterDoctor adapterDoctor=new AdapterDoctor(view.getContext(),listDoc);
+                    adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int pos, View v) {
+
+                        }
+                    });
+                    recyclerView.setAdapter(adapterDoctor);
+                    adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(int pos, View v) {
+                            //playSong(pos);
+                        }
+                    });
+
                 }
             });
+
+
+
+
+
+
             mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
             return view;
@@ -170,6 +183,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+
         mMap = googleMap;
         FilterFragment f = new FilterFragment();
 
@@ -190,7 +204,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             public boolean onQueryTextSubmit(String s) {
                 mMap.clear();
                 for(ModelDoctor doc:listDoc)
-                    if(doc.getName().contains(s)){
+                    if(doc.getName()!=null&&doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                         mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
                     }

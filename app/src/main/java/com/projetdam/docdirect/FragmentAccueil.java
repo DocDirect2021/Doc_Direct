@@ -49,7 +49,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
     private ArrayList listeco;
     RecyclerView recyclerView;
     SupportMapFragment mapFragment;
-    AdapterDoctor adapterDoctor;
+
 
 
     public void init() {

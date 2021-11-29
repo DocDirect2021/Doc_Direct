@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +46,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
     private FirebaseFirestore db;
     private ArrayList<ModelDoctor> listDoc;
     private ArrayList listeco;
+    RecyclerView recyclerView;
     SupportMapFragment mapFragment;
 
 
@@ -96,8 +99,22 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             View view = inflater.inflate(R.layout.fragment_accueil, container, false);
             imageButton=view.findViewById(R.id.imageButton);
             rechercheView=view.findViewById(R.id.rechercheView);
+            recyclerView=view.findViewById(R.id.recyclerView);
+
+
 
             init();
+            AdapterDoctor adapterSong=new AdapterDoctor(view.getContext(),listDoc);
+            recyclerView.setAdapter(adapterSong);
+            LinearLayoutManager llm = new LinearLayoutManager(getContext());
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(llm);
+            adapterSong.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
+                @Override
+                public void onItemClick(int pos, View v) {
+                    //playSong(pos);
+                }
+            });
             mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
             return view;
@@ -156,6 +173,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
         args.putIntegerArrayList("checked",listeco);
         f.setArguments(args);
 
+
         LatLng paris = new LatLng(48.864716, 2.349014);
 
         mMap.addMarker(new MarkerOptions().position(paris).title("Marker in Paris"));
@@ -177,12 +195,12 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
 
             @Override
             public boolean onQueryTextChange(String s) {
-//                mMap.clear();
-//                for(ModelDoctor doc:listDoc)
-//                    if(doc.getName()!=null&&doc.getName().contains(s)){
-//                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-//                        mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
-//                    }
+                mMap.clear();
+                for(ModelDoctor doc:listDoc)
+                    if(doc.getName()!=null&&doc.getName().contains(s)){
+                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+                        mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
+                    }
                 return false;
             }
         });
@@ -218,12 +236,12 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
                 for(Object i:ff.getSelectedItems())
                     listec.add((String)moTestArray.get((Integer)i));
 
-//                for(ModelDoctor doc:listDoc)
-//                    if(listec.contains(doc.getSpeciality())){
-//                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-//                        //Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()));
-//
-//                    }
+                for(ModelDoctor doc:listDoc)
+                    if(listec.contains(doc.getSpeciality())){
+                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()));
+
+                    }
 
             }
 

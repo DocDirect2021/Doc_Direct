@@ -1,5 +1,7 @@
 package com.projetdam.docdirect.commons;
 
+import android.net.Uri;
+
 import com.google.firebase.firestore.GeoPoint;
 
 public class ModelDoctor {
@@ -15,11 +17,15 @@ public class ModelDoctor {
     private int housenumber;
     private int likes;
     private GeoPoint geoloc;
+    private Uri avatar;
 
+    public Uri getAvatar() {
+        return avatar;
+    }
 
-
-
-
+    public void setAvatar(Uri avatar) {
+        this.avatar = avatar;
+    }
 
     public ModelDoctor() {
     }

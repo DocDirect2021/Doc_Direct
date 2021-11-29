@@ -85,6 +85,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             addFragment();
             // Force l'affichage du 1er fragment au démarrage
             navigationView.setCheckedItem(R.id.nav_fragmentAccueil);
+            getSupportFragmentManager().
+                    beginTransaction().
+                    replace(R.id.fragment_container,fa).
+                    commit();
 
         }
     }// create

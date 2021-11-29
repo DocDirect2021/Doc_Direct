@@ -100,16 +100,20 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             imageButton=view.findViewById(R.id.imageButton);
             rechercheView=view.findViewById(R.id.rechercheView);
             recyclerView=view.findViewById(R.id.recyclerView);
-
+            LinearLayoutManager llm = new LinearLayoutManager(getActivity().getApplicationContext());
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(llm);
 
 
             init();
-            AdapterDoctor adapterSong=new AdapterDoctor(view.getContext(),listDoc);
-            recyclerView.setAdapter(adapterSong);
-            LinearLayoutManager llm = new LinearLayoutManager(getContext());
-            llm.setOrientation(LinearLayoutManager.VERTICAL);
-            recyclerView.setLayoutManager(llm);
-            adapterSong.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
+            AdapterDoctor adapterDoctor=new AdapterDoctor(view.getContext(),listDoc);
+
+            recyclerView.setAdapter(adapterDoctor);
+
+
+
+
+            adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
                 @Override
                 public void onItemClick(int pos, View v) {
                     //playSong(pos);

@@ -44,6 +44,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
     private FirebaseFirestore db;
     private ArrayList<ModelDoctor> listDoc;
     private ArrayList listeco;
+    SupportMapFragment mapFragment;
 
 
     public void init() {
@@ -83,6 +84,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
             //Gol.addLog(emplacement, "onAttach");
 
 
+
         }
 
         @Override
@@ -90,15 +92,14 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
                 Bundle savedInstanceState) {
             // Gol.addLog(emplacement, "onCreateView");
             // Inflate the layout for this fragment
+
             View view = inflater.inflate(R.layout.fragment_accueil, container, false);
             imageButton=view.findViewById(R.id.imageButton);
             rechercheView=view.findViewById(R.id.rechercheView);
 
             init();
-            SupportMapFragment mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
+            mapFragment = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map);
             mapFragment.getMapAsync(this);
-
-
             return view;
         }
 
@@ -112,6 +113,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
         public void onResume() {
             // Gol.addLog(emplacement, "onResume");
             super.onResume();
+
+
         }
 
         @Override
@@ -148,6 +151,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         FilterFragment f = new FilterFragment();
+
         Bundle args = new Bundle();
         args.putIntegerArrayList("checked",listeco);
         f.setArguments(args);
@@ -203,24 +207,28 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback,Filt
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
+                mMap.clear();
 
-        mMap.clear();
-        ArrayList moTestArray =new ArrayList(Arrays.asList(getResources().getStringArray(R.array.specialites)));
+                ArrayList moTestArray =new ArrayList(Arrays.asList(dialog.getResources().getStringArray(R.array.specialites)));
 
-        ArrayList<String> listec;
-        listec=new ArrayList<>();
-        FilterFragment ff=(FilterFragment) dialog;
-        listeco=ff.getSelectedItems();
-        for(Object i:ff.getSelectedItems())
-            listec.add((String)moTestArray.get((Integer)i));
-        Log.i("TAG", "onDialogPositiveClick: "+moTestArray.toString());
-        for(ModelDoctor doc:listDoc)
-            if(listec.contains(doc.getSpeciality())){
-                LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()));
+                ArrayList<String> listec;
+                listec=new ArrayList<>();
+                FilterFragment ff=(FilterFragment) dialog;
+                listeco=ff.getSelectedItems();
+                for(Object i:ff.getSelectedItems())
+                    listec.add((String)moTestArray.get((Integer)i));
+
+//                for(ModelDoctor doc:listDoc)
+//                    if(listec.contains(doc.getSpeciality())){
+//                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+//                        //Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()));
+//
+//                    }
 
             }
-    }
+
+
+
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {

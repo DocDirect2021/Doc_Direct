@@ -44,29 +44,23 @@ public class FilterFragment extends DialogFragment  {
 
 
 
-    private ArrayList selectedItems;
+    private boolean[] selectedItems;
     private boolean[] checkeditems;
 
-    public ArrayList getSelectedItems() {
+    public boolean[] getSelectedItems() {
         return selectedItems;
     }
 
-    public void setSelectedItems(ArrayList selectedItems) {
+    public void setSelectedItems(boolean []selectedItems) {
         this.selectedItems = selectedItems;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        selectedItems=new ArrayList();
-        checkeditems= new boolean[getResources().getStringArray(R.array.specialites).length];
+        selectedItems=new boolean[getResources().getStringArray(R.array.specialites).length];
+
         Bundle args=getArguments();
-        ArrayList<Integer> chkditm=args.getIntegerArrayList("checked");
-        chkditm.toArray(new Integer[0]);
-        for(int i=0;i<getResources().getStringArray(R.array.specialites).length;i++)
-            if(chkditm.contains(i))
-                checkeditems[i]=true;
-            else
-                checkeditems[i]=false;
+        checkeditems=args.getBooleanArray("checked");
 
           // Where we track the selected items
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -81,10 +75,10 @@ public class FilterFragment extends DialogFragment  {
                                                 boolean isChecked) {
                                 if (isChecked) {
                                     // If the user checked the item, add it to the selected items
-                                    selectedItems.add(which);
-                                } else if (selectedItems.contains(which)) {
+                                    selectedItems[which]=true;
+                                } else if (selectedItems[which]=true) {
                                     // Else, if the item is already in the array, remove it
-                                    selectedItems.remove(which);
+                                    selectedItems[which]=false;
                                 }
                             }
                         })

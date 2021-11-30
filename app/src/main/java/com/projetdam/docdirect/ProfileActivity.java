@@ -18,6 +18,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,7 +40,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     FragmentAccueil fa;
-
+    private FusedLocationProviderClient fusedLocationClient;
     // Gestion de la NavigationView
     private NavigationView navigationView;
 
@@ -52,15 +54,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         toolbar = findViewById(R.id.toolbar);
         drawer_layout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_navigationView);
-        fa=new FragmentAccueil();
+
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fa=new FragmentAccueil(fusedLocationClient);
         // Appel de la méthode d'initialisation de l'UI
         initUI();
         // Ajout du support pour la gestio nde la Toolbar

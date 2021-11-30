@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import com.google.firebase.firestore.GeoPoint;
 
-public class ModelDoctor {
+public class ModelDoctor   {
 
     private String name;
     private String mail;
@@ -123,4 +123,6 @@ public class ModelDoctor {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
+
 }

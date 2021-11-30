@@ -5,26 +5,22 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.SearchView;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -32,7 +28,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -43,11 +38,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.projetdam.docdirect.commons.ModelDoctor;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.concurrent.Executor;
 
 
 public class FragmentAccueil extends Fragment implements OnMapReadyCallback, FilterFragment.NoticeDialogListener {
@@ -55,18 +48,16 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
     private ImageButton imageButton;
     private SearchView rechercheView;
     private GoogleMap mMap;
-    private FirebaseFirestore db;
     private ArrayList<ModelDoctor> listDoc;
     private boolean[] listeco;
     private AdapterDoctor adapterDoctor;
-    private FusedLocationProviderClient fusedLocationClient;
     private Query query;
     RecyclerView recyclerView;
 
 
     public void init() {
 
-        db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         query = db.collection("doctors").whereEqualTo("city", "Paris");
         listeco =new boolean[getResources().getStringArray(R.array.specialites).length];
 
@@ -92,9 +83,6 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
 
     }
 
-    public FragmentAccueil(FusedLocationProviderClient fusedLocationClient) {
-        this.fusedLocationClient = fusedLocationClient;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -114,6 +102,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                     @Override
                     public void onItemClick(int pos, View v) {
                         //playSong(pos);
+
                     }
                 });
 
@@ -183,7 +172,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             return;
         }
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         mMap.setMyLocationEnabled(true);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
@@ -235,16 +224,6 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                         }
                     }
                 });
-
-
-
-
-
-
-
-
-
-
 
 
 

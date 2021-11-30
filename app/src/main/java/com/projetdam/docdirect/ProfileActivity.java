@@ -40,7 +40,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     FragmentAccueil fa;
-    private FusedLocationProviderClient fusedLocationClient;
     // Gestion de la NavigationView
     private NavigationView navigationView;
 
@@ -61,8 +60,8 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fa=new FragmentAccueil(fusedLocationClient);
+
+        fa=new FragmentAccueil();
         // Appel de la méthode d'initialisation de l'UI
         initUI();
         // Ajout du support pour la gestio nde la Toolbar

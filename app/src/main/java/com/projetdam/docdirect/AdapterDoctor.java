@@ -44,6 +44,7 @@ public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder
         //holder.artist.setText(doctorArrayList.get(position).getLikes());
         RequestOptions options=new RequestOptions()
                 .error(R.drawable.ic_launcher_foreground)
+                .circleCrop()
                 .placeholder(R.drawable.ic_baseline_person_pin_24);
         Context context=holder.cover.getContext();
         Uri imgUri=doctorArrayList.get(position).getAvatar();

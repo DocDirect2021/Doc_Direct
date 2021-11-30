@@ -58,18 +58,18 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
     private FirebaseFirestore db;
     private ArrayList<ModelDoctor> listDoc;
     private boolean[] listeco;
-    private RecyclerView recyclerView;
-    private SupportMapFragment mapFragment;
     private AdapterDoctor adapterDoctor;
     private FusedLocationProviderClient fusedLocationClient;
-    Query query;
+    private Query query;
+    RecyclerView recyclerView;
 
 
     public void init() {
 
         db = FirebaseFirestore.getInstance();
         query = db.collection("doctors").whereEqualTo("city", "Paris");
-        listeco =new boolean[getResources().getStringArray(R.array.specialites).length];;
+        listeco =new boolean[getResources().getStringArray(R.array.specialites).length];
+
 
 
     }
@@ -118,10 +118,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 });
 
 
-
-
-
-        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         return view;
     }
@@ -174,8 +171,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
         mMap = googleMap;
-
-        if (ActivityCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -184,8 +180,9 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-
+            return;
         }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         mMap.setMyLocationEnabled(true);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
@@ -228,7 +225,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                                         }
                                     });
 
-                                    Log.i("tg", "onSuccess: " + listDoc.toString());
+
                                     adapterDoctor.notifyDataSetChanged();
 
                                 }

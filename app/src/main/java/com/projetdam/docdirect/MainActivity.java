@@ -17,10 +17,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.projetdam.docdirect.commons.ModelTimeSlot;
 import com.projetdam.docdirect.commons.TimeSlot;
 
 import java.util.ArrayList;
@@ -36,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText edEmailSignUp, edPasswordSignUp;
     private Button btSignIn;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private ProgressBar progressBar;
 
     /**
@@ -69,10 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         init();
 
-        ArrayList<String> creneaux = TimeSlot.getSlots("9:30", "12:15", 20);
-        for (String hr : creneaux) {
-            Log.i(TAG, "onCreate: " + hr);
-        }
+        phTest();
     }
 
     @Override
@@ -139,5 +143,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-}
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void phTest() {
+        ArrayList<String> creneaux = TimeSlot.getSlots("09:30", "12:15", 20);
+        for (String hr : creneaux) {
+            Log.i(TAG, "onCreate: " + hr);
+        }
+        {   // test sauvegarde rdv
+            db = FirebaseFirestore.getInstance();
+
+            CollectionReference collection = db
+                    .collection("consultations")
+                    .document("mw3vQp80KB83g5YdHGZI")
+                    .collection("slots");
+
+            ModelTimeSlot slot = new ModelTimeSlot("GLBUW9YPiFQkkdhw3f8dEuMeKuk2",
+                    "2021/12/01", "14:15", "15:00", false);
+
+            collection.document(slot.getCreateId()).set(slot)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+        }
+    }
+}

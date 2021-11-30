@@ -21,9 +21,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.projetdam.docdirect.commons.TimeRange;
+import com.projetdam.docdirect.commons.TimeSlot;
 
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -70,10 +69,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         init();
 
-//        TimeRange.test();
-        ArrayList<LocalTime> oo = TimeRange.edt(LocalTime.of(9, 30), LocalTime.of(12, 0));
-        for (LocalTime t : oo) {
-            Log.i(TAG, "onCreate: " + t);
+        ArrayList<String> creneaux = TimeSlot.getSlots("9:30", "12:15", 20);
+        for (String hr : creneaux) {
+            Log.i(TAG, "onCreate: " + hr);
         }
     }
 

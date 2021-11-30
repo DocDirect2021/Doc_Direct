@@ -167,6 +167,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
         super.onDetach();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
@@ -241,11 +242,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
 
 
 
-        FilterFragment f = new FilterFragment();
 
-        Bundle args = new Bundle();
-        args.putBooleanArray("checked",listeco);
-        f.setArguments(args);
 
 
 
@@ -283,7 +280,10 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
             public void onClick(View view) {
 
 
-
+                FilterFragment f = new FilterFragment();
+                Bundle args = new Bundle();
+                args.putBooleanArray("checked",listeco);
+                f.setArguments(args);
                 f.show(getChildFragmentManager(),"Filter");
 
 

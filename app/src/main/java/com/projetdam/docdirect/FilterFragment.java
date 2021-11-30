@@ -73,13 +73,8 @@ public class FilterFragment extends DialogFragment  {
                             @Override
                             public void onClick(DialogInterface dialog, int which,
                                                 boolean isChecked) {
-                                if (isChecked) {
-                                    // If the user checked the item, add it to the selected items
-                                    selectedItems[which]=true;
-                                } else if (selectedItems[which]=true) {
-                                    // Else, if the item is already in the array, remove it
-                                    selectedItems[which]=false;
-                                }
+                                  // If the user checked the item, add it to the selected items
+                                    selectedItems[which]=isChecked;
                             }
                         })
                 // Set the action buttons

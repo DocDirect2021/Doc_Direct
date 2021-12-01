@@ -206,12 +206,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                                             Location loc2 = new Location("d2");
                                             loc1.setLatitude(t1.getGeoloc().getLatitude());
                                             loc1.setLongitude(t1.getGeoloc().getLongitude());
-                                            if (location.distanceTo(loc1) < location.distanceTo(loc2))
-                                                return -1;
-                                            else if (location.distanceTo(loc1) > location.distanceTo(loc2))
-                                                return 1;
-                                            else
-                                                return 0;
+                                            return Float.compare(location.distanceTo(loc1), location.distanceTo(loc2));
                                         }
                                     });
 
@@ -276,10 +271,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
     public void onDialogPositiveClick(DialogFragment dialog) {
                 mMap.clear();
 
-                ArrayList<String> moTestArray =new ArrayList(Arrays.asList(dialog.getResources().getStringArray(R.array.specialites)));
-
-                ArrayList<String> listec;
-                listec=new ArrayList<String>();
+                ArrayList<String> listec=new ArrayList<String>();
                 FilterFragment ff=(FilterFragment) dialog;
                 listeco=ff.getSelectedItems();
                 for(int i=0;i<dialog.getResources().getStringArray(R.array.specialites).length;i++)

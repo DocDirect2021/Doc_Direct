@@ -3,8 +3,10 @@ package com.projetdam.docdirect;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,11 +33,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.projetdam.docdirect.commons.ModelDoctor;
+import com.projetdam.docdirect.commons.NodesNames;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -92,15 +97,24 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
         rechercheView = view.findViewById(R.id.rechercheView);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false);
+
+       // FirestoreRecyclerOptions<ModelDoctor> products=new FirestoreRecyclerOptions.Builder<ModelDoctor>().setQuery(query,ModelDoctor.class).build();
         adapterDoctor = new AdapterDoctor(view.getContext(), listDoc);
         recyclerView.setAdapter(adapterDoctor);
                 recyclerView.setLayoutManager(llm);
                 adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
                     @Override
-                    public void onItemClick(int pos, View v) {
-                        //playSong(pos);
-
+                    public void onItemClick(int pos) {
+                        Intent intent = new Intent(getActivity(), DetailActivity.class);
+                        intent.putExtra(NodesNames.KEY_NOM,listDoc.get(pos).getName());
+                        intent.putExtra(NodesNames.KEY_PRENOM,listDoc.get(pos).getFirstname());
+                        intent.putExtra(NodesNames.KEY_TELEPHONE,listDoc.get(pos).getPhone());
+                        intent.putExtra(NodesNames.KEY_AVATAR,listDoc.get(pos).getAvatar().toString());
+                        startActivity(intent);
                     }
+
+
+
                 });
 
 
@@ -181,12 +195,15 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                             // Logic to handle location object
                             LatLng paris = new LatLng(location.getLatitude(), location.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paris, 12.0f));
+                           ArrayList<Uri> al=AddSampleDatasToFirebase.addDatasToFireBase(getContext());
+
                             init();
                             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                         ModelDoctor doc = documentSnapshot.toObject(ModelDoctor.class);
+                                        doc.setAvatar(al.get((listDoc.size())%al.size()));
                                         listDoc.add(doc);
 
 
@@ -215,6 +232,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
 
                         }
                     }
+
                 });
 
 

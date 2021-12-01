@@ -1,3 +1,4 @@
+
 package com.projetdam.docdirect;
 
 import android.content.Context;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.projetdam.docdirect.commons.ModelDoctor;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder
 
     public AdapterDoctor(Context context, ArrayList<ModelDoctor> doctorArrayList) {
         this.context = context;
+
         this.doctorArrayList = doctorArrayList;
     }
 
@@ -40,15 +43,20 @@ public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.title.setText(doctorArrayList.get(position).getName());
+
+
+        String adress=doctorArrayList.get(position).getPostcode()+" "+doctorArrayList.get(position).getCity();
+        String name="Dr. "+doctorArrayList.get(position).getName()+" "+doctorArrayList.get(position).getFirstname();
+        holder.title.setText(name);
+        holder.artist.setText(adress);
         //holder.artist.setText(doctorArrayList.get(position).getLikes());
         RequestOptions options=new RequestOptions()
                 .error(R.drawable.ic_launcher_foreground)
-                .circleCrop()
+
                 .placeholder(R.drawable.ic_baseline_person_pin_24);
         Context context=holder.cover.getContext();
         Uri imgUri=doctorArrayList.get(position).getAvatar();
-        Glide.with(context).load(imgUri).apply(options).fitCenter().override(150,150).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.cover);
+        Glide.with(context).load(imgUri).apply(options).fitCenter().circleCrop().override(50,50).diskCacheStrategy(DiskCacheStrategy.ALL).into(holder.cover);
     }
 
     @Override
@@ -57,7 +65,7 @@ public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder
     }
 
     public interface OnItemClickListener {
-        void onItemClick(int pos,View v);
+        void onItemClick(int pos);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -77,7 +85,7 @@ public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onItemClick(getAdapterPosition(),view);
+                    onItemClickListener.onItemClick(getBindingAdapterPosition());
                 }
             });
 

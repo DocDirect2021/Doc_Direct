@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
@@ -13,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FilterFragment extends DialogFragment  {
 
@@ -93,6 +95,9 @@ public class FilterFragment extends DialogFragment  {
                         listener.onDialogNegativeClick(FilterFragment.this);
                     }
                 });
+        View v = getActivity().getLayoutInflater().inflate(R.layout.activity_filter,null);
+        builder.setView(v);
+
 
         return builder.create();
     }

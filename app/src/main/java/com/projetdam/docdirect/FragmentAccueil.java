@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -203,6 +204,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                         ModelDoctor doc = documentSnapshot.toObject(ModelDoctor.class);
+                                        Log.i("FC", "onSuccess: "+al.size());
                                         doc.setAvatar(al.get((listDoc.size())%al.size()));
                                         listDoc.add(doc);
 

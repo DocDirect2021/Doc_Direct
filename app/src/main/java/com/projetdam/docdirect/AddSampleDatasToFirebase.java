@@ -81,6 +81,7 @@ public class AddSampleDatasToFirebase extends Application { //extend application
                 R.drawable.generated_photos_5e6884746d3b380006f11835,
                 R.drawable.generated_photos_5e6883996d3b380006f0e6cb,
                 R.drawable.generated_photos_5e68893e6d3b380006f23027,
+                R.drawable.generated_photos_5e6886546d3b380006f1860f
 
         };
 

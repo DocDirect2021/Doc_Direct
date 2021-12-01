@@ -10,7 +10,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class TimeSlot {
+public class UtilsTimeSlot {
     private static final String TAG = "TEST TEST";
     private static LocalTime time;
 

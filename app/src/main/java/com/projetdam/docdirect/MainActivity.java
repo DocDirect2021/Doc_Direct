@@ -24,10 +24,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.projetdam.docdirect.commons.ModelTimeSlot;
-import com.projetdam.docdirect.commons.TimeSlot;
+import com.projetdam.docdirect.commons.UtilsTimeSlot;
 
 import java.util.ArrayList;
 
@@ -146,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void phTest() {
-        ArrayList<String> creneaux = TimeSlot.getSlots("09:30", "12:15", 20);
+        ArrayList<String> creneaux = UtilsTimeSlot.getSlots("09:30", "12:15", 20);
         for (String hr : creneaux) {
             Log.i(TAG, "onCreate: " + hr);
         }

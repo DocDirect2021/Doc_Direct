@@ -46,7 +46,7 @@ public class ConfirmeRdvActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.register:
+            case R.id.btnSaveRdv:
                 startActivity(new Intent(ConfirmeRdvActivity.this, RegisterUser.class));
                 break;
         }

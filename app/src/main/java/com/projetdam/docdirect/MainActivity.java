@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             db = FirebaseFirestore.getInstance();
             CollectionReference collection = db.collection("consultations");
 
-            ModelTimeSlot slot = new ModelTimeSlot("GLBUW9YPiFQkkdhw3f8dEuMeKuk2",
+            ModelTimeSlot slot = new ModelTimeSlot("3AVMjFCBmeBTfwROn86m", "GLBUW9YPiFQkkdhw3f8dEuMeKuk2",
                     "2021/12/03", "10:15", "11:00", false);
 
             UtilsTimeSlot.saveSlot(collection, "3AVMjFCBmeBTfwROn86m", slot);

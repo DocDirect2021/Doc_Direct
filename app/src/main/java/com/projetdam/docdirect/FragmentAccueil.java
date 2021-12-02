@@ -115,6 +115,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                         intent.putExtra(NodesNames.KEY_PRENOM,listDoc.get(pos).getFirstname());
                         intent.putExtra(NodesNames.KEY_TELEPHONE,listDoc.get(pos).getPhone());
                         intent.putExtra(NodesNames.KEY_AVATAR,listDoc.get(pos).getAvatar().toString());
+                        intent.putExtra(NodesNames.KEY_ID,listDoc.get(pos).getDocumentID());
                         startActivity(intent);
                     }
 
@@ -186,6 +187,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 intent.putExtra(NodesNames.KEY_PRENOM,md.getFirstname());
                 intent.putExtra(NodesNames.KEY_TELEPHONE,md.getPhone());
                 intent.putExtra(NodesNames.KEY_AVATAR,md.getAvatar().toString());
+                intent.putExtra(NodesNames.KEY_ID,md.getDocumentID());
+
                 startActivity(intent);
 
             }

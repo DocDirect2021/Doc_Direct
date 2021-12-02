@@ -9,6 +9,22 @@ public class ModelDoctor {
     @DocumentId
     private String documentID;
 
+    public String getDocumentID() {
+        return documentID;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
+    public int getHousenumber() {
+        return housenumber;
+    }
+
+    public void setHousenumber(int housenumber) {
+        this.housenumber = housenumber;
+    }
+
     private String name;
     private String mail;
     private String phone;

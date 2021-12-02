@@ -3,16 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/activity_detail.xml" value="0.3087719298245614" />
         <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/activity_main.xml" value="0.3087719298245614" />
         <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/activity_profile.xml" value="0.17280701754385966" />
+        <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/activity_rdv.xml" value="0.2969298245614035" />
         <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/fragment_accueil.xml" value="0.16973684210526316" />
         <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/main_fragment.xml" value="0.16973684210526316" />
+        <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/row_doctor.xml" value="0.22982456140350876" />
         <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect/app/src/main/res/layout/search_activity.xml" value="0.17280701754385966" />
         <entry key="..\:/Users/FOFANA/AndroidStudioProjects/DocDirect2/app/src/main/res/layout/activity_main.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/cfofana/AndroidStudioProjects/Doc_Direct/app/src/main/res/drawable/layout_bg.xml" value="0.38333333333333336" />
-        <entry key="..\:/Users/cfofana/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/activity_detail.xml" value="0.1" />
-        <entry key="..\:/Users/cfofana/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/activity_filter.xml" value="0.22" />
         <entry key="..\:/Users/cfofana/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/activity_maps.xml" value="0.3671875" />
         <entry key="..\:/Users/cfofana/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/fragment_accueil.xml" value="0.20572916666666666" />
         <entry key="..\:/Users/cfofana/AndroidStudioProjects/Doc_Direct/app/src/main/res/layout/nav_header.xml" value="0.2859375" />

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvAdresse;
     TextView tvLikes;
     Uri affiche;
+    Button rdv,visio;
 
     String titre,acteurs,synopsis,iddoc;
     int Likes;
@@ -33,6 +36,8 @@ public class DetailActivity extends AppCompatActivity {
         tvNom = findViewById(R.id.tvTitleDetail);
         tvAdresse = findViewById(R.id.tvActeurDetail);
         tvLikes = findViewById(R.id.tvAnneeDetail);
+        rdv=findViewById(R.id.button2);
+        visio=findViewById(R.id.button3);
 
     }
 
@@ -54,7 +59,15 @@ public class DetailActivity extends AppCompatActivity {
                 .placeholder(R.mipmap.ic_launcher);
         Context context = ivAvatar.getContext();
         Glide.with(context).load(affiche).apply(options).fitCenter().circleCrop().override(350,350).diskCacheStrategy(DiskCacheStrategy.ALL).into(ivAvatar);
+    rdv.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent nintent = new Intent(DetailActivity.this, RdvActivity.class);
+            nintent.putExtra(NodesNames.KEY_ID,getIntent().getStringExtra(NodesNames.KEY_ID));
+            startActivity(nintent);
 
+        }
+    });
 
 
     }

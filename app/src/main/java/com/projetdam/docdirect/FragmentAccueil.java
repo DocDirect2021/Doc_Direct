@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -24,6 +25,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -193,8 +197,20 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 View v = getLayoutInflater().inflate(R.layout.activity_detail, null);
 
                 TextView markerLabel = (TextView) v.findViewById(R.id.tvTitleDetail);
+                TextView markerSpe =(TextView) v.findViewById(R.id.tvActeurDetail);
+                ImageView markerImage=(ImageView) v.findViewById(R.id.ivAfficheDetail);
                 ModelDoctor md=(ModelDoctor)(marker.getTag());
                 markerLabel.setText(md.getName());
+                markerSpe.setText(md.getSpeciality());
+
+                RequestOptions options = new RequestOptions().centerCrop()
+                        .error(R.mipmap.ic_launcher)
+                        .placeholder(R.mipmap.ic_launcher);
+                Context context = getContext();
+                Glide.with(context).load(md.getAvatar()).apply(options).fitCenter().circleCrop().override(150,150).diskCacheStrategy(DiskCacheStrategy.ALL).into(markerImage);
+
+
+
                 return v;
             }
 
@@ -238,6 +254,10 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                                         ModelDoctor doc = documentSnapshot.toObject(ModelDoctor.class);
 
                                         doc.setAvatar(al.get((listDoc.size())%al.size()));
+                                        Location loc = new Location("d2");
+                                        loc.setLatitude(doc.getGeoloc().getLatitude());
+                                        loc.setLongitude(doc.getGeoloc().getLongitude());
+                                        doc.setDistance(location.distanceTo(loc));
                                         listDoc.add(doc);
 
 
@@ -252,8 +272,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                                             loc1.setLongitude(modelDoctor.getGeoloc().getLongitude());
 
                                             Location loc2 = new Location("d2");
-                                            loc1.setLatitude(t1.getGeoloc().getLatitude());
-                                            loc1.setLongitude(t1.getGeoloc().getLongitude());
+                                            loc2.setLatitude(t1.getGeoloc().getLatitude());
+                                            loc2.setLongitude(t1.getGeoloc().getLongitude());
                                             return Float.compare(location.distanceTo(loc1), location.distanceTo(loc2));
                                         }
                                     });
@@ -278,7 +298,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 for(ModelDoctor doc:listDoc)
                     if(doc.getName()!=null&&doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
+                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
+                        m.setTag(doc);
                     }
                 return false;
             }
@@ -289,7 +310,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 for(ModelDoctor doc:listDoc)
                     if(doc.getName()!=null&&doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
+                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
+                        m.setTag(doc);
                     }
                 return false;
             }

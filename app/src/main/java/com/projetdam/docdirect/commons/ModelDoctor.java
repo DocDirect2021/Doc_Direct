@@ -18,6 +18,15 @@ public class ModelDoctor   {
     private int likes;
     private GeoPoint geoloc;
     private Uri avatar;
+    private float distance;
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
 
     public Uri getAvatar() {
         return avatar;

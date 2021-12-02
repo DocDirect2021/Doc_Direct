@@ -45,14 +45,13 @@ public class AdapterDoctor extends RecyclerView.Adapter<AdapterDoctor.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
 
-        String adress=doctorArrayList.get(position).getPostcode()+" "+doctorArrayList.get(position).getCity();
-        String name="Dr. "+doctorArrayList.get(position).getName()+" "+doctorArrayList.get(position).getFirstname();
+        String adress=doctorArrayList.get(position).getPostcode()+" "+doctorArrayList.get(position).getCity()+" Distance: "+doctorArrayList.get(position).getDistance()+" mètres";
+        String name="Dr. "+doctorArrayList.get(position).getName()+" "+doctorArrayList.get(position).getFirstname()+" - "+doctorArrayList.get(position).getSpeciality();
         holder.title.setText(name);
         holder.artist.setText(adress);
         //holder.artist.setText(doctorArrayList.get(position).getLikes());
         RequestOptions options=new RequestOptions()
                 .error(R.drawable.ic_launcher_foreground)
-
                 .placeholder(R.drawable.ic_baseline_person_pin_24);
         Context context=holder.cover.getContext();
         Uri imgUri=doctorArrayList.get(position).getAvatar();

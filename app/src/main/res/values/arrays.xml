@@ -3,7 +3,7 @@
     <string-array name="specialites">
         <item name="Médecine Générale">Médecine Générale</item>
         <item name="Dermatologie">Dermatologie</item>
-        <item name="cardiologie">cardiologie</item>
+        <item name="cardiologie">Cardiologie</item>
         <item name="Psychiatrie">Psychiatrie</item>
         <item name="Stomatologie">Stomatologie</item>
 

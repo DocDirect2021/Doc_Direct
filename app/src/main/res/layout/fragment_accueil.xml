@@ -1,57 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".SearchActivity">
+    tools:context=".FragmentAccueil">
 
-    <LinearLayout
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        android:id="@+id/slidingpanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_gravity="bottom"
+        android:background="#00000000 "
+        android:gravity="bottom"
+        sothree:umanoOverlay="true"
+        sothree:umanoScrollableView="@+id/recyclerView">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/rl1"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="@drawable/layout_bg"
+            android:backgroundTint="@color/colorPrimary">
 
-            <SearchView
-                android:id="@+id/rechercheView"
-                android:layout_width="292dp"
-                android:layout_height="48dp"
-                android:backgroundTint="@color/colorPrimaryVariant"
-                android:queryHint="Nom">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            </SearchView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/ic_baseline_filter_list_48"
-                android:backgroundTint="@color/black" />
+                    <SearchView
+                        android:id="@+id/rechercheView"
+                        android:layout_width="292dp"
+                        android:layout_height="48dp"
+                        android:backgroundTint="@color/colorPrimaryVariant"
+                        android:queryHint="Nom">
 
-        </LinearLayout>
+                    </SearchView>
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/ic_baseline_filter_list_48"
+                        android:backgroundTint="@color/black" />
+
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    map:cardCornerRadius="24dp">
+
+                    <fragment
+                        android:id="@+id/map"
+                        android:name="com.google.android.gms.maps.SupportMapFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:context=".FragmentAccueil" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+        </RelativeLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
+            android:layout_height="wrap_content"
+            map:cardBackgroundColor="#00000000 "
             map:cardCornerRadius="24dp">
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                tools:context=".MapsActivity" />
+                android:layout_height="match_parent" />
         </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
 
 </FrameLayout>

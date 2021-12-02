@@ -93,25 +93,26 @@ public class AddSampleDatasToFirebase extends Application { //extend application
             Uri imageUri = Uri.parse(uriToParse);
             Log.i(TAG, "addDatasToFireBase: " + imageUri);
 //                    // On ajoute le type de chacun des fichiers ici pour plus de simplicité on utilise des jpg
-            StorageReference fileReference = storageRef.child(System.currentTimeMillis() + ".jpg");
-            Log.i(TAG, "addDatasToFireBase: " + fileReference);
-            // On envoi l'image vers le storage de Firebase
-            fileReference.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() { // Ajout du listener de réussite
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Si tout c'est bien passé alors on demande au storage de nous renvoyer l'addresse de stockage
-                            fileReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Uri> task) {
-                                    // Quand on récupére l'URL on la transforme en texte pour l'insérer dans Firestore avec les autres données
-                                    urlStorageAffiche = task.getResult().toString();
-                                    uris.add(task.getResult());
-
-                                }
-                            });
-                        }
-                    });
+//            StorageReference fileReference = storageRef.child(System.currentTimeMillis() + ".jpg");
+//            Log.i(TAG, "addDatasToFireBase: " + fileReference);
+//            // On envoi l'image vers le storage de Firebase
+//            fileReference.putFile(imageUri)
+//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() { // Ajout du listener de réussite
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            // Si tout c'est bien passé alors on demande au storage de nous renvoyer l'addresse de stockage
+//                            fileReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Uri> task) {
+//                                    // Quand on récupére l'URL on la transforme en texte pour l'insérer dans Firestore avec les autres données
+//                                    urlStorageAffiche = task.getResult().toString();
+//                                    uris.add(task.getResult());
+//
+//                                }
+//                            });
+//                        }
+//                    });
+            uris.add(imageUri);
         }
         return uris;
             }

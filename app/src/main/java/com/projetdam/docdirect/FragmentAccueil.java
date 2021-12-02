@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -172,6 +173,38 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
     public void onMapReady(@NonNull GoogleMap googleMap) {
 
         mMap = googleMap;
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(@NonNull Marker marker) {
+                ModelDoctor md=(ModelDoctor)(marker.getTag());
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra(NodesNames.KEY_NOM,md.getName());
+                intent.putExtra(NodesNames.KEY_PRENOM,md.getFirstname());
+                intent.putExtra(NodesNames.KEY_TELEPHONE,md.getPhone());
+                intent.putExtra(NodesNames.KEY_AVATAR,md.getAvatar().toString());
+                startActivity(intent);
+
+            }
+        });
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Nullable
+            @Override
+            public View getInfoContents(@NonNull Marker marker) {
+                View v = getLayoutInflater().inflate(R.layout.activity_detail, null);
+
+                TextView markerLabel = (TextView) v.findViewById(R.id.tvTitleDetail);
+                ModelDoctor md=(ModelDoctor)(marker.getTag());
+                markerLabel.setText(md.getName());
+                return v;
+            }
+
+            @Nullable
+            @Override
+            public View getInfoWindow(@NonNull Marker marker) {
+                return null;
+            }
+        });
+
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -203,7 +236,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                         ModelDoctor doc = documentSnapshot.toObject(ModelDoctor.class);
-                                        Log.i("FC", "onSuccess: "+al.size());
+
                                         doc.setAvatar(al.get((listDoc.size())%al.size()));
                                         listDoc.add(doc);
 
@@ -301,7 +334,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                     if(listec.contains(doc.getSpeciality())){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                         Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()));
-
+                        m.setTag(doc);
                     }
 
             }

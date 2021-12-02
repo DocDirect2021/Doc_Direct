@@ -34,6 +34,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -301,7 +302,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 for(ModelDoctor doc:listDoc)
                     if(doc.getName()!=null&&doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
+                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         m.setTag(doc);
                     }
                 return false;
@@ -313,7 +314,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 for(ModelDoctor doc:listDoc)
                     if(doc.getName()!=null&&doc.getName().contains(s)){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()));
+                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         m.setTag(doc);
                     }
                 return false;
@@ -358,7 +359,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 for(ModelDoctor doc:listDoc)
                     if(listec.contains(doc.getSpeciality())){
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()));
+                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         m.setTag(doc);
                     }
 

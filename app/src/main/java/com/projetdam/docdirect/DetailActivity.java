@@ -62,7 +62,7 @@ public class DetailActivity extends AppCompatActivity {
     rdv.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent nintent = new Intent(DetailActivity.this, RdvActivity.class);
+            Intent nintent = new Intent(DetailActivity.this, PatientRendezVousActivity.class);
             nintent.putExtra(NodesNames.KEY_ID,getIntent().getStringExtra(NodesNames.KEY_ID));
             startActivity(nintent);
 

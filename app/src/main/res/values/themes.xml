@@ -4,7 +4,7 @@
     <style name="Theme.DocDirect" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#C65A7F</item>
+        <item name="colorPrimary">#FBD6E3</item>
         <item name="colorPrimaryVariant">#6DA3CD</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->

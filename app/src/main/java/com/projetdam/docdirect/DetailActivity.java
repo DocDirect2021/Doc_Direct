@@ -64,6 +64,8 @@ public class DetailActivity extends AppCompatActivity {
         public void onClick(View view) {
             Intent nintent = new Intent(DetailActivity.this, PatientRendezVousActivity.class);
             nintent.putExtra(NodesNames.KEY_ID,getIntent().getStringExtra(NodesNames.KEY_ID));
+            nintent.putExtra(NodesNames.KEY_NOM,titre);
+            nintent.putExtra(NodesNames.KEY_AVATAR,getIntent().getStringExtra(NodesNames.KEY_AVATAR));
             startActivity(nintent);
 
         }

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,4 +29,19 @@ public class UtilsTimeSlot {
         }
         return hours;
     }
+
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    public static ArrayList<String> getSl(String startTime, String endTime, int duration) {
+//
+//
+//        ArrayList<String> days = new ArrayList<>();
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        LocalDate today = LocalDate.now();     //Today
+//
+//        for (int i= 0; i<7;i++) {
+//            today.add();
+//        }
+//        return days;
+//    }
 }

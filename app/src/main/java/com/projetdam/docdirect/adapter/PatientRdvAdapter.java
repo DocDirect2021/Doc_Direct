@@ -175,22 +175,59 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
                 mTxt23 = itemView.findViewById(R.id.btnItem23);
                 mTxt24 = itemView.findViewById(R.id.btnItem24);
 
-                itemView.findViewById(R.id.btnItem1).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.e("startTime","9:30");
-                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-                        intent.putExtra("jour", model.getJour());
-                        intent.putExtra("startTime", model.getNastedList().get(0));
-                        v.getContext().startActivity(intent);
-                    }
-                });
+                    itemView.findViewById(R.id.btnItem1).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.e("startTime", "9:30");
+                            Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                            intent.putExtra("jour", model.getJour());
+                            intent.putExtra("startTime", model.getNastedList().get(0));
+                            v.getContext().startActivity(intent);
+                        }
+                    });
+
                 itemView.findViewById(R.id.btnItem2).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
                         intent.putExtra("jour", model.getJour());
                         intent.putExtra("startTime", model.getNastedList().get(1));
+                        v.getContext().startActivity(intent);
+                    }
+                });
+                itemView.findViewById(R.id.btnItem3).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                        intent.putExtra("jour", model.getJour());
+                        intent.putExtra("startTime", model.getNastedList().get(2));
+                        v.getContext().startActivity(intent);
+                    }
+                });
+                itemView.findViewById(R.id.btnItem4).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                        intent.putExtra("jour", model.getJour());
+                        intent.putExtra("startTime", model.getNastedList().get(3));
+                        v.getContext().startActivity(intent);
+                    }
+                });
+                itemView.findViewById(R.id.btnItem5).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                        intent.putExtra("jour", model.getJour());
+                        intent.putExtra("startTime", model.getNastedList().get(4));
+                        v.getContext().startActivity(intent);
+                    }
+                });
+                itemView.findViewById(R.id.btnItem6).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                        intent.putExtra("jour", model.getJour());
+                        intent.putExtra("startTime", model.getNastedList().get(5));
                         v.getContext().startActivity(intent);
                     }
                 });

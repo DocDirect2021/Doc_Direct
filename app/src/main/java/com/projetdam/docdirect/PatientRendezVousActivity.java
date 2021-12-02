@@ -27,7 +27,15 @@ import com.projetdam.docdirect.authentification.RegisterUser;
 import com.projetdam.docdirect.commons.RdvInformation;
 import com.projetdam.docdirect.commons.UtilsTimeSlot;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,48 +60,23 @@ public class PatientRendezVousActivity extends AppCompatActivity {
         mList = new ArrayList<>();
         // get appointement patient
         ArrayList<String> nestedList = UtilsTimeSlot.getSlots("09:30", "18:15", 20);
-
         for (String hr : nestedList) {
+
             Log.i(TAG, "onCreate: " + hr);
         }
-        mList.add(new RdvInformation(nestedList, "30/11/2021"));
-        mList.add(new RdvInformation(nestedList, "01/12/2021"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate today = LocalDate.now();     //Today
+
+        for (int i= 0; i<7;i++) {
+            LocalDate dateRdv = today.plusDays(i);
+            LocalDate formatDateTime = LocalDate.parse(dateRdv.toString(), formatter);
+            mList.add(new RdvInformation(nestedList, ""+ formatDateTime));
+        }
+//        mList.add(new RdvInformation(nestedList, "30/11/2021"));
+//        mList.add(new RdvInformation(nestedList, "01/12/2021"));
         adapter = new PatientRdvAdapter(mList);
         recyclerViewRdv.setAdapter(adapter);
-        //setOnClickListner();
 
     }
 
-
-//    private void setOnClickListner() {
-//        listener = new PatientRdvAdapter.RecyclerViewClickListener() {
-//            @Override
-//            public void onItemClick(View v, int position) {
-//                v.findViewById(R.id.btnItem1).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        if(listener != null ){
-//                            switch (v.getId()) {
-//                                case R.id.btnItem1:
-//                                    //Intent intent = new Intent(getApplicationContext(), ConfirmeRdvActivity.class);
-//                                    Intent intent = new Intent(PatientRendezVousActivity.this, ConfirmeRdvActivity.class);
-//                                    intent.putExtra("jour", mList.get(position).getJour());
-//                                    intent.putExtra("startTime", mList.get(position).getNastedList().get(0));
-//                                    startActivity(intent);
-//                                    break;
-//                                case R.id.btnItem2:
-//                                    break;
-//                            }
-//
-//                        }
-//
-//                    }
-//                });
-//                Toast.makeText(PatientRendezVousActivity.this, "je suis ds le setOnClickListner" + position, Toast.LENGTH_SHORT).show();
-//
-//
-//            }
-//        };
-//
-//    }
 }

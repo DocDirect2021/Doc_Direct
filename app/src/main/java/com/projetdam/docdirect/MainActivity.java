@@ -149,30 +149,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (String hr : creneaux) {
             Log.i(TAG, "onCreate: " + hr);
         }
+
         {   // test sauvegarde rdv
             db = FirebaseFirestore.getInstance();
-
-            CollectionReference collection = db
-                    .collection("consultations")
-                    .document("mw3vQp80KB83g5YdHGZI")
-                    .collection("slots");
+            CollectionReference collection = db.collection("consultations");
 
             ModelTimeSlot slot = new ModelTimeSlot("GLBUW9YPiFQkkdhw3f8dEuMeKuk2",
-                    "2021/12/01", "14:15", "15:00", false);
+                    "2021/12/03", "10:15", "11:00", false);
 
-            collection.document(slot.getCreateId()).set(slot)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
+            UtilsTimeSlot.saveSlot(collection, "3AVMjFCBmeBTfwROn86m", slot);
 
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                        }
-                    });
         }
     }
 }

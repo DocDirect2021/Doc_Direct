@@ -4,11 +4,20 @@ import android.os.Build;
 import android.text.style.LocaleSpan;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UtilsTimeSlot {
     private static final String TAG = "TEST TEST";
@@ -26,5 +35,27 @@ public class UtilsTimeSlot {
             hours.add(t.format(timeFormatter));
         }
         return hours;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void saveSlot(CollectionReference consultation, String doctorID, ModelTimeSlot slot) {
+
+        // fix : doc vide pour forcer la création du document
+        Map<String, Object> noData = new HashMap<>();
+        consultation.document(doctorID).set(noData);
+
+        consultation.document(doctorID).collection("slots").document(slot.getCreateId()).set(slot)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 }

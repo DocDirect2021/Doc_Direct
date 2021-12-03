@@ -62,7 +62,13 @@ public class ConfirmeRdvActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnSaveRdv:
+                //startActivity(new Intent(ConfirmeRdvActivity.this, ProfileActivity.class));
+                break;
+            case R.id.imgBack:
                 startActivity(new Intent(ConfirmeRdvActivity.this, ProfileActivity.class));
+                break;
+            case R.id.btnAnnuleRdv:
+                startActivity(new Intent(ConfirmeRdvActivity.this, PatientRendezVousActivity.class));
                 break;
         }
 

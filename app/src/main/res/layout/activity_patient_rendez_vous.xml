@@ -11,23 +11,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:id="@+id/ivDocRdv"
+            android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
             android:layout_marginLeft="5dp"
-            android:layout_weight="6"
             android:src="@drawable/medecin" />
 
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tvDocRdv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_weight="1"

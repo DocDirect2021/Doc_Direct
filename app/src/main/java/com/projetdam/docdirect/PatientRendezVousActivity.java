@@ -6,14 +6,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -24,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.projetdam.docdirect.adapter.PatientRdvAdapter;
 import com.projetdam.docdirect.authentification.ForgotPassword;
 import com.projetdam.docdirect.authentification.RegisterUser;
+import com.projetdam.docdirect.commons.NodesNames;
 import com.projetdam.docdirect.commons.RdvInformation;
 import com.projetdam.docdirect.commons.UtilsTimeSlot;
 
@@ -58,6 +65,14 @@ public class PatientRendezVousActivity extends AppCompatActivity {
         recyclerViewRdv = findViewById(R.id.rclPatient_appointements);
         recyclerViewRdv.setHasFixedSize(true);
         recyclerViewRdv.setLayoutManager(new LinearLayoutManager(this));
+        TextView tv=findViewById(R.id.tvDocRdv);
+        ImageView iv=findViewById(R.id.ivDocRdv);
+        tv.setText(getIntent().getStringExtra(NodesNames.KEY_NOM));
+        RequestOptions options = new RequestOptions().centerCrop()
+                .error(R.mipmap.ic_launcher)
+                .placeholder(R.mipmap.ic_launcher);
+        Context context = iv.getContext();
+        Glide.with(context).load(getIntent().getStringExtra(NodesNames.KEY_AVATAR)).apply(options).fitCenter().circleCrop().override(50,50).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv);
 
         mList = new ArrayList<>();
         // get appointement patient

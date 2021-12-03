@@ -153,11 +153,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {   // test sauvegarde rdv
             db = FirebaseFirestore.getInstance();
             CollectionReference collection = db.collection("consultations");
+            CollectionReference patients = db.collection("usres");
 
             ModelTimeSlot slot = new ModelTimeSlot("3AVMjFCBmeBTfwROn86m", "GLBUW9YPiFQkkdhw3f8dEuMeKuk2",
                     "2021/12/03", "10:15", "11:00", false);
 
-            UtilsTimeSlot.saveSlot(collection, "3AVMjFCBmeBTfwROn86m", slot);
+            UtilsTimeSlot.saveRdv(collection, patients, slot);
 
         }
     }

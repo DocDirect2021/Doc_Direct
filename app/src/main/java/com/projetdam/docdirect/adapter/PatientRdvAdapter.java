@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -26,6 +27,7 @@ import com.projetdam.docdirect.PatientRendezVousActivity;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.authentification.ForgotPassword;
 import com.projetdam.docdirect.authentification.RegisterUser;
+import com.projetdam.docdirect.commons.NodesNames;
 import com.projetdam.docdirect.commons.RdvInformation;
 
 import java.util.ArrayList;
@@ -35,11 +37,11 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
 
 
     private List<RdvInformation> mList;
-    private  List<String> list = new ArrayList<>();
+    private List<String> list = new ArrayList<>();
     private RdvInformation model;
     private Intent intent;
 
-    public PatientRdvAdapter (List<RdvInformation> mList){
+    public PatientRdvAdapter(List<RdvInformation> mList) {
         this.mList = mList;
 
     }
@@ -48,13 +50,13 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
     @Override
     public PatientRdvsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.row_patient_rdv,parent,false);
+        View view = inflater.inflate(R.layout.row_patient_rdv, parent, false);
         return new PatientRdvsHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PatientRdvsHolder holder, int position) {
-         model = mList.get(position);
+        model = mList.get(position);
         holder.dateAppointement.setText(model.getJour());
 
         holder.mTxt1.setText(model.getNastedList().get(0));
@@ -85,9 +87,9 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
         boolean isExpandable = model.isExpandable();
         holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
 
-        if(isExpandable){
+        if (isExpandable) {
             holder.mArrowImage.setImageResource(R.drawable.ic_keyboard_arrow_up);
-        }else{
+        } else {
             holder.mArrowImage.setImageResource(R.drawable.ic_keyboard_arrow_down);
         }
 
@@ -97,7 +99,7 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
             public void onClick(View v) {
                 model.setExpandable(!model.isExpandable());
                 list = model.getNastedList();
-                notifyItemChanged(holder.getAdapterPosition());
+                notifyItemChanged(holder.getBindingAdapterPosition());//.getAdapterPosition()
 
             }
         });
@@ -111,7 +113,7 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
     }
 
 
-    public class PatientRdvsHolder extends RecyclerView.ViewHolder{
+    public class PatientRdvsHolder extends RecyclerView.ViewHolder {
         private LinearLayout linearLayout;
         private LinearLayout expandableLayout;
         private TextView dateAppointement;
@@ -142,97 +144,95 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
         private Button mTxt24;
 
 
+        public PatientRdvsHolder(@NonNull View itemView) {
+            super(itemView);
+            linearLayout = itemView.findViewById(R.id.lyAfficheAppointement);
+            expandableLayout = itemView.findViewById(R.id.expandable_layout);
+            dateAppointement = itemView.findViewById(R.id.dateAppointement);
+            mArrowImage = itemView.findViewById(R.id.mArrowImage);
+            mTxt1 = itemView.findViewById(R.id.btnItem1);
+            mTxt2 = itemView.findViewById(R.id.btnItem2);
+            mTxt3 = itemView.findViewById(R.id.btnItem3);
+            mTxt4 = itemView.findViewById(R.id.btnItem4);
+            mTxt5 = itemView.findViewById(R.id.btnItem5);
+            mTxt6 = itemView.findViewById(R.id.btnItem6);
+            mTxt7 = itemView.findViewById(R.id.btnItem7);
+            mTxt8 = itemView.findViewById(R.id.btnItem8);
+            mTxt9 = itemView.findViewById(R.id.btnItem9);
+            mTxt10 = itemView.findViewById(R.id.btnItem10);
+            mTxt11 = itemView.findViewById(R.id.btnItem11);
+            mTxt12 = itemView.findViewById(R.id.btnItem12);
+            mTxt13 = itemView.findViewById(R.id.btnItem13);
+            mTxt14 = itemView.findViewById(R.id.btnItem14);
+            mTxt15 = itemView.findViewById(R.id.btnItem15);
+            mTxt16 = itemView.findViewById(R.id.btnItem16);
+            mTxt17 = itemView.findViewById(R.id.btnItem17);
+            mTxt18 = itemView.findViewById(R.id.btnItem18);
+            mTxt19 = itemView.findViewById(R.id.btnItem19);
+            mTxt20 = itemView.findViewById(R.id.btnItem20);
+            mTxt21 = itemView.findViewById(R.id.btnItem21);
+            mTxt22 = itemView.findViewById(R.id.btnItem22);
+            mTxt23 = itemView.findViewById(R.id.btnItem23);
+            mTxt24 = itemView.findViewById(R.id.btnItem24);
 
+            itemView.findViewById(R.id.btnItem1).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.e(NodesNames.KEY_START_TIME, "9:30");
+                    Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                    intent.putExtra(NodesNames.KEY_JOUR, model.getJour());
+                    intent.putExtra(NodesNames.KEY_START_TIME, model.getNastedList().get(0));
+                    v.getContext().startActivity(intent);
+                }
+            });
 
-            public PatientRdvsHolder(@NonNull View itemView) {
-                super(itemView);
-                linearLayout = itemView.findViewById(R.id.lyAfficheAppointement);
-                expandableLayout = itemView.findViewById(R.id.expandable_layout);
-                dateAppointement = itemView.findViewById(R.id.dateAppointement);
-                mArrowImage = itemView.findViewById(R.id.mArrowImage);
-                mTxt1 = itemView.findViewById(R.id.btnItem1);
-                mTxt2 = itemView.findViewById(R.id.btnItem2);
-                mTxt3 = itemView.findViewById(R.id.btnItem3);
-                mTxt4 = itemView.findViewById(R.id.btnItem4);
-                mTxt5 = itemView.findViewById(R.id.btnItem5);
-                mTxt6 = itemView.findViewById(R.id.btnItem6);
-                mTxt7 = itemView.findViewById(R.id.btnItem7);
-                mTxt8 = itemView.findViewById(R.id.btnItem8);
-                mTxt9 = itemView.findViewById(R.id.btnItem9);
-                mTxt10 = itemView.findViewById(R.id.btnItem10);
-                mTxt11 = itemView.findViewById(R.id.btnItem11);
-                mTxt12 = itemView.findViewById(R.id.btnItem12);
-                mTxt13 = itemView.findViewById(R.id.btnItem13);
-                mTxt14 = itemView.findViewById(R.id.btnItem14);
-                mTxt15 = itemView.findViewById(R.id.btnItem15);
-                mTxt16 = itemView.findViewById(R.id.btnItem16);
-                mTxt17 = itemView.findViewById(R.id.btnItem17);
-                mTxt18 = itemView.findViewById(R.id.btnItem18);
-                mTxt19 = itemView.findViewById(R.id.btnItem19);
-                mTxt20 = itemView.findViewById(R.id.btnItem20);
-                mTxt21 = itemView.findViewById(R.id.btnItem21);
-                mTxt22 = itemView.findViewById(R.id.btnItem22);
-                mTxt23 = itemView.findViewById(R.id.btnItem23);
-                mTxt24 = itemView.findViewById(R.id.btnItem24);
+            itemView.findViewById(R.id.btnItem2).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                    intent.putExtra(NodesNames.KEY_JOUR, model.getJour());
+                    intent.putExtra(NodesNames.KEY_START_TIME, model.getNastedList().get(1));
+                    v.getContext().startActivity(intent);
+                }
+            });
+            itemView.findViewById(R.id.btnItem3).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                    intent.putExtra(NodesNames.KEY_JOUR, model.getJour());
+                    intent.putExtra(NodesNames.KEY_START_TIME, model.getNastedList().get(2));
+                    v.getContext().startActivity(intent);
+                }
+            });
+            itemView.findViewById(R.id.btnItem4).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                    intent.putExtra(NodesNames.KEY_JOUR, model.getJour());
+                    intent.putExtra(NodesNames.KEY_START_TIME, model.getNastedList().get(3));
+                    v.getContext().startActivity(intent);
+                }
+            });
+            itemView.findViewById(R.id.btnItem5).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                    intent.putExtra(NodesNames.KEY_JOUR, model.getJour());
+                    intent.putExtra(NodesNames.KEY_START_TIME, model.getNastedList().get(4));
+                    v.getContext().startActivity(intent);
+                }
+            });
+            itemView.findViewById(R.id.btnItem6).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+                    intent.putExtra(NodesNames.KEY_JOUR, model.getJour());
+                    intent.putExtra(NodesNames.KEY_START_TIME, model.getNastedList().get(5));
+                    v.getContext().startActivity(intent);
+                }
+            });
 
-                    itemView.findViewById(R.id.btnItem1).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Log.e("startTime", "9:30");
-                            Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-                            intent.putExtra("jour", model.getJour());
-                            intent.putExtra("startTime", model.getNastedList().get(0));
-                            v.getContext().startActivity(intent);
-                        }
-                    });
-
-                itemView.findViewById(R.id.btnItem2).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-                        intent.putExtra("jour", model.getJour());
-                        intent.putExtra("startTime", model.getNastedList().get(1));
-                        v.getContext().startActivity(intent);
-                    }
-                });
-                itemView.findViewById(R.id.btnItem3).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-                        intent.putExtra("jour", model.getJour());
-                        intent.putExtra("startTime", model.getNastedList().get(2));
-                        v.getContext().startActivity(intent);
-                    }
-                });
-                itemView.findViewById(R.id.btnItem4).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-                        intent.putExtra("jour", model.getJour());
-                        intent.putExtra("startTime", model.getNastedList().get(3));
-                        v.getContext().startActivity(intent);
-                    }
-                });
-                itemView.findViewById(R.id.btnItem5).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-                        intent.putExtra("jour", model.getJour());
-                        intent.putExtra("startTime", model.getNastedList().get(4));
-                        v.getContext().startActivity(intent);
-                    }
-                });
-                itemView.findViewById(R.id.btnItem6).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-                        intent.putExtra("jour", model.getJour());
-                        intent.putExtra("startTime", model.getNastedList().get(5));
-                        v.getContext().startActivity(intent);
-                    }
-                });
-
-            }
+        }
 
     }
 }

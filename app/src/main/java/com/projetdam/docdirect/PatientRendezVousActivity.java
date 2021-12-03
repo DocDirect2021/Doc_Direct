@@ -29,10 +29,12 @@ import com.projetdam.docdirect.commons.UtilsTimeSlot;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,13 +66,18 @@ public class PatientRendezVousActivity extends AppCompatActivity {
 
             Log.i(TAG, "onCreate: " + hr);
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate today = LocalDate.now();     //Today
 
-        for (int i= 0; i<7;i++) {
-            LocalDate dateRdv = today.plusDays(i);
-            LocalDate formatDateTime = LocalDate.parse(dateRdv.toString(), formatter);
-            mList.add(new RdvInformation(nestedList, ""+ formatDateTime));
+        LocalDate today = LocalDate.now();     //Today
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
+        LocalDate f = today.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+
+        for (int i= 0; i < 7;i++) {
+            LocalDate dateRdv = today.plusDays(i);// Next days
+            if(!f.isEqual(LocalDate.from(dateRdv))){
+                String text = dateRdv.format(formatters);
+                mList.add(new RdvInformation(nestedList,  text));
+            }
+
         }
 //        mList.add(new RdvInformation(nestedList, "30/11/2021"));
 //        mList.add(new RdvInformation(nestedList, "01/12/2021"));

@@ -1,5 +1,7 @@
 package com.projetdam.docdirect.commons;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 import java.util.List;
 

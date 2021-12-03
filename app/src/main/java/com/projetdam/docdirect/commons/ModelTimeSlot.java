@@ -16,6 +16,7 @@ public class ModelTimeSlot {
     @DocumentId
     private String documentID;
 
+    private String doctorId;
     private String patientId;
     private String date;
     private String startTime;
@@ -23,13 +24,14 @@ public class ModelTimeSlot {
     private boolean visio;
     private String requestDate;
 
-    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public ModelTimeSlot() {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public ModelTimeSlot(String patientId, String date, String startTime, String endTime, boolean visio) {
+    public ModelTimeSlot(String doctorId, String patientId, String date, String startTime, String endTime, boolean visio) {
+        this.doctorId = doctorId;
         this.patientId = patientId;
         this.date = date;
         this.startTime = startTime;
@@ -53,6 +55,18 @@ public class ModelTimeSlot {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
+    }
+
+    public String getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(String doctorId) {
+        this.doctorId = doctorId;
     }
 
     public String getPatientId() {
@@ -95,4 +109,3 @@ public class ModelTimeSlot {
         this.requestDate = requestDate;
     }
 }
-

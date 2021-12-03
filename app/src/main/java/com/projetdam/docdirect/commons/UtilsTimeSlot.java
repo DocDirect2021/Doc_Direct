@@ -43,7 +43,7 @@ public class UtilsTimeSlot {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void saveRdv(CollectionReference consultations, CollectionReference patients, ModelTimeSlot slot) {
         String patientId = slot.getPatientId();
-        String doctorId = "ddd";//slot.getDoctorId();
+        String doctorId = slot.getDoctorId();
         String rdvId = slot.getCreateId();
 
         // fix : doc vide pour forcer la création du document
@@ -79,39 +79,5 @@ public class UtilsTimeSlot {
 
                     }
                 });
-
-    }
-
-    public static ArrayList<ModelTimeSlot> getPatientRdvs(CollectionReference patients, String patientId) {
-        ArrayList<ModelTimeSlot> rdvs = new ArrayList<>();
-
-        patients.document(patientId).collection("rdvs").get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Override
-                    public void onSuccess(QuerySnapshot listeRdvs) {
-                        ArrayList<ModelTimeSlot> rdvs = new ArrayList<>();
-
-                        for (QueryDocumentSnapshot snapshotRdv : listeRdvs) {
-                            ModelTimeSlot rdv = snapshotRdv.toObject(ModelTimeSlot.class);
-
-
-                            String yy = patientId;
-
-                            Log.i(TAG, "onSuccess: " + yy);
-                            rdvs.add(rdv);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
-
-        return rdvs;
     }
 }
-
-

@@ -12,6 +12,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -38,13 +41,32 @@ public class UtilsTimeSlot {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void saveSlot(CollectionReference consultation, String doctorID, ModelTimeSlot slot) {
+    public static void saveRdv(CollectionReference consultations, CollectionReference patients, ModelTimeSlot slot) {
+        String patientId = slot.getPatientId();
+        String doctorId = slot.getDoctorId();
+        String rdvId = slot.getCreateId();
 
         // fix : doc vide pour forcer la création du document
         Map<String, Object> noData = new HashMap<>();
-        consultation.document(doctorID).set(noData);
+        consultations.document(doctorId).set(noData);
 
-        consultation.document(doctorID).collection("slots").document(slot.getCreateId()).set(slot)
+        // Ajout rdv dans la collection consultations
+        consultations.document(doctorId).collection("slots").document(rdvId).set(slot)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+
+        // Ajout rdv dans les rdvs du patient
+        patients.document(patientId).collection("rdvs").document(rdvId).set(slot)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {

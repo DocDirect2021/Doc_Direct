@@ -1,13 +1,10 @@
 package com.projetdam.docdirect;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -17,18 +14,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.projetdam.docdirect.commons.ModelTimeSlot;
-import com.projetdam.docdirect.commons.UtilsTimeSlot;
-
-import java.util.ArrayList;
+import com.projetdam.docdirect.authentification.ForgotPassword;
+import com.projetdam.docdirect.authentification.RegisterUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText edEmailSignUp, edPasswordSignUp;
     private Button btSignIn;
     private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
     private ProgressBar progressBar;
 
     /**
@@ -68,14 +58,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
 
-        phTest();
     }
 
     @Override
@@ -142,24 +130,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void phTest() {
-        ArrayList<String> creneaux = UtilsTimeSlot.getSlots("09:30", "12:15", 20);
-        for (String hr : creneaux) {
-            Log.i(TAG, "onCreate: " + hr);
-        }
-
-        {   // test sauvegarde rdv
-            db = FirebaseFirestore.getInstance();
-            CollectionReference collection = db.collection("consultations");
-            CollectionReference patients = db.collection("usres");
-
-            ModelTimeSlot slot = new ModelTimeSlot("3AVMjFCBmeBTfwROn86m", "GLBUW9YPiFQkkdhw3f8dEuMeKuk2",
-                    "2021/12/03", "10:15", "11:00", false);
-
-            UtilsTimeSlot.saveRdv(collection, patients, slot);
-
-        }
-    }
 }
+

@@ -9,5 +9,8 @@ public class NodesNames {
         public static final String KEY_DateNaiss = "dateNaiss";
         public static final String KEY_TELEPHONE = "telephone";
         public static final String KEY_EMAIL = "email";
-
+        public static final String KEY_AVATAR = "avatar";
+        public static final String KEY_ID = "id";
+        public static final String KEY_JOUR = "jour";
+        public static final String KEY_START_TIME = "startTime";
 }

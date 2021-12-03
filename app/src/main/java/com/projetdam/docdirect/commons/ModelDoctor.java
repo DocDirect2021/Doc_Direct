@@ -1,65 +1,69 @@
 package com.projetdam.docdirect.commons;
 
 import com.google.firebase.firestore.DocumentId;
+import android.net.Uri;
+
 import com.google.firebase.firestore.GeoPoint;
 
 public class ModelDoctor {
     @DocumentId
     private String documentID;
 
-    private String name;
-    private String firstname;
-    private String mail;
-    private String phone;
-    private GeoPoint geoloc;
-    private String speciality;
-    private int lat;
-    private int lon;
-    private int likes;
-    private String street;
-    private int housenumber;
-    private String city;
-    private int postcode;
-
-    public String getAddress() {
-        return housenumber + " " + street;
+    public String getDocumentID() {
+        return documentID;
     }
 
-    public String getStreet() {
-        return street;
+    public void setDocumentID(String documentID) {
+        this.documentID = documentID;
     }
 
     public int getHousenumber() {
         return housenumber;
     }
 
-    public int getPostcode() {
-        return postcode;
-    }
-
-    public void setPostcode(int postcode) {
-        this.postcode = postcode;
-    }
-
     public void setHousenumber(int housenumber) {
         this.housenumber = housenumber;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    private String name;
+    private String mail;
+    private String phone;
+    private String city;
+    private String speciality;
+    private String firstname;
+    private String street;
+    private int postcode;
+    private int housenumber;
+    private int likes;
+    private GeoPoint geoloc;
+    private Uri avatar;
+    private float distance;
+
+    public float getDistance() {
+        return distance;
     }
 
-    public String getDocumentID() {
-        return documentID;
+    public void setDistance(float distance) {
+        this.distance = distance;
     }
 
-    public String getFirstName() {
-        return firstname;
+    public Uri getAvatar() {
+        return avatar;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstname = firstName;
+    public void setAvatar(Uri avatar) {
+        this.avatar = avatar;
     }
+
+    public ModelDoctor() {
+
+    }
+
+
+
+
+
+
 
     public String getCity() {
         return city;
@@ -77,8 +81,31 @@ public class ModelDoctor {
         this.geoloc = geoloc;
     }
 
-    public ModelDoctor() {
+    public int getPostcode() {
+        return postcode;
     }
+
+    public void setPostcode(int postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+
 
     public String getName() {
         return name;
@@ -112,21 +139,7 @@ public class ModelDoctor {
         this.speciality = speciality;
     }
 
-    public int getLat() {
-        return lat;
-    }
 
-    public void setLat(int lat) {
-        this.lat = lat;
-    }
-
-    public int getLon() {
-        return lon;
-    }
-
-    public void setLon(int lon) {
-        this.lon = lon;
-    }
 
     public int getLikes() {
         return likes;

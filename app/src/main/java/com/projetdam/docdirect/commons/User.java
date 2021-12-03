@@ -1,4 +1,4 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.commons;
 
 public class User {
     public String nom;

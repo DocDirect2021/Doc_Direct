@@ -42,7 +42,7 @@ import java.util.Map;
 
         /** initialiser les widgets **/
         private void init() {
-            registerUser = findViewById(R.id.registerUser);
+            registerUser = findViewById(R.id.updateUser);
             registerUser.setOnClickListener(this);
             edNom =findViewById(R.id.edNom);
             edPrenom = findViewById(R.id.edPrenom);
@@ -72,7 +72,7 @@ import java.util.Map;
                 case R.id.banner:
                     startActivity(new Intent(RegisterUser.this, MainActivity.class));
                     break;
-                case R.id.registerUser:
+                case R.id.updateUser:
                     registerUser();
                     break;
             }

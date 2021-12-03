@@ -1,22 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".FragmentCompte">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Compte" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/txtNom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
 
-        android:layout_marginLeft="120dp"
-        android:hint="Nom patient"/>
 
-</FrameLayout>
+        <EditText
+            android:id="@+id/edNom"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="Nom"
+            android:inputType="text"
+            android:textSize="24sp"
+ />
+
+        <EditText
+            android:id="@+id/edPrenom"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Prenom"
+            android:inputType="text"
+            android:textSize="24sp"
+ />
+
+        <EditText
+            android:id="@+id/edDatNaiss"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Date Naissance"
+            android:inputType="date"
+            android:textSize="24sp"
+ />
+
+
+        <EditText
+            android:id="@+id/edTelephone"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Telephone"
+            android:inputType="phone"
+            android:textSize="24sp"
+ />
+
+        <EditText
+            android:id="@+id/edEmail"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:textSize="24sp"
+ />
+
+        <EditText
+            android:id="@+id/edPassword"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textSize="24sp"
+            android:layout_marginTop="20dp"
+ />
+
+        <Button
+            android:id="@+id/updateUser"
+            android:layout_width="380dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/shape_btn"
+            android:backgroundTint="#CF6288"
+            android:text="Modifier le compte"
+            android:textColor="#ffffff"
+            android:textSize="26sp"
+            android:textStyle="normal"
+ />
+
+
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,18 @@
 package com.projetdam.docdirect.commons;
 
 import com.google.firebase.firestore.DocumentId;
+
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.firebase.firestore.GeoPoint;
 
-public class ModelDoctor {
+public class ModelDoctor implements Parcelable {
     @DocumentId
     private String documentID;
 
-    public String getDocumentID() {
+    public String getDoctorId() {
         return documentID;
     }
 
@@ -56,14 +59,7 @@ public class ModelDoctor {
     }
 
     public ModelDoctor() {
-
     }
-
-
-
-
-
-
 
     public String getCity() {
         return city;
@@ -105,8 +101,6 @@ public class ModelDoctor {
         this.street = street;
     }
 
-
-
     public String getName() {
         return name;
     }
@@ -139,8 +133,6 @@ public class ModelDoctor {
         this.speciality = speciality;
     }
 
-
-
     public int getLikes() {
         return likes;
     }
@@ -148,4 +140,55 @@ public class ModelDoctor {
     public void setLikes(int likes) {
         this.likes = likes;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(documentID);
+        dest.writeString(name);
+        dest.writeString(mail);
+        dest.writeString(phone);
+        dest.writeString(city);
+        dest.writeString(speciality);
+        dest.writeString(firstname);
+        dest.writeString(street);
+        dest.writeInt(postcode);
+        dest.writeInt(housenumber);
+        dest.writeInt(likes);
+        dest.writeParcelable(avatar, flags);
+        dest.writeFloat(distance);
+    }
+
+    protected ModelDoctor(Parcel in) {
+        documentID = in.readString();
+        name = in.readString();
+        mail = in.readString();
+        phone = in.readString();
+        city = in.readString();
+        speciality = in.readString();
+        firstname = in.readString();
+        street = in.readString();
+        postcode = in.readInt();
+        housenumber = in.readInt();
+        likes = in.readInt();
+        avatar = in.readParcelable(Uri.class.getClassLoader());
+        distance = in.readFloat();
+    }
+
+    public static final Creator<ModelDoctor> CREATOR = new Creator<ModelDoctor>() {
+        @Override
+        public ModelDoctor createFromParcel(Parcel in) {
+            return new ModelDoctor(in);
+        }
+
+        @Override
+        public ModelDoctor[] newArray(int size) {
+            return new ModelDoctor[size];
+        }
+    };
+
 }

@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -116,7 +114,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                         intent.putExtra(NodesNames.KEY_PRENOM,listDoc.get(pos).getFirstname());
                         intent.putExtra(NodesNames.KEY_TELEPHONE,listDoc.get(pos).getPhone());
                         intent.putExtra(NodesNames.KEY_AVATAR,listDoc.get(pos).getAvatar().toString());
-                        intent.putExtra(NodesNames.KEY_ID,listDoc.get(pos).getDocumentID());
+                        intent.putExtra(NodesNames.KEY_ID,listDoc.get(pos).getDoctorId());
                         startActivity(intent);
                     }
 
@@ -188,7 +186,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 intent.putExtra(NodesNames.KEY_PRENOM,md.getFirstname());
                 intent.putExtra(NodesNames.KEY_TELEPHONE,md.getPhone());
                 intent.putExtra(NodesNames.KEY_AVATAR,md.getAvatar().toString());
-                intent.putExtra(NodesNames.KEY_ID,md.getDocumentID());
+                intent.putExtra(NodesNames.KEY_ID,md.getDoctorId());
 
                 startActivity(intent);
 

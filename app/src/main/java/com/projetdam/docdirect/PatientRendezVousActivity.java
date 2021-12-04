@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.projetdam.docdirect.adapter.PatientRdvAdapter;
 import com.projetdam.docdirect.authentification.ForgotPassword;
 import com.projetdam.docdirect.authentification.RegisterUser;
+import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.NodesNames;
 import com.projetdam.docdirect.commons.RdvInformation;
 import com.projetdam.docdirect.commons.UtilsTimeSlot;
@@ -51,7 +52,7 @@ import java.util.List;
 public class PatientRendezVousActivity extends AppCompatActivity {
     private static final String TAG = "TEST TEST TEST TEST";
     private RecyclerView recyclerViewRdv;
-   // private PatientRdvAdapter.RecyclerViewClickListener listener;
+    // private PatientRdvAdapter.RecyclerViewClickListener listener;
     private List<RdvInformation> mList;
     private PatientRdvAdapter adapter;
 
@@ -61,24 +62,25 @@ public class PatientRendezVousActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_rendez_vous);
 
-
         recyclerViewRdv = findViewById(R.id.rclPatient_appointements);
         recyclerViewRdv.setHasFixedSize(true);
         recyclerViewRdv.setLayoutManager(new LinearLayoutManager(this));
-        TextView tv=findViewById(R.id.tvDocRdv);
-        ImageView iv=findViewById(R.id.ivDocRdv);
-        tv.setText(getIntent().getStringExtra(NodesNames.KEY_NOM));
+        TextView tv = findViewById(R.id.tvDocRdv);
+        ImageView iv = findViewById(R.id.ivDocRdv);
+
+        Intent intent = getIntent();
+        ModelDoctor doctor = intent.getParcelableExtra("doctor");
+        tv.setText(doctor.getName() + " " + doctor.getFirstname());
         RequestOptions options = new RequestOptions().centerCrop()
                 .error(R.mipmap.ic_launcher)
                 .placeholder(R.mipmap.ic_launcher);
         Context context = iv.getContext();
-        Glide.with(context).load(getIntent().getStringExtra(NodesNames.KEY_AVATAR)).apply(options).fitCenter().circleCrop().override(50,50).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv);
+        Glide.with(context).load(doctor.getAvatar()).apply(options).fitCenter().circleCrop().override(50, 50).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv);
 
         mList = new ArrayList<>();
         // get appointement patient
         ArrayList<String> nestedList = UtilsTimeSlot.getSlots("09:30", "18:15", 20);
         for (String hr : nestedList) {
-
             Log.i(TAG, "onCreate: " + hr);
         }
 
@@ -86,19 +88,17 @@ public class PatientRendezVousActivity extends AppCompatActivity {
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
         LocalDate f = today.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
 
-        for (int i= 0; i < 7;i++) {
+        for (int i = 0; i < 7; i++) {
             LocalDate dateRdv = today.plusDays(i);// Next days
-            if(!f.isEqual(LocalDate.from(dateRdv))){
+            if (!f.isEqual(LocalDate.from(dateRdv))) {
                 String text = dateRdv.format(formatters);
-                mList.add(new RdvInformation(nestedList,  text));
+                mList.add(new RdvInformation(nestedList, text));
             }
-
         }
 //        mList.add(new RdvInformation(nestedList, "30/11/2021"));
 //        mList.add(new RdvInformation(nestedList, "01/12/2021"));
         adapter = new PatientRdvAdapter(mList);
         recyclerViewRdv.setAdapter(adapter);
-
     }
 
 }

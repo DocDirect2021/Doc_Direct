@@ -14,9 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.NodesNames;
 
 public class DetailActivity extends AppCompatActivity {
@@ -26,9 +24,10 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvAdresse;
     TextView tvLikes;
     Uri affiche;
-    Button rdv,visio;
+    Button rdv, visio;
 
-    String titre,acteurs,synopsis,iddoc;
+    ModelDoctor doctor;
+    String titre;
     int Likes;
 
     public void init() {
@@ -36,41 +35,40 @@ public class DetailActivity extends AppCompatActivity {
         tvNom = findViewById(R.id.tvTitleDetail);
         tvAdresse = findViewById(R.id.tvActeurDetail);
         tvLikes = findViewById(R.id.tvAnneeDetail);
-        rdv=findViewById(R.id.button2);
-        visio=findViewById(R.id.button3);
-
+        rdv = findViewById(R.id.button2);
+        visio = findViewById(R.id.button3);
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         init();
-        Intent intent=getIntent();
+        Intent intent = getIntent();
+        doctor = intent.getParcelableExtra("doctor");
 
-        titre="Dr. "+intent.getStringExtra(NodesNames.KEY_NOM)+" "+intent.getStringExtra(NodesNames.KEY_PRENOM);
+        titre = "Dr. " + doctor.getName() + " " + doctor.getFirstname();
+        affiche = doctor.getAvatar();
+
+        tvAdresse.setText(doctor.getStreet());
         tvNom.setText(titre);
-        tvAdresse.setText(intent.getStringExtra(NodesNames.KEY_TELEPHONE));
-        affiche= Uri.parse(intent.getStringExtra(NodesNames.KEY_AVATAR));
+
         RequestOptions options = new RequestOptions().centerCrop()
                 .error(R.mipmap.ic_launcher)
                 .placeholder(R.mipmap.ic_launcher);
         Context context = ivAvatar.getContext();
-        Glide.with(context).load(affiche).apply(options).fitCenter().circleCrop().override(350,350).diskCacheStrategy(DiskCacheStrategy.ALL).into(ivAvatar);
-    rdv.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent nintent = new Intent(DetailActivity.this, PatientRendezVousActivity.class);
-            nintent.putExtra(NodesNames.KEY_ID,getIntent().getStringExtra(NodesNames.KEY_ID));
-            nintent.putExtra(NodesNames.KEY_NOM,titre);
-            nintent.putExtra(NodesNames.KEY_AVATAR,getIntent().getStringExtra(NodesNames.KEY_AVATAR));
-            startActivity(nintent);
-
-        }
-    });
-
-
+        Glide.with(context).load(affiche).apply(options).fitCenter().circleCrop().override(350, 350).diskCacheStrategy(DiskCacheStrategy.ALL).into(ivAvatar);
+        rdv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent nintent = new Intent(DetailActivity.this, PatientRendezVousActivity.class);
+//                nintent.putExtra(NodesNames.KEY_ID, doctorId);
+//                nintent.putExtra(NodesNames.KEY_NOM, titre);
+//                nintent.putExtra(NodesNames.KEY_AVATAR, getIntent().getStringExtra(NodesNames.KEY_AVATAR));
+                nintent.putExtra("doctor", doctor);
+                startActivity(nintent);
+            }
+        });
     }
+
 }

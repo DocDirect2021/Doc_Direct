@@ -1,6 +1,7 @@
 package com.projetdam.docdirect.adapter;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +10,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.projetdam.docdirect.ConfirmeRdvActivity;
 import com.projetdam.docdirect.R;
-import com.projetdam.docdirect.commons.NodesNames;
 import com.projetdam.docdirect.commons.RdvInformation;
 
 import java.util.List;
@@ -46,7 +46,6 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
 
         for (int i = 0; i < holder.btnHour.length; i++) {
             holder.btnHour[i].setText(rdvInfo.getNastedList().get(i));
-            holder.btnHour[i].setTag("12:34");
         }
 
         boolean isExpandable = rdvInfo.isExpandable();
@@ -116,10 +115,28 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
                 btnHour[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-                        intent.putExtra(NodesNames.KEY_JOUR, rdvInfo.getJour());
-                        intent.putExtra(NodesNames.KEY_START_TIME, ((Button) v).getText());
-                        v.getContext().startActivity(intent);
+                        String hour = ((Button) v).getText().toString();
+//                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
+//                        intent.putExtra(NodesNames.KEY_JOUR, rdvInfo.getJour());
+//                        intent.putExtra(NodesNames.KEY_START_TIME, hour);
+//                        v.getContext().startActivity(intent);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setTitle("Votre rdv : " + rdvInfo.getJour()).setMessage("à : " + hour);
+                        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(v.getContext(), "Rendez-vous confirmé !", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(v.getContext(), "Rendez-vous annulé !", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 });
             }

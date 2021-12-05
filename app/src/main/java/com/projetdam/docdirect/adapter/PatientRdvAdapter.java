@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.commons.ModelDoctor;
+import com.projetdam.docdirect.commons.ModelTimeSlot;
 import com.projetdam.docdirect.commons.RdvInformation;
+import com.projetdam.docdirect.commons.UtilsTimeSlot;
 
 import java.util.List;
 
@@ -26,14 +30,16 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
 
     private Context parentContext;
     private ModelDoctor doctor;
+    private String patientId;
     private List<RdvInformation> mList;
     private RdvInformation rdvInfo;
     private Intent intent;
 
-    public PatientRdvAdapter(Context context, List<RdvInformation> mList, ModelDoctor doctor) {
+    public PatientRdvAdapter(Context context, List<RdvInformation> mList, ModelDoctor doctor, String patientId) {
         this.parentContext = context;
         this.mList = mList;
         this.doctor = doctor;
+        this.patientId = patientId;
     }
 
     @NonNull
@@ -125,9 +131,11 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
                         builder.setTitle("Votre rdv : " + rdvInfo.getJour())
                                 .setMessage("à : " + hour + " avec le Dr " + doctor.getName());
                         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(parentContext, "Rendez-vous confirmé !", Toast.LENGTH_LONG).show();
+                                confirmRdv(rdvInfo.getJour(), hour);
                             }
                         });
                         builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -144,4 +152,10 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void confirmRdv(String date, String hour) {
+        ModelTimeSlot rdv =
+                new ModelTimeSlot(doctor.getDoctorId(), patientId, date, hour, "", false);
+        UtilsTimeSlot.saveRdv(rdv);
+    }
 }

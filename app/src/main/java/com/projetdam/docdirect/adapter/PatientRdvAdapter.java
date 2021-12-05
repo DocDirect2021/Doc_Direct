@@ -1,6 +1,7 @@
 package com.projetdam.docdirect.adapter;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -16,25 +17,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.projetdam.docdirect.R;
+import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.RdvInformation;
 
 import java.util.List;
 
 public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.PatientRdvsHolder> {
 
-    //    private List<String> list = new ArrayList<>();
+    private Context parentContext;
+    private ModelDoctor doctor;
     private List<RdvInformation> mList;
     private RdvInformation rdvInfo;
     private Intent intent;
 
-    public PatientRdvAdapter(List<RdvInformation> mList) {
+    public PatientRdvAdapter(Context context, List<RdvInformation> mList, ModelDoctor doctor) {
+        this.parentContext = context;
         this.mList = mList;
+        this.doctor = doctor;
     }
 
     @NonNull
     @Override
     public PatientRdvsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        LayoutInflater inflater = LayoutInflater.from(parentContext);
         View view = inflater.inflate(R.layout.row_patient_rdv, parent, false);
         return new PatientRdvsHolder(view);
     }
@@ -61,7 +66,6 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
             @Override
             public void onClick(View v) {
                 rdvInfo.setExpandable(!rdvInfo.isExpandable());
-//                list = model.getNastedList();
                 notifyItemChanged(holder.getBindingAdapterPosition()); //.getAdapterPosition()
             }
         });
@@ -111,28 +115,25 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
             btnHour[22] = itemView.findViewById(R.id.btnItem23);
             btnHour[23] = itemView.findViewById(R.id.btnItem24);
 
+            AlertDialog.Builder builder = new AlertDialog.Builder(parentContext);
             for (int i = 0; i < btnHour.length; i++) {
                 btnHour[i].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String hour = ((Button) v).getText().toString();
-//                        Intent intent = new Intent(v.getContext(), ConfirmeRdvActivity.class);
-//                        intent.putExtra(NodesNames.KEY_JOUR, rdvInfo.getJour());
-//                        intent.putExtra(NodesNames.KEY_START_TIME, hour);
-//                        v.getContext().startActivity(intent);
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                        builder.setTitle("Votre rdv : " + rdvInfo.getJour()).setMessage("à : " + hour);
+                        builder.setTitle("Votre rdv : " + rdvInfo.getJour())
+                                .setMessage("à : " + hour + " avec le Dr " + doctor.getName());
                         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(v.getContext(), "Rendez-vous confirmé !", Toast.LENGTH_LONG).show();
+                                Toast.makeText(parentContext, "Rendez-vous confirmé !", Toast.LENGTH_LONG).show();
                             }
                         });
                         builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(v.getContext(), "Rendez-vous annulé !", Toast.LENGTH_LONG).show();
+                                Toast.makeText(parentContext, "Rendez-vous annulé !", Toast.LENGTH_LONG).show();
                             }
                         });
                         AlertDialog dialog = builder.create();

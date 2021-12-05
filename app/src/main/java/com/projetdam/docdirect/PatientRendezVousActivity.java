@@ -39,8 +39,13 @@ public class PatientRendezVousActivity extends AppCompatActivity {
 
     private List<RdvInformation> mList;
     private PatientRdvAdapter adapter;
+    private ModelDoctor doctor;
 
     private String patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+    public ModelDoctor getDoctor() {
+        return doctor;
+    }
 
     private void init() {
         recyclerViewRdv = findViewById(R.id.rclPatient_appointements);
@@ -59,7 +64,7 @@ public class PatientRendezVousActivity extends AppCompatActivity {
 
         Log.i(TAG, "onCreate: " + patientId);
         Intent intent = getIntent();
-        ModelDoctor doctor = intent.getParcelableExtra("doctor");
+        doctor = intent.getParcelableExtra("doctor");
         tv.setText(doctor.getName() + " " + doctor.getFirstname());
         RequestOptions options = new RequestOptions().centerCrop()
                 .error(R.mipmap.ic_launcher)
@@ -82,7 +87,7 @@ public class PatientRendezVousActivity extends AppCompatActivity {
                 mList.add(new RdvInformation(nestedList, text));
             }
         }
-        adapter = new PatientRdvAdapter(mList);
+        adapter = new PatientRdvAdapter(PatientRendezVousActivity.this, mList, doctor);
         recyclerViewRdv.setAdapter(adapter);
     }
 

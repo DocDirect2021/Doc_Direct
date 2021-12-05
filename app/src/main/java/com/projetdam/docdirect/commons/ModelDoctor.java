@@ -16,6 +16,10 @@ public class ModelDoctor implements Parcelable {
         return documentID;
     }
 
+    public String getDocumentID() {
+        return documentID;
+    }
+
     public void setDocumentID(String documentID) {
         this.documentID = documentID;
     }

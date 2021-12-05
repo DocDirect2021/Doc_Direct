@@ -27,7 +27,7 @@ public class UtilsTimeSlot {
     private static LocalTime time;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static ArrayList<String> getSlots(String startTime, String endTime, int duration) {
+    public static ArrayList<String> createSlots(String startTime, String endTime, int duration) {
         ArrayList<String> hours = new ArrayList<>();
 
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("H:mm");

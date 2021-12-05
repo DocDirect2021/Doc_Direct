@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.projetdam.docdirect.adapter.PatientRdvAdapter;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.RdvInformation;
@@ -38,6 +40,8 @@ public class PatientRendezVousActivity extends AppCompatActivity {
     private List<RdvInformation> mList;
     private PatientRdvAdapter adapter;
 
+    private String patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
     private void init() {
         recyclerViewRdv = findViewById(R.id.rclPatient_appointements);
         recyclerViewRdv.setHasFixedSize(true);
@@ -53,6 +57,7 @@ public class PatientRendezVousActivity extends AppCompatActivity {
         setContentView(R.layout.activity_patient_rendez_vous);
         init();
 
+        Log.i(TAG, "onCreate: " + patientId);
         Intent intent = getIntent();
         ModelDoctor doctor = intent.getParcelableExtra("doctor");
         tv.setText(doctor.getName() + " " + doctor.getFirstname());
@@ -63,11 +68,8 @@ public class PatientRendezVousActivity extends AppCompatActivity {
         Glide.with(context).load(doctor.getAvatar()).apply(options).fitCenter().circleCrop().override(50, 50).diskCacheStrategy(DiskCacheStrategy.ALL).into(iv);
 
         mList = new ArrayList<>();
-        // get appointement patient
+        // create appointment list
         ArrayList<String> nestedList = UtilsTimeSlot.createSlots("09:30", "18:15", 20);
-        for (String hr : nestedList) {
-            Log.i(TAG, "onCreate: " + hr);
-        }
 
         LocalDate today = LocalDate.now();     //Today
         DateTimeFormatter formatters = DateTimeFormatter.ofPattern("dd/MM/uuuu");
@@ -80,8 +82,6 @@ public class PatientRendezVousActivity extends AppCompatActivity {
                 mList.add(new RdvInformation(nestedList, text));
             }
         }
-//        mList.add(new RdvInformation(nestedList, "30/11/2021"));
-//        mList.add(new RdvInformation(nestedList, "01/12/2021"));
         adapter = new PatientRdvAdapter(mList);
         recyclerViewRdv.setAdapter(adapter);
     }

@@ -2,7 +2,6 @@ package com.projetdam.docdirect;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,16 +10,11 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.gms.maps.GoogleMap;
-
-import java.util.ArrayList;
-import java.util.Objects;
-
-public class FilterFragment extends DialogFragment  {
+public class FragmentFilter extends DialogFragment  {
 
 
 
-    public FilterFragment() {
+    public FragmentFilter() {
     }
 
     public interface NoticeDialogListener {
@@ -85,14 +79,14 @@ public class FilterFragment extends DialogFragment  {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK, so save the selectedItems results somewhere
                         // or return them to the component that opened the dialog
-                        listener.onDialogPositiveClick(FilterFragment.this);
+                        listener.onDialogPositiveClick(FragmentFilter.this);
 
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        listener.onDialogNegativeClick(FilterFragment.this);
+                        listener.onDialogNegativeClick(FragmentFilter.this);
                     }
                 });
         View v = getActivity().getLayoutInflater().inflate(R.layout.activity_filter,null);

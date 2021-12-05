@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -51,7 +49,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 
-public class FragmentAccueil extends Fragment implements OnMapReadyCallback, FilterFragment.NoticeDialogListener {
+public class FragmentAccueil extends Fragment implements OnMapReadyCallback, FragmentFilter.NoticeDialogListener {
 
     private ImageButton imageButton;
     private SearchView rechercheView;
@@ -329,7 +327,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
             public void onClick(View view) {
 
 
-                FilterFragment f = new FilterFragment();
+                FragmentFilter f = new FragmentFilter();
                 Bundle args = new Bundle();
                 args.putBooleanArray("checked",listeco);
                 f.setArguments(args);
@@ -347,7 +345,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fil
                 mMap.clear();
 
                 ArrayList<String> listec=new ArrayList<String>();
-                FilterFragment ff=(FilterFragment) dialog;
+                FragmentFilter ff=(FragmentFilter) dialog;
                 listeco=ff.getSelectedItems();
                 for(int i=0;i<dialog.getResources().getStringArray(R.array.specialites).length;i++)
                     if(listeco[i])

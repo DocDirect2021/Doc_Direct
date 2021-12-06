@@ -14,8 +14,16 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import org.jitsi.meet.sdk.BroadcastEvent;
+import org.jitsi.meet.sdk.BroadcastIntentHelper;
+import org.jitsi.meet.sdk.JitsiMeet;
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
+
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import timber.log.Timber;
 
 public class VisioActivity extends AppCompatActivity {
 
@@ -29,7 +37,7 @@ public class VisioActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_visio);
 
         // Initialize default options for Jitsi Meet conferences.
         URL serverURL;

@@ -23,32 +23,8 @@ public class ModelSosMessage {
         return patientDocument;
     }
 
-    public class Recipient {
-        private String name;
-        private String phone;
-        private String email;
-
-        public Recipient(String name, String phone, String email) {
-            this.name = name;
-            this.phone = phone;
-            this.email = email;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-    }
-
+    private ArrayList<ModelRecipient> recipients;
     private String sosText;
-    private ArrayList<Recipient> recipients;
 
     public ModelSosMessage() {
     }
@@ -61,11 +37,11 @@ public class ModelSosMessage {
         this.sosText = sosText;
     }
 
-    public ArrayList<Recipient> getRecipients() {
+    public ArrayList<ModelRecipient> getRecipients() {
         return recipients;
     }
 
-    public void setRecipients(ArrayList<Recipient> recipients) {
+    public void setRecipients(ArrayList<ModelRecipient> recipients) {
         this.recipients = recipients;
     }
 

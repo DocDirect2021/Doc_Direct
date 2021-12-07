@@ -7,6 +7,5 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Doc Direct"
-include ':app','scanlibrary'
+include ':app','scanlibrary','opencv'
 
-include ':java'

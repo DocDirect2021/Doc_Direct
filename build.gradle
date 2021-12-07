@@ -3,8 +3,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        maven{ url 'https://github.com/jitsi/jitsi-maven-repository/raw/master/releases'}
-
+        maven {
+            url "https://github.com/jitsi/jitsi-maven-repository/raw/master/releases"
+        }
     }
     dependencies {
 
@@ -17,16 +18,7 @@ buildscript {
     }
 }
 
-allprojects {
-    repositories {
-        maven {
-            url "https://github.com/jitsi/jitsi-maven-repository/raw/master/releases"
-        }
-        google()
-        jcenter()
 
-    }
-}
 
 
 task clean(type: Delete) {

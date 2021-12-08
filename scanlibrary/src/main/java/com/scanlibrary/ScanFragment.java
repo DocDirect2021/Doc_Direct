@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import com.davemorrissey.labs.subscaleview.ImageSource;
@@ -62,7 +64,7 @@ public class ScanFragment extends Fragment {
   // Fields
   // ===========================================================
 
-  private ViewHolder viewHolder = new ViewHolder();
+  private final ViewHolder viewHolder = new ViewHolder();
 
   private String takenPhotoLocation;
   private Bitmap takenPhotoBitmap;
@@ -466,8 +468,10 @@ public class ScanFragment extends Fragment {
     }
     Uri photoUri = Utils.provideUriForFile(getActivity().getApplication(), photoFile);
     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-    takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+   takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     startActivityForResult(takePictureIntent, TAKE_PHOTO_REQUEST_CODE);
+
+
   }
 
   private File createImageFile(String fileName) {
@@ -669,8 +673,8 @@ public class ScanFragment extends Fragment {
 
     private final Bitmap bitmap;
     private final Map<Integer, PointF> points;
-    private int mode;
-    private boolean correctRotation;
+    private final int mode;
+    private final boolean correctRotation;
 
     DocumentFromBitmapTask(Bitmap bitmap, Map<Integer, PointF> points, int mode,
         boolean correctRotation) {

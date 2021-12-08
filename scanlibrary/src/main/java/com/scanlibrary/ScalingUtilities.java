@@ -18,7 +18,7 @@ public class ScalingUtilities {
 	 * FIT: Scales the image the minimum amount while making sure both dimensions fit inside the requested destination area. The resulting destination dimensions might be adjusted
 	 * to a smaller size than requested.
 	 */
-	public static enum ScalingLogic {
+	public enum ScalingLogic {
 		CROP, FIT
 	}
 

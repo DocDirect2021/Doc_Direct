@@ -107,7 +107,7 @@ public class ScanUtils {
 
         // find squares in every color plane of the image
         for (int c = 0; c < 3; c++) {
-            int ch[] = { c, 0 };
+            int[] ch = { c, 0 };
             List<Mat> bluredList = new ArrayList<>(1);
             bluredList.add(blurred);
             List<Mat> grayList = new ArrayList<>(1);

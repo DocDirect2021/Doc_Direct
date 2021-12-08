@@ -18,6 +18,17 @@
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="testRunner" value="GRADLE" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$USER_HOME$/Downloads/OpenCV-android-sdk/sdk" />
+        <option name="modules">
+          <set>
+            <option value="$USER_HOME$/Downloads/OpenCV-android-sdk/sdk" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+      </GradleProjectSettings>
     </option>
   </component>
 </project>

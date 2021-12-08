@@ -34,7 +34,7 @@ import java.util.List;
 public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.PatientRdvsHolder> {
 
 
-    private List<RdvInformation> mList;
+    private final List<RdvInformation> mList;
     private  List<String> list = new ArrayList<>();
     private RdvInformation model;
     private Intent intent;
@@ -112,34 +112,34 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
 
 
     public class PatientRdvsHolder extends RecyclerView.ViewHolder{
-        private LinearLayout linearLayout;
-        private LinearLayout expandableLayout;
-        private TextView dateAppointement;
-        private ImageView mArrowImage;
-        private Button mTxt1;
-        private Button mTxt2;
-        private Button mTxt3;
-        private Button mTxt4;
-        private Button mTxt5;
-        private Button mTxt6;
-        private Button mTxt7;
-        private Button mTxt8;
-        private Button mTxt9;
-        private Button mTxt10;
-        private Button mTxt11;
-        private Button mTxt12;
-        private Button mTxt13;
-        private Button mTxt14;
-        private Button mTxt15;
-        private Button mTxt16;
-        private Button mTxt17;
-        private Button mTxt18;
-        private Button mTxt19;
-        private Button mTxt20;
-        private Button mTxt21;
-        private Button mTxt22;
-        private Button mTxt23;
-        private Button mTxt24;
+        private final LinearLayout linearLayout;
+        private final LinearLayout expandableLayout;
+        private final TextView dateAppointement;
+        private final ImageView mArrowImage;
+        private final Button mTxt1;
+        private final Button mTxt2;
+        private final Button mTxt3;
+        private final Button mTxt4;
+        private final Button mTxt5;
+        private final Button mTxt6;
+        private final Button mTxt7;
+        private final Button mTxt8;
+        private final Button mTxt9;
+        private final Button mTxt10;
+        private final Button mTxt11;
+        private final Button mTxt12;
+        private final Button mTxt13;
+        private final Button mTxt14;
+        private final Button mTxt15;
+        private final Button mTxt16;
+        private final Button mTxt17;
+        private final Button mTxt18;
+        private final Button mTxt19;
+        private final Button mTxt20;
+        private final Button mTxt21;
+        private final Button mTxt22;
+        private final Button mTxt23;
+        private final Button mTxt24;
 
 
 

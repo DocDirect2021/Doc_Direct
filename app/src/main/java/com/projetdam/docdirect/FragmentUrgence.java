@@ -127,7 +127,9 @@ public class FragmentUrgence extends Fragment {
                 null);
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
-                recipients.add(new ModelRecipient(cursor.getString(1), "", cursor.getString(2)));
+                recipients.add(
+                        new ModelRecipient(cursor.getString(1), "", cursor.getString(2), cursor.getInt(0))
+                );
             }
         }
     }

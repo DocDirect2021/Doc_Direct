@@ -7,45 +7,39 @@
     android:layout_margin="4dp"
     android:backgroundTint="@color/colorPrimary"
     app:cardBackgroundColor="@color/colorPrimary"
-    app:cardCornerRadius="20dp">
+    app:cardCornerRadius="16dp"
+    app:contentPaddingLeft="8dp"
+    app:contentPaddingRight="8dp">
+
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:orientation="horizontal">
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvContactName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:textColor="@color/colorPrimaryVariant"
+            tools:text="Destinataire" />
 
-            <TextView
-                android:id="@+id/tvContactName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textColor="@color/colorPrimaryVariant"
-                tools:text="Destinataire" />
-
-            <TextView
-                android:id="@+id/tvContactEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:textColor="@color/colorPrimaryVariant"
-                tools:text="Email" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnRemoveContact"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/tvContactEmail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="Effacer" />
+            android:gravity="center_vertical"
+            android:textColor="@color/colorPrimaryVariant"
+            tools:text="Email" />
+
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/chkAdded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right" />
 
 </androidx.cardview.widget.CardView>

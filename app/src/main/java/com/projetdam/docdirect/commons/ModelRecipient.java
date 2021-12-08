@@ -4,11 +4,13 @@ public class ModelRecipient {
     private String name;
     private String phone;
     private String email;
+    private int contactId;
 
-    public ModelRecipient(String name, String phone, String email) {
+    public ModelRecipient(String name, String phone, String email, int contactId) {
         this.name = name;
         this.phone = phone;
         this.email = email;
+        this.contactId = contactId;
     }
 
     public void setName(String name) {

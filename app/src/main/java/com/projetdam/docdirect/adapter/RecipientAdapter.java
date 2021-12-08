@@ -5,7 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,8 +21,8 @@ import java.util.ArrayList;
 
 public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.RecipientViewHolder> {
     // vars globales
-     Context context;
-     ArrayList<ModelRecipient> recipients;
+    Context context;
+    ArrayList<ModelRecipient> recipients;
 
     public RecipientAdapter(Context context, ArrayList<ModelRecipient> recipients) {
         this.context = context;
@@ -47,13 +50,23 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
 
     public class RecipientViewHolder extends RecyclerView.ViewHolder {
         TextView tvContactName, tvContactEmail;
-        Button btnRemoveContact;
+        CheckBox chkAdded;
 
         public RecipientViewHolder(@NonNull View itemView) {
             super(itemView);
             tvContactName = itemView.findViewById(R.id.tvContactName);
             tvContactEmail = itemView.findViewById(R.id.tvContactEmail);
-            btnRemoveContact = itemView.findViewById(R.id.btnRemoveContact);
+            chkAdded = itemView.findViewById(R.id.chkAdded);
+
+            // checkbox click event handling
+            chkAdded.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean chk) {
+                    if (chk) {
+                        Toast.makeText(context, "C'est coché !", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
         }
     }
 }

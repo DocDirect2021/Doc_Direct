@@ -9,6 +9,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firestore.v1.WriteResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,8 +17,7 @@ import java.util.Map;
 
 public class ModelSosMessage {
     private String patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    private CollectionReference sosMessages = FirebaseFirestore.getInstance().collection("sos_messages");
-    private DocumentReference patientDocument = sosMessages.document(patientId);
+    private DocumentReference patientDocument = UtilsTimeSlot.patients.document(patientId);
 
     public DocumentReference getPatientDocument() {
         return patientDocument;
@@ -48,7 +48,7 @@ public class ModelSosMessage {
     public void saveMessage() {
         Map<String, Object> text = new HashMap<>();
         text.put("sos_text", sosText);
-        patientDocument.set(text);
+        patientDocument.update(text);
 
     }
 

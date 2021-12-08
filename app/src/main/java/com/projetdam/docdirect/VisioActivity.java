@@ -48,6 +48,7 @@ public class VisioActivity extends AppCompatActivity {
             e.printStackTrace();
             throw new RuntimeException("Invalid server URL!");
         }
+
         JitsiMeetConferenceOptions defaultOptions
                 = new JitsiMeetConferenceOptions.Builder()
                 .setServerURL(serverURL)

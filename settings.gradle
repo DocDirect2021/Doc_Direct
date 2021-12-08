@@ -9,6 +9,6 @@ dependencyResolutionManagement {
        // Warning: this repository is going to shut down soon
     }
 }
-rootProject.name = "Doc Direct"
+
 include ':app','scanlibrary','opencv'
 

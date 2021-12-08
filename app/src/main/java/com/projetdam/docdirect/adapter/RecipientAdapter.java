@@ -47,13 +47,13 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
 
     public class RecipientViewHolder extends RecyclerView.ViewHolder {
         TextView tvContactName, tvContactEmail;
-//        Button btnRemoveContact;
+        Button btnRemoveContact;
 
         public RecipientViewHolder(@NonNull View itemView) {
             super(itemView);
             tvContactName = itemView.findViewById(R.id.tvContactName);
             tvContactEmail = itemView.findViewById(R.id.tvContactEmail);
-//            btnRemoveContact = itemView.findViewById(R.id.btnRemoveContact);
+            btnRemoveContact = itemView.findViewById(R.id.btnRemoveContact);
         }
     }
 }

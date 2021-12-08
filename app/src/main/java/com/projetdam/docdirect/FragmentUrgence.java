@@ -1,11 +1,19 @@
 package com.projetdam.docdirect;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,7 +55,6 @@ public class FragmentUrgence extends Fragment {
         recyclerView = rootView.findViewById(R.id.rcvRecipients);
 
         recipients = new ArrayList<>();
-        recipients.add(new ModelRecipient("ppp", "00 00 00 00", "toto@go.com"));
         Log.i(TAG, "init: " + recipients.size());
     }
 
@@ -71,6 +78,9 @@ public class FragmentUrgence extends Fragment {
         adapter = new RecipientAdapter(rootView.getContext(), recipients);
         recyclerView.setAdapter(adapter);
 
+        if (checkPermission()) {
+            queryContacts();
+        }
         return rootView;
     }
 
@@ -96,5 +106,39 @@ public class FragmentUrgence extends Fragment {
         msg.saveMessage();
 
         Toast.makeText(this.getContext(), "Message enregistré...", Toast.LENGTH_SHORT).show();
+    }
+
+    private void queryContacts() {
+        String[] Projection = new String[]{
+                ContactsContract.CommonDataKinds.Email.CONTACT_ID,
+                ContactsContract.CommonDataKinds.Email.DISPLAY_NAME_PRIMARY,
+                ContactsContract.CommonDataKinds.Email.ADDRESS};
+
+        Uri uri = ContactsContract.CommonDataKinds.Email.CONTENT_URI;
+
+        ArrayList<String> nameList = new ArrayList<>();
+        ContentResolver cr = getContext().getContentResolver();
+
+        Cursor cursor = cr.query(
+                uri,
+                Projection,
+                null,
+                null,
+                null);
+        if (cursor != null && cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                recipients.add(new ModelRecipient(cursor.getString(1), "", cursor.getString(2)));
+            }
+        }
+    }
+
+
+    private boolean checkPermission() {
+        int READ_CONTACTS = ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_CONTACTS);
+        if (READ_CONTACTS != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, 0);
+            return false;
+        }
+        return true;
     }
 }

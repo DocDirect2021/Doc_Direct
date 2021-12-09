@@ -56,8 +56,6 @@ public class ModelSosMessage {
     }
 
     public void saveMessage() {
-        Collections.addAll(contactIds, 5L, 125L, 15L);
-
         List<Long> arr = new ArrayList<>(contactIds);
         Map<String, Object> ids = new HashMap<>();
         ids.put("sos_contact_id", arr);

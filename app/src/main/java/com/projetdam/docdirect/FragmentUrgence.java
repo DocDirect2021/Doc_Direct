@@ -102,11 +102,16 @@ public class FragmentUrgence extends Fragment {
 
                             HashSet<Long> ids = new HashSet<Long>((Collection<? extends Long>) documentSnapshot.get("sos_contact_id"));
                             msg.setContactIds(ids);
-                            for (ModelRecipient recipient : recipients) {
-                                Long id = Long.valueOf(recipient.getContactId());
-                                Log.i(TAG, "queryContacts: " + id);
-                                boolean chk = ids.contains(id);
-                                recipient.setChecked(chk);
+
+                            // on coche les contacts selectionnés
+                            ModelRecipient recipient;
+                            for (int i = 0; i < recipients.size(); i++) {
+                                recipient = recipients.get(i);
+                                Long id = recipient.getContactId();
+                                if (ids.contains(id)) {
+                                    recipient.setChecked(true);
+                                    adapter.notifyItemChanged(i);
+                                }
                             }
 
                         }
@@ -142,7 +147,7 @@ public class FragmentUrgence extends Fragment {
         if (cursor != null && cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
                 recipients.add(
-                        new ModelRecipient(cursor.getString(1), "", cursor.getString(2), cursor.getInt(0))
+                        new ModelRecipient(cursor.getString(1), "", cursor.getString(2), cursor.getLong(0))
                 );
             }
         }

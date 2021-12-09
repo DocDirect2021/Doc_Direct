@@ -4,10 +4,10 @@ public class ModelRecipient {
     private String name;
     private String phone;
     private String email;
-    private int contactId;
+    private Long contactId;
     private boolean checked;
 
-    public ModelRecipient(String name, String phone, String email, int contactId) {
+    public ModelRecipient(String name, String phone, String email, Long contactId) {
         this.name = name;
         this.phone = phone;
         this.email = email;
@@ -39,11 +39,11 @@ public class ModelRecipient {
         return email;
     }
 
-    public int getContactId() {
+    public Long getContactId() {
         return contactId;
     }
 
-    public void setContactId(int contactId) {
+    public void setContactId(Long contactId) {
         this.contactId = contactId;
     }
 

@@ -10,5 +10,6 @@ dependencyResolutionManagement {
     }
 }
 
-include ':app','scanlibrary','opencv'
+include ':app','scanlibrary'
 
+include ':opencv'

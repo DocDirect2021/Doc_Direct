@@ -9,8 +9,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import java.util.Locale;
+
 import org.opencv.android.OpenCVLoader;
+
+import java.util.Locale;
+
 
 public class ScanActivity extends AppCompatActivity {
 

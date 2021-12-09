@@ -58,6 +58,10 @@
             android:name=".DetailActivity"
             android:exported="true" />
         <activity
+            android:name=".DocActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
@@ -68,10 +72,10 @@
         </activity>
         <activity
             android:name=".VisioActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".PatientRendezVousActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

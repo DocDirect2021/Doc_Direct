@@ -5,14 +5,14 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.WriteResult;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class ModelSosMessage {
@@ -23,6 +23,8 @@ public class ModelSosMessage {
         return patientDocument;
     }
 
+    //    private ArrayList<Integer> contactIds = new ArrayList<>();
+    private HashSet<Long> contactIds = new HashSet<>();
     private ArrayList<ModelRecipient> recipients;
     private String sosText;
 
@@ -37,6 +39,14 @@ public class ModelSosMessage {
         this.sosText = sosText;
     }
 
+    public HashSet<Long> getContactIds() {
+        return contactIds;
+    }
+
+    public void setContactIds(HashSet<Long> contactIds) {
+        this.contactIds = contactIds;
+    }
+
     public ArrayList<ModelRecipient> getRecipients() {
         return recipients;
     }
@@ -46,6 +56,13 @@ public class ModelSosMessage {
     }
 
     public void saveMessage() {
+        Collections.addAll(contactIds, 5L, 125L, 15L);
+
+        List<Long> arr = new ArrayList<>(contactIds);
+        Map<String, Object> ids = new HashMap<>();
+        ids.put("sos_contact_id", arr);
+        patientDocument.update(ids);
+
         Map<String, Object> text = new HashMap<>();
         text.put("sos_text", sosText);
         patientDocument.update(text);

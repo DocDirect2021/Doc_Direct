@@ -30,6 +30,10 @@ import com.projetdam.docdirect.commons.ModelRecipient;
 import com.projetdam.docdirect.commons.ModelSosMessage;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class FragmentUrgence extends Fragment {
     private static final String TAG = "TEST TEST TEST";
@@ -95,6 +99,16 @@ public class FragmentUrgence extends Fragment {
                             String text;
                             text = documentSnapshot.getString("sos_text");
                             etMessage.setText(text);
+
+                            HashSet<Long> ids = new HashSet<Long>((Collection<? extends Long>) documentSnapshot.get("sos_contact_id"));
+                            msg.setContactIds(ids);
+                            for (ModelRecipient recipient : recipients) {
+                                Long id = Long.valueOf(recipient.getContactId());
+                                Log.i(TAG, "queryContacts: " + id);
+                                boolean chk = ids.contains(id);
+                                recipient.setChecked(chk);
+                            }
+
                         }
                     }
                 });
@@ -142,5 +156,9 @@ public class FragmentUrgence extends Fragment {
             return false;
         }
         return true;
+    }
+
+    private void getRecip() {
+        msg.getPatientDocument().get();
     }
 }

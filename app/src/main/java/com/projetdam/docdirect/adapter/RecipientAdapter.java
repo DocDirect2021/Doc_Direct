@@ -41,6 +41,7 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
         ModelRecipient recipient = recipients.get(position);
         holder.tvContactName.setText(recipient.getName());
         holder.tvContactEmail.setText(recipient.getEmail());
+        holder.chkAdded.setChecked(recipient.isChecked());
     }
 
     @Override

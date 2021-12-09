@@ -8,7 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 
-
+import com.scanlibrary.ScanActivity;
+import com.scanlibrary.ScanConstants;
 
 
 public class FragmentDocuments extends Fragment {

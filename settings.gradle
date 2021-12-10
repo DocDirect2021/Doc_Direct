@@ -11,5 +11,4 @@ dependencyResolutionManagement {
 }
 
 include ':app','scanlibrary'
-
 include ':opencv'

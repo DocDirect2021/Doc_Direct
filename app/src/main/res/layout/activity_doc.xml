@@ -1,6 +1,4 @@
-<RelativeLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,29 +6,45 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".DocActivity">
+    tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/scannedImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/linearLayout"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerInParent="true" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/scan"
+            android:id="@+id/cameraButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Scan"/>
+            android:text="Camera" />
+
+
+        <Button
+            android:id="@+id/mediaButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Media" />
+
+        <Button
+            android:id="@+id/scanButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Scan" />
 
     </LinearLayout>
+
 
 </RelativeLayout>

@@ -37,7 +37,7 @@ public class FragmentDocuments extends Fragment {
         View v=inflater.inflate(R.layout.fragment_documents, container, false);
 
         Intent intent = new Intent(getActivity(),DocActivity.class);
-       intent.putExtra(ScanActivity.EXTRA_BRAND_IMG_RES, R.drawable.ic_crop_white_24dp); // Set image for title icon - optional
+        intent.putExtra(ScanActivity.EXTRA_BRAND_IMG_RES, R.drawable.ic_crop_white_24dp); // Set image for title icon - optional
         intent.putExtra(ScanActivity.EXTRA_TITLE, "Crop Document"); // Set title in action Bar - optional
         intent.putExtra(ScanActivity.EXTRA_ACTION_BAR_COLOR, R.color.white); // Set title color - optional
         intent.putExtra(ScanActivity.EXTRA_LANGUAGE, "en"); // Set language - optional

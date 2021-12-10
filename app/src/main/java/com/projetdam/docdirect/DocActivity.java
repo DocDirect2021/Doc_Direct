@@ -65,7 +65,7 @@ public class DocActivity extends AppCompatActivity {
     }
 
     protected void startScan(int preference) {
-        Intent intent = new Intent(getApplicationContext(), ScanActivity.class);
+        Intent intent = new Intent(DocActivity.this, ScanActivity.class);
         intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE, preference);
         startActivityForResult(intent, REQUEST_CODE);
     }

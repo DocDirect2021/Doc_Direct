@@ -46,7 +46,15 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
+<!--<RelativeLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:id="@+id/expandable_layout">-->
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/child_rdv"></androidx.recyclerview.widget.RecyclerView>-->
+<!--</RelativeLayout>-->
         <LinearLayout
             android:id="@+id/expandable_layout"
             android:layout_width="match_parent"
@@ -71,7 +79,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem2"
@@ -79,7 +88,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem3"
@@ -87,7 +97,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -106,7 +117,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem5"
@@ -114,7 +126,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem6"
@@ -122,7 +135,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -141,7 +155,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem8"
@@ -149,7 +164,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem9"
@@ -157,7 +173,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -176,7 +193,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem11"
@@ -184,7 +202,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem12"
@@ -192,7 +211,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -211,7 +231,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem14"
@@ -219,7 +240,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem15"
@@ -227,7 +249,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -246,7 +269,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem17"
@@ -254,7 +278,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem18"
@@ -262,7 +287,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -281,7 +307,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem20"
@@ -289,7 +316,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem21"
@@ -297,7 +325,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -316,7 +345,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem23"
@@ -324,7 +354,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/btnItem24"
@@ -332,7 +363,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="Button"
+                    android:visibility="gone" />
 
             </LinearLayout>
 

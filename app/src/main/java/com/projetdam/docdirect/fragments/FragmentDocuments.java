@@ -1,4 +1,4 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.fragments;
 
 import android.os.Bundle;
 
@@ -8,18 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.projetdam.docdirect.R;
 
-public class FragmentRendezVous extends Fragment {
+public class FragmentDocuments extends Fragment {
 
 
-    public FragmentRendezVous() {
+
+    public FragmentDocuments() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rendez_vous, container, false);
+        return inflater.inflate(R.layout.fragment_documents, container, false);
     }
 }

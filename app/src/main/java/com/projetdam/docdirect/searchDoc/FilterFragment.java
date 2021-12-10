@@ -1,8 +1,7 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.searchDoc;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -11,10 +10,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
-import com.google.android.gms.maps.GoogleMap;
-
-import java.util.ArrayList;
-import java.util.Objects;
+import com.projetdam.docdirect.R;
 
 public class FilterFragment extends DialogFragment  {
 

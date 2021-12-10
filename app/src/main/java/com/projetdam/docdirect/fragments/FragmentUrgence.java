@@ -1,4 +1,4 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.fragments;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.projetdam.docdirect.R;
 
 
 public class FragmentUrgence extends Fragment {

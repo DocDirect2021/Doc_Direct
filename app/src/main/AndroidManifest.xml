@@ -19,7 +19,7 @@
             android:name=".ConfirmeRdvActivity"
             android:exported="false" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".searchDoc.ProfileActivity"
             android:exported="false" />
         <activity
             android:name=".authentification.ForgotPassword"
@@ -28,9 +28,6 @@
             android:name=".authentification.RegisterUser"
             android:exported="false" />
 
-        <activity
-            android:name=".RdvActivity"
-            android:exported="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -44,7 +41,7 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".DetailActivity"
+            android:name=".searchDoc.DetailActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -57,7 +54,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PatientRendezVousActivity"
+            android:name=".rdvPatient.PatientRendezVousActivity"
             android:exported="true">
 
         </activity>

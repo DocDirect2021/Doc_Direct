@@ -4,29 +4,23 @@ import android.net.Uri;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class RdvInformation {
 
-    private ArrayList<String> nastedList;
     private boolean isExpandable;
-    private String  jour;
+    private String mykey;
+    private Map<String, ArrayList<String>> myMap;
 
 
     public RdvInformation() {
     }
 
-    public RdvInformation(ArrayList<String> itemList, String jour) {
-        this.nastedList = itemList;
-        this.jour = jour;
-        isExpandable = false;
-    }
 
-    public ArrayList<String> getNastedList() {
-        return nastedList;
-    }
-
-    public void setNastedList(ArrayList<String> nastedList) {
-        this.nastedList = nastedList;
+    public RdvInformation(String mykey, Map<String, ArrayList<String>> myMaps2) {
+        this.myMap = myMaps2;
+        this.mykey = mykey;
+        this.isExpandable = false;
     }
 
     public boolean isExpandable() {
@@ -37,12 +31,14 @@ public class RdvInformation {
         isExpandable = expandable;
     }
 
-    public String getJour() {
-        return jour;
+    public Map<String, ArrayList<String>> getMyMap() {
+        return myMap;
     }
 
-    public void setJour(String jour) {
-        this.jour = jour;
+
+    public String getMykey() {
+        return mykey;
     }
+
 }
 

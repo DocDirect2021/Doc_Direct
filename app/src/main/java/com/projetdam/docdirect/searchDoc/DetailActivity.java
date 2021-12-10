@@ -1,4 +1,4 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.searchDoc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,8 +14,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.projetdam.docdirect.rdvPatient.PatientRendezVousActivity;
+import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.commons.ModelDoctor;
-import com.projetdam.docdirect.commons.NodesNames;
 
 public class DetailActivity extends AppCompatActivity {
 

@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.projetdam.docdirect.authentification.ForgotPassword;
 import com.projetdam.docdirect.authentification.RegisterUser;
+import com.projetdam.docdirect.searchDoc.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

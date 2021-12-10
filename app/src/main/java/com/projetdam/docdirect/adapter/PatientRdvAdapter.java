@@ -5,26 +5,35 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.projetdam.docdirect.MainActivity;
 import com.projetdam.docdirect.R;
+import com.projetdam.docdirect.authentification.RegisterUser;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.ModelTimeSlot;
 import com.projetdam.docdirect.commons.RdvInformation;
 import com.projetdam.docdirect.commons.UtilsTimeSlot;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.PatientRdvsHolder> {
 
@@ -33,7 +42,6 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
     private String patientId;
     private List<RdvInformation> mList;
     private RdvInformation rdvInfo;
-    private Intent intent;
 
     public PatientRdvAdapter(Context context, List<RdvInformation> mList, ModelDoctor doctor, String patientId) {
         this.parentContext = context;
@@ -41,7 +49,6 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
         this.doctor = doctor;
         this.patientId = patientId;
     }
-
     @NonNull
     @Override
     public PatientRdvsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,15 +60,24 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
     @Override
     public void onBindViewHolder(@NonNull PatientRdvsHolder holder, int position) {
         rdvInfo = mList.get(position);
-        holder.dateAppointement.setText(rdvInfo.getJour());
+        holder.dateAppointement.setText(rdvInfo.getMykey());
+        for (Map.Entry<String, ArrayList<String>> me : rdvInfo.getMyMap().entrySet()) {//myMaps.entrySet()
 
-        for (int i = 0; i < holder.btnHour.length; i++) {
-            holder.btnHour[i].setText(rdvInfo.getNastedList().get(i));
+            String key = me.getKey();
+            List<String> values = me.getValue();
+
+              if(key == rdvInfo.getMykey()){
+                  for (int i = 0; i < values.size(); i++) {
+                      holder.btnHour[i].setText(values.get(i));
+                      holder.btnHour[i].setVisibility(View.VISIBLE);
+                  }
+              }
         }
+
 
         boolean isExpandable = rdvInfo.isExpandable();
         holder.expandableLayout.setVisibility(isExpandable ? View.VISIBLE : View.GONE);
-
+//
         if (isExpandable) {
             holder.mArrowImage.setImageResource(R.drawable.ic_keyboard_arrow_up);
         } else {
@@ -71,7 +87,8 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rdvInfo.setExpandable(!rdvInfo.isExpandable());
+                RdvInformation rdvInfo2 = mList.get(holder.getBindingAdapterPosition());
+                rdvInfo2.setExpandable(!rdvInfo.isExpandable());
                 notifyItemChanged(holder.getBindingAdapterPosition()); //.getAdapterPosition()
             }
         });
@@ -88,6 +105,7 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
         private TextView dateAppointement;
         private ImageView mArrowImage;
         private Button[] btnHour = new Button[24];
+        //imaprivate RecyclerView nestedRecyclerView;
 
         public PatientRdvsHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +113,7 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
             expandableLayout = itemView.findViewById(R.id.expandable_layout);
             dateAppointement = itemView.findViewById(R.id.dateAppointement);
             mArrowImage = itemView.findViewById(R.id.mArrowImage);
+
 
             btnHour[0] = itemView.findViewById(R.id.btnItem1);
             btnHour[1] = itemView.findViewById(R.id.btnItem2);
@@ -128,14 +147,14 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
                     public void onClick(View v) {
                         String hour = ((Button) v).getText().toString();
 
-                        builder.setTitle("Votre rdv : " + rdvInfo.getJour())
+                        builder.setTitle("Votre rdv : " + rdvInfo.getMykey())
                                 .setMessage("à : " + hour + " avec le Dr " + doctor.getName());
                         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(parentContext, "Rendez-vous confirmé !", Toast.LENGTH_LONG).show();
-                                confirmRdv(rdvInfo.getJour(), hour);
+                                confirmRdv(rdvInfo.getMykey(), hour);
                             }
                         });
                         builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -149,13 +168,14 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
                     }
                 });
             }
+
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void confirmRdv(String date, String hour) {
         ModelTimeSlot rdv =
-                new ModelTimeSlot(doctor.getDoctorId(), patientId, date, hour, "", false);
+                new ModelTimeSlot(doctor.getDoctorId(), patientId, date, hour, "", false,doctor.getFirstname(), doctor.getName(),doctor.getSpeciality());
         UtilsTimeSlot.saveRdv(rdv);
     }
 }

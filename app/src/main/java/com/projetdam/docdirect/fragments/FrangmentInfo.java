@@ -1,4 +1,4 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.fragments;
 
 import android.content.Context;
 import android.view.View;

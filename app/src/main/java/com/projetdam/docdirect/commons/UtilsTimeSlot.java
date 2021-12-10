@@ -3,25 +3,34 @@ package com.projetdam.docdirect.commons;
 import android.os.Build;
 import android.text.style.LocaleSpan;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UtilsTimeSlot {
@@ -44,6 +53,10 @@ public class UtilsTimeSlot {
             hours.add(t.format(timeFormatter));
         }
         return hours;
+
+
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -86,4 +99,9 @@ public class UtilsTimeSlot {
                     }
                 });
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void annulRdv(ModelTimeSlot slot) {
+
+    }
+
 }

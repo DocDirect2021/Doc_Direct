@@ -1,5 +1,5 @@
 
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.adapter;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.commons.ModelDoctor;
 
 import java.util.ArrayList;

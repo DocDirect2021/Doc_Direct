@@ -2,6 +2,7 @@ package com.projetdam.docdirect.commons;
 
 import android.os.Build;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.google.firebase.firestore.DocumentId;
@@ -23,6 +24,34 @@ public class ModelTimeSlot {
     private String endTime;
     private boolean visio;
     private String requestDate;
+    private String firstname;
+    private String name;
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    private String speciality;
 
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -30,7 +59,7 @@ public class ModelTimeSlot {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public ModelTimeSlot(String doctorId, String patientId, String date, String startTime, String endTime, boolean visio) {
+    public ModelTimeSlot(String doctorId, String patientId, String date, String startTime, String endTime, boolean visio, String firstname, String name, String speciality) {
         this.doctorId = doctorId;
         this.patientId = patientId;
         this.date = date;
@@ -38,6 +67,9 @@ public class ModelTimeSlot {
         this.endTime = endTime;
         this.visio = visio;
         this.requestDate = LocalDateTime.now(ZoneId.of("Europe/Paris")).format(timeFormatter);
+        this.firstname = firstname;
+        this.name = name;
+        this.speciality = speciality;
     }
 
     @Exclude

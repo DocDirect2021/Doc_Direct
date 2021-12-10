@@ -1,4 +1,4 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.searchDoc;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -42,8 +42,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.projetdam.docdirect.AddSampleDatasToFirebase;
+import com.projetdam.docdirect.R;
+import com.projetdam.docdirect.adapter.AdapterDoctor;
 import com.projetdam.docdirect.commons.ModelDoctor;
-import com.projetdam.docdirect.commons.NodesNames;
 
 import java.util.ArrayList;
 import java.util.Comparator;

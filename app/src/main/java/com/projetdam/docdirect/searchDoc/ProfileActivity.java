@@ -1,7 +1,6 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.searchDoc;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,24 +10,21 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.projetdam.docdirect.MainActivity;
+import com.projetdam.docdirect.R;
+import com.projetdam.docdirect.fragments.FragmentCompte;
+import com.projetdam.docdirect.fragments.FragmentDocuments;
+import com.projetdam.docdirect.fragments.FragmentRendezVous;
+import com.projetdam.docdirect.fragments.FragmentUrgence;
 
-public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FilterFragment.NoticeDialogListener {
+public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FilterFragment.NoticeDialogListener {
 
     /**
      * Variables globales fragment

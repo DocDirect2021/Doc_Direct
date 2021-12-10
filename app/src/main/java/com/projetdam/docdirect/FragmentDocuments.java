@@ -37,15 +37,15 @@ public class FragmentDocuments extends Fragment {
         View v=inflater.inflate(R.layout.fragment_documents, container, false);
 
         Intent intent = new Intent(getActivity(),DocActivity.class);
-//        intent.putExtra(ScanActivity.EXTRA_BRAND_IMG_RES, R.drawable.ic_crop_white_24dp); // Set image for title icon - optional
-//        intent.putExtra(ScanActivity.EXTRA_TITLE, "Crop Document"); // Set title in action Bar - optional
-//        intent.putExtra(ScanActivity.EXTRA_ACTION_BAR_COLOR, R.color.white); // Set title color - optional
-//        intent.putExtra(ScanActivity.EXTRA_LANGUAGE, "en"); // Set language - optional
-//        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE,ScanConstants.OPEN_CAMERA);
+       intent.putExtra(ScanActivity.EXTRA_BRAND_IMG_RES, R.drawable.ic_crop_white_24dp); // Set image for title icon - optional
+        intent.putExtra(ScanActivity.EXTRA_TITLE, "Crop Document"); // Set title in action Bar - optional
+        intent.putExtra(ScanActivity.EXTRA_ACTION_BAR_COLOR, R.color.white); // Set title color - optional
+        intent.putExtra(ScanActivity.EXTRA_LANGUAGE, "en"); // Set language - optional
+        intent.putExtra(ScanConstants.OPEN_INTENT_PREFERENCE,ScanConstants.OPEN_CAMERA);
         startActivity(intent);
         int REQUEST_CODE = 99;
-       // startActivityForResult(intent, REQUEST_CODE);
-        scannedImageView = (ImageView) v.findViewById(R.id.scannedImage);
+        startActivityForResult(intent, REQUEST_CODE);
+
 
 
 

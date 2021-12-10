@@ -2,6 +2,7 @@ package com.projetdam.docdirect;
 
 import android.Manifest;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -41,7 +42,7 @@ public class FragmentUrgence extends Fragment {
     private ModelSosMessage msg = new ModelSosMessage();
     private ArrayList<ModelRecipient> recipients = new ArrayList<>();
 
-    private Button btnSaveMsg;
+    private Button btnSaveMsg, btnSendMsg;
     private EditText etMessage;
     private RecyclerView recyclerView;
 
@@ -56,6 +57,7 @@ public class FragmentUrgence extends Fragment {
     private void init() {
         etMessage = rootView.findViewById(R.id.etMessage);
         btnSaveMsg = rootView.findViewById(R.id.btnSaveMsg);
+        btnSendMsg = rootView.findViewById(R.id.btnSendMsg);
         recyclerView = rootView.findViewById(R.id.rcvRecipients);
     }
 
@@ -71,6 +73,13 @@ public class FragmentUrgence extends Fragment {
             @Override
             public void onClick(View view) {
                 saveMessage();
+            }
+        });
+
+        btnSendMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendMail();
             }
         });
 
@@ -159,4 +168,24 @@ public class FragmentUrgence extends Fragment {
         return true;
     }
 
+    private void sendMail() {
+        String to = "pont.du.pont@yopmail.com";
+        String subject = "SOS";
+        String text = etMessage.getText().toString();
+
+        ArrayList<String> recip = new ArrayList<>();
+        for (ModelRecipient r : recipients) {
+            if (r.isChecked()) {
+                recip.add(r.getEmail());
+            }
+        }
+        String[] sendTo = recip.toArray(new String[0]);
+
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.putExtra(Intent.EXTRA_EMAIL, sendTo);
+        email.putExtra(Intent.EXTRA_SUBJECT, subject);
+        email.putExtra(Intent.EXTRA_TEXT, text);
+        email.setType("message/rfc822");
+        startActivity(Intent.createChooser(email, "Client Email :"));
+    }
 }

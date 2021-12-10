@@ -38,10 +38,12 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
 
     @Override
     public void onBindViewHolder(@NonNull RecipientViewHolder holder, int position) {
-        ModelRecipient recipient = recipients.get(position);
-        holder.tvContactName.setText(recipient.getName());
-        holder.tvContactEmail.setText(recipient.getEmail());
-        holder.chkAdded.setChecked(recipient.isChecked());
+//        ModelRecipient recipient = recipients.get(position);
+//        holder.tvContactName.setText(recipient.getName());
+//        holder.tvContactEmail.setText(recipient.getEmail());
+//        holder.chkAdded.setChecked(recipient.isChecked());
+        holder.bind(recipients.get(position));
+
     }
 
     @Override
@@ -60,14 +62,38 @@ public class RecipientAdapter extends RecyclerView.Adapter<RecipientAdapter.Reci
             chkAdded = itemView.findViewById(R.id.chkAdded);
 
             // checkbox click event handling
-            chkAdded.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            chkAdded.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton compoundButton, boolean chk) {
+//                    if (chk) {
+//                        Toast.makeText(context, "C'est coché !", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            });
+        }
+
+        void bind(ModelRecipient recipient) {
+            tvContactName.setText(recipient.getName());
+            tvContactEmail.setText(recipient.getEmail());
+            chkAdded.setChecked(recipient.isChecked());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean chk) {
-                    if (chk) {
-                        Toast.makeText(context, "C'est coché !", Toast.LENGTH_SHORT).show();
-                    }
+                public void onClick(View view) {
+                    recipient.setChecked(!recipient.isChecked());
+                    chkAdded.setChecked(recipient.isChecked());
                 }
             });
         }
+    }
+
+    public ArrayList<Long> getSelectedIds() {
+        ArrayList<Long> selected = new ArrayList<>();
+        for (ModelRecipient recipient : recipients) {
+            if (recipient.isChecked()) {
+                selected.add(recipient.getContactId());
+            }
+        }
+        return selected;
     }
 }

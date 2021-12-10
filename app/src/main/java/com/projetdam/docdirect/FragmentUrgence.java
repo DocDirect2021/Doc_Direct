@@ -39,7 +39,7 @@ public class FragmentUrgence extends Fragment {
     private static final String TAG = "TEST TEST TEST";
 
     private ModelSosMessage msg = new ModelSosMessage();
-    private ArrayList<ModelRecipient> recipients;
+    private ArrayList<ModelRecipient> recipients = new ArrayList<>();
 
     private Button btnSaveMsg;
     private EditText etMessage;
@@ -57,9 +57,6 @@ public class FragmentUrgence extends Fragment {
         etMessage = rootView.findViewById(R.id.etMessage);
         btnSaveMsg = rootView.findViewById(R.id.btnSaveMsg);
         recyclerView = rootView.findViewById(R.id.rcvRecipients);
-
-        recipients = new ArrayList<>();
-        Log.i(TAG, "init: " + recipients.size());
     }
 
     @Override
@@ -113,16 +110,16 @@ public class FragmentUrgence extends Fragment {
                                     adapter.notifyItemChanged(i);
                                 }
                             }
-
                         }
                     }
                 });
-
     }
 
     private void saveMessage() {
         msg.setSosText(etMessage.getText().toString());
         msg.saveMessage();
+
+        msg.saveRecipients(adapter.getSelectedIds());
 
         Toast.makeText(this.getContext(), "Message enregistré...", Toast.LENGTH_SHORT).show();
     }
@@ -153,7 +150,6 @@ public class FragmentUrgence extends Fragment {
         }
     }
 
-
     private boolean checkPermission() {
         int READ_CONTACTS = ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.READ_CONTACTS);
         if (READ_CONTACTS != PackageManager.PERMISSION_GRANTED) {
@@ -163,7 +159,4 @@ public class FragmentUrgence extends Fragment {
         return true;
     }
 
-    private void getRecip() {
-        msg.getPatientDocument().get();
-    }
 }

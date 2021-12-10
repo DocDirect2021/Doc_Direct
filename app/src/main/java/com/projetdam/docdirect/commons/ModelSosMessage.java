@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.projetdam.docdirect.adapter.RecipientAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,12 +56,13 @@ public class ModelSosMessage {
         this.recipients = recipients;
     }
 
-    public void saveMessage() {
-        List<Long> arr = new ArrayList<>(contactIds);
+    public void saveRecipients(List<Long> arr) {
         Map<String, Object> ids = new HashMap<>();
         ids.put("sos_contact_id", arr);
         patientDocument.update(ids);
+    }
 
+    public void saveMessage() {
         Map<String, Object> text = new HashMap<>();
         text.put("sos_text", sosText);
         patientDocument.update(text);

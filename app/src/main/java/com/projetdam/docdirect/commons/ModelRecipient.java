@@ -1,6 +1,6 @@
 package com.projetdam.docdirect.commons;
 
-public class ModelRecipient {
+public class ModelRecipient implements Comparable<ModelRecipient> {
     private String name;
     private String phone;
     private String email;
@@ -53,5 +53,16 @@ public class ModelRecipient {
 
     public void setChecked(boolean checked) {
         this.checked = checked;
+    }
+
+    @Override
+    public int compareTo(ModelRecipient r) {
+        if (this.checked == r.checked) {
+            return 0;
+        } else if (this.checked) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 }

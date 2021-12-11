@@ -32,6 +32,7 @@ import com.projetdam.docdirect.commons.ModelSosMessage;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -68,11 +69,16 @@ public class FragmentUrgence extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_urgence, container, false);
 
         init();
+        if (checkPermission()) {
+            queryContacts();
+        }
 
         btnSaveMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 saveMessage();
+                Collections.sort(recipients);
+                adapter.notifyDataSetChanged();
             }
         });
 
@@ -88,9 +94,6 @@ public class FragmentUrgence extends Fragment {
         adapter = new RecipientAdapter(rootView.getContext(), recipients);
         recyclerView.setAdapter(adapter);
 
-        if (checkPermission()) {
-            queryContacts();
-        }
         return rootView;
     }
 
@@ -116,9 +119,10 @@ public class FragmentUrgence extends Fragment {
                                 Long id = recipient.getContactId();
                                 if (ids.contains(id)) {
                                     recipient.setChecked(true);
-                                    adapter.notifyItemChanged(i);
                                 }
                             }
+                            Collections.sort(recipients);
+                            adapter.notifyDataSetChanged();
                         }
                     }
                 });

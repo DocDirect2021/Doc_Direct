@@ -10,5 +10,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="message_sos">Message d\'urgence :</string>
     <string name="save">Enregistrer</string>
+    <string name="send">Envoyer</string>
+    <string name="enter_message">Votre message...</string>
 
 </resources>

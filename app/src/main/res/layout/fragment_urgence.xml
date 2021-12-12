@@ -29,7 +29,7 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="Votre message..."
+        android:hint="@string/enter_message"
         android:inputType="textMultiLine"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -58,27 +58,6 @@
             android:layout_weight="1"
             android:text="@string/save" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="138dp">
-
-        <Button
-            android:id="@+id/btnAddRecipient"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"
-            android:text="Ajout Contact" />
-
         <Button
             android:id="@+id/btnSendMsg"
             android:layout_width="wrap_content"
@@ -86,14 +65,14 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
-            android:text="Envoi" />
+            android:text="@string/send" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvRecipients"
         android:layout_width="409dp"
-        android:layout_height="333dp"
+        android:layout_height="377dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

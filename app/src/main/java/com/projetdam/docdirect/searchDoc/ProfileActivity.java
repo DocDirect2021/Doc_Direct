@@ -1,4 +1,4 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.searchDoc;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -16,6 +16,14 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.projetdam.docdirect.MainActivity;
+import com.projetdam.docdirect.R;
+import com.projetdam.docdirect.fragments.FragmentAccueil;
+import com.projetdam.docdirect.fragments.FragmentCompte;
+import com.projetdam.docdirect.fragments.FragmentDocuments;
+import com.projetdam.docdirect.fragments.FragmentFilter;
+import com.projetdam.docdirect.fragments.FragmentRendezVous;
+import com.projetdam.docdirect.fragments.FragmentUrgence;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentFilter.NoticeDialogListener {
 

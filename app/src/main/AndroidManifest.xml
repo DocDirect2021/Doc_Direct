@@ -34,9 +34,7 @@
         <activity
             android:name=".authentification.RegisterUser"
             android:exported="false" />
-        <activity
-            android:name=".RdvActivity"
-            android:exported="true" />
+
 
         <service
             android:name="org.jitsi.meet.sdk.ConnectionService"

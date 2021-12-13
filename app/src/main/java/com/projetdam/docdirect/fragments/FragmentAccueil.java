@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,11 +115,12 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                     @Override
                     public void onItemClick(int pos) {
                         Intent intent = new Intent(getActivity(), DetailActivity.class);
-                        intent.putExtra(NodesNames.KEY_NOM,listDoc.get(pos).getName());
-                        intent.putExtra(NodesNames.KEY_PRENOM,listDoc.get(pos).getFirstname());
-                        intent.putExtra(NodesNames.KEY_TELEPHONE,listDoc.get(pos).getPhone());
-                        intent.putExtra(NodesNames.KEY_AVATAR,listDoc.get(pos).getAvatar().toString());
-                        intent.putExtra(NodesNames.KEY_ID,listDoc.get(pos).getDocumentID());
+//                        intent.putExtra(NodesNames.KEY_NOM,listDoc.get(pos).getName());
+//                        intent.putExtra(NodesNames.KEY_PRENOM,listDoc.get(pos).getFirstname());
+//                        intent.putExtra(NodesNames.KEY_TELEPHONE,listDoc.get(pos).getPhone());
+//                        intent.putExtra(NodesNames.KEY_AVATAR,listDoc.get(pos).getAvatar().toString());
+//                        intent.putExtra(NodesNames.KEY_ID,listDoc.get(pos).getDocumentID());
+                        intent.putExtra("doctor", listDoc.get(pos));
                         startActivity(intent);
                     }
 
@@ -191,7 +193,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                 intent.putExtra(NodesNames.KEY_TELEPHONE,md.getPhone());
                 intent.putExtra(NodesNames.KEY_AVATAR,md.getAvatar().toString());
                 intent.putExtra(NodesNames.KEY_ID,md.getDocumentID());
-
+                intent.putExtra("doctor", (Parcelable) marker.getTag());
                 startActivity(intent);
 
             }

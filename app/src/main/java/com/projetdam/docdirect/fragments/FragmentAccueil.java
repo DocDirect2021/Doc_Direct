@@ -42,6 +42,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.projetdam.docdirect.AddSampleDatasToFirebase;
+import com.projetdam.docdirect.R;
+import com.projetdam.docdirect.adapter.AdapterDoctor;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.NodesNames;
 import com.projetdam.docdirect.searchDoc.DetailActivity;
@@ -247,7 +250,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                             // Logic to handle location object
                             LatLng paris = new LatLng(location.getLatitude(), location.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paris, 12.0f));
-                           ArrayList<Uri> al=AddSampleDatasToFirebase.addDatasToFireBase(getContext());
+                           ArrayList<Uri> al= AddSampleDatasToFirebase.addDatasToFireBase(getContext());
 
                             init();
                             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {

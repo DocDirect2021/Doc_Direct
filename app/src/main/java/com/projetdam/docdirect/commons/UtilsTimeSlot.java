@@ -19,14 +19,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UtilsTimeSlot {
     private static final String TAG = "TEST TEST";
-    private static LocalTime time;
 
     public static CollectionReference doctors = FirebaseFirestore.getInstance().collection("doctors");
     public static CollectionReference consultations = FirebaseFirestore.getInstance().collection("consultations");
@@ -36,14 +34,20 @@ public class UtilsTimeSlot {
     public static ArrayList<String> createSlots(String startTime, String endTime, int duration) {
         ArrayList<String> hours = new ArrayList<>();
 
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-        LocalTime t1 = LocalTime.parse(startTime, timeFormatter);
-        LocalTime t2 = LocalTime.parse(endTime, timeFormatter);
+        LocalTime t1 = LocalTime.parse(startTime);
+        LocalTime t2 = LocalTime.parse(endTime);
 
         for (LocalTime t = t1; t.toSecondOfDay() < t2.toSecondOfDay(); t = t.plusMinutes(duration)) {
-            hours.add(t.format(timeFormatter));
+            hours.add(formatHeure(t));
         }
         return hours;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String formatHeure(LocalTime h) {
+        String hh = String.format("%02d", h.getHour());
+        String mm = String.format("%02d", h.getMinute());
+        return hh + ":" + mm;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

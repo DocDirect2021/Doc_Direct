@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.util.LogTime;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.adapter.PatientRdvAdapter;
 import com.projetdam.docdirect.commons.ModelDoctor;
+import com.projetdam.docdirect.commons.ModelHistRdv;
 import com.projetdam.docdirect.commons.ModelTimeSlot;
 import com.projetdam.docdirect.commons.RdvInformation;
 import com.projetdam.docdirect.commons.UtilsTimeSlot;
@@ -40,6 +42,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import io.grpc.internal.LogExceptionRunnable;
 
 public class PatientRendezVousActivity extends AppCompatActivity {
     private static final String TAG = "TEST TEST TEST TEST";
@@ -69,7 +73,7 @@ public class PatientRendezVousActivity extends AppCompatActivity {
         mList = new ArrayList<>();
         ModelTimeSlot rdv =
                 new ModelTimeSlot(doctor.getDoctorId(), patientId, "", "", "", false, doctor.getFirstname(),doctor.getName(),doctor.getSpeciality());
-
+        Log.e("onSuccess rdv", rdv + "_" +doctor.getDoctorId());
         /****/
         Map<String, ArrayList<String>> myMaps = new HashMap<String, ArrayList<String>>();
         CollectionReference consultations = FirebaseFirestore.getInstance().collection("consultations");
@@ -77,16 +81,18 @@ public class PatientRendezVousActivity extends AppCompatActivity {
 
 
         Query docRef = consultations.document(doctorId).collection("slots");
-
         docRef.whereEqualTo("patientId","").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 String key="";
                 List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                Log.e("onSuccess snapshotList", String.valueOf(snapshotList.size()) + " idDoc " +doctor.getDoctorId() +" doctorId " +doctorId);
+
                 for(DocumentSnapshot snapshot : snapshotList)
                 {
-
                     key = snapshot.getData().get("date").toString();
+                    Log.e("onSuccess key", key);
+                    Log.e("onSuccess startTime", snapshot.getData().get("startTime").toString());
 
                     if (myMaps.containsKey(key)) {
                         myMaps.get(key).add(snapshot.getData().get("startTime").toString());

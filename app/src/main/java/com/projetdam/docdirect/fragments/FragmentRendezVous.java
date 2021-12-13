@@ -17,6 +17,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -63,6 +66,7 @@ public class FragmentRendezVous extends Fragment {
         //Gol.addLog(emplacement, "onAttach");
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onStart() {
@@ -108,6 +112,7 @@ public class FragmentRendezVous extends Fragment {
         histoRdvRecyView = view.findViewById(R.id.histoRdvRecyView);
         histoRdvRecyView.setHasFixedSize(true);
         histoRdvRecyView.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         return view;
     }

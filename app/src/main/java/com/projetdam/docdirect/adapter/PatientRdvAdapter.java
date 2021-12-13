@@ -42,6 +42,7 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
     private String patientId;
     private List<RdvInformation> mList;
     private RdvInformation rdvInfo;
+    int position;
 
     public PatientRdvAdapter(Context context, List<RdvInformation> mList, ModelDoctor doctor, String patientId) {
         this.parentContext = context;
@@ -54,7 +55,8 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
     public PatientRdvsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parentContext);
         View view = inflater.inflate(R.layout.row_patient_rdv, parent, false);
-        return new PatientRdvsHolder(view);
+        PatientRdvsHolder myPatientRdvsHolder = new PatientRdvsHolder(view);
+        return myPatientRdvsHolder;
     }
 
     @Override
@@ -155,6 +157,7 @@ public class PatientRdvAdapter extends RecyclerView.Adapter<PatientRdvAdapter.Pa
                             public void onClick(DialogInterface dialog, int which) {
                                 Toast.makeText(parentContext, "Rendez-vous confirmé !", Toast.LENGTH_LONG).show();
                                 confirmRdv(rdvInfo.getMykey(), hour);
+
                             }
                         });
                         builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

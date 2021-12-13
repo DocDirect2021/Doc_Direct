@@ -101,6 +101,44 @@ public class UtilsTimeSlot {
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void annulRdv(ModelTimeSlot slot) {
+        String patientId = slot.getPatientId();
+        String doctorId = slot.getDoctorId();
+        String rdvId = slot.getCreateId();
+
+       DocumentReference docRef =  consultations.document(doctorId).collection("slots").document(rdvId);
+        Map<String, Object> map = new HashMap<>();
+        map.put("patientId", "");
+        docRef.update(map)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.e("onSuccess update", "update the doc with field patientId");
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("onFailure update", "update the doc with field patientId ", e);
+
+                    }
+                });
+
+        patients.document(patientId).collection("rdvs").document(rdvId).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.e("onSuccess update", "delete the doc");
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("onFailure update", "delete the doc ", e);
+
+                    }
+                });
 
     }
 

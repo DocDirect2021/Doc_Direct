@@ -12,11 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,10 +31,16 @@ import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.ModelHistRdv;
 import com.projetdam.docdirect.commons.ModelTimeSlot;
+import com.projetdam.docdirect.commons.RdvInformation;
 import com.projetdam.docdirect.commons.UtilsTimeSlot;
 import com.projetdam.docdirect.rdvPatient.PatientRendezVousActivity;
 import com.projetdam.docdirect.searchDoc.DetailActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.AdapterHistoRdvHolder> {
@@ -37,9 +49,8 @@ public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.Adapte
     private String patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
     private ModelHistRdv HistRdv;
     private Context context;
-    private String doctorId;
 
-
+    int position;
     public AdapterHistoRdv(Context context, ArrayList<ModelHistRdv> listHistRdv) {
         this.listHistRdv = listHistRdv;
         this.context = context;
@@ -51,6 +62,8 @@ public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.Adapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_historique_rdv, parent, false);
         AdapterHistoRdvHolder HistoRdvHolder = new AdapterHistoRdvHolder(view);
 
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
         HistoRdvHolder.imgAnnuler.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +72,12 @@ public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.Adapte
                 //Toast.makeText(context, "test " + String.valueOf(HistoRdvHolder.getBindingAdapterPosition() + "" + HistoRdvHolder.txtStartTime.getText()), Toast.LENGTH_SHORT).show();
                 String timeArdv = HistoRdvHolder.txtStartTime.getText().toString();
                 String dateArdv = HistoRdvHolder.txtJour.getText().toString();
-                String docIdArdv = HistoRdvHolder.txtNameDoc.getText().toString();
+                String docnameArdv = HistoRdvHolder.txtNameDoc.getText().toString();
                 String docSpArdv = HistoRdvHolder.txtSpecialite.getText().toString();
+                String docId = HistoRdvHolder.docId.getText().toString();
+
+                 position = HistoRdvHolder.getBindingAdapterPosition();
+
 
                 builder.setTitle("Votre rdv : " + HistRdv.getDate())
                         .setMessage("à : " + HistRdv.getStartTime() + " avec le Dr " + HistRdv.getName());
@@ -68,9 +85,13 @@ public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.Adapte
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(context, "Rendez-vous annulé !", Toast.LENGTH_LONG).show();
-                        annulerRdv(HistRdv.getDate(), HistRdv.getStartTime());
+                        Toast.makeText(context, "Votre rendez-vous est annulé !", Toast.LENGTH_LONG).show();
+                        annulerRdv(docId, dateArdv, timeArdv);
+                        listHistRdv.remove(position);
+                        notifyItemRemoved(position);
+
                     }
+
                 });
                 builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
@@ -78,6 +99,7 @@ public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.Adapte
                         Toast.makeText(context, "Rendez-vous pas anuulé !", Toast.LENGTH_LONG).show();
                     }
                 });
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
@@ -86,16 +108,30 @@ public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.Adapte
         return HistoRdvHolder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull AdapterHistoRdvHolder holder, int position) {
         HistRdv = listHistRdv.get(position);
-        //holder.imgDoc.setImageResource(listHistRdv.get(position).getAvatar());
         holder.txtJour.setText(HistRdv.getDate());
         holder.txtNameDoc.setText(HistRdv.getFirstname() + " " + HistRdv.getName());
         holder.txtSpecialite.setText(HistRdv.getSpeciality());
         holder.txtStartTime.setText(HistRdv.getStartTime());
-        //holder.imgAnnuler.setImageDrawable(Drawable.createFromPath("ic_delete"));
+        holder.docId.setText(HistRdv.getDoctorId());
+        String dateRdv = HistRdv.getDate() + " " + HistRdv.getStartTime();
 
+        //if dateRdv > dateJour afficher le bouton imgAnnule
+        LocalDateTime today = LocalDateTime .now();     //Today
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String todaytxt = today.format(formatters);
+        String stringToday =  todaytxt.replaceAll("-", "/");
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy/MM/dd h:m");
+        try {
+            if(formatDate.parse(stringToday).before(formatDate.parse(dateRdv))){
+                holder.imgAnnuler.setVisibility(View.VISIBLE);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -113,6 +149,8 @@ public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.Adapte
         private TextView txtSpecialite;
         private ImageView imgAnnuler;
 
+        private TextView docId;
+
         public AdapterHistoRdvHolder(@NonNull View itemView) {
             super(itemView);
             txtJour = itemView.findViewById(R.id.txtJour);
@@ -121,14 +159,19 @@ public class AdapterHistoRdv extends RecyclerView.Adapter<AdapterHistoRdv.Adapte
             txtSpecialite = itemView.findViewById(R.id.txtSpecialite);
             // imgDoc = itemView.findViewById(R.id.imgDoc);
             imgAnnuler = itemView.findViewById(R.id.imgAnnuler);
+            docId = itemView.findViewById(R.id.txtDocId);
+
 
         }
     }
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void annulerRdv(String date, String hour) {
+    private void annulerRdv(String docId ,String date, String hour) {
         ModelTimeSlot rdv =
-                new ModelTimeSlot(HistRdv.getDoctorId(), patientId, HistRdv.getDate(), HistRdv.getStartTime(), "", false,HistRdv.getFirstname(), HistRdv.getName(),HistRdv.getSpeciality());
+                new ModelTimeSlot(docId, patientId, date, hour, "", false,"", "","");
+        Log.e("onSuccess update",docId);
         UtilsTimeSlot.annulRdv(rdv);
+//        listHistRdv.remove(position);
+//        notifyItemRemoved(position);
     }
 
 }

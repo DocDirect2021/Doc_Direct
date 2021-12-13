@@ -11,7 +11,7 @@ import com.google.android.gms.maps.model.Marker;
 
 public class FrangmentInfo implements GoogleMap.InfoWindowAdapter {
 
-    private Context context;
+    private final Context context;
 
     public FrangmentInfo(Context context) {
         this.context = context;

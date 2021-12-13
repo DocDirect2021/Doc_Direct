@@ -1,0 +1,51 @@
+apply plugin: 'com.android.library'
+
+
+android {
+  compileSdkVersion 31
+
+  defaultConfig {
+    minSdkVersion 14
+    targetSdkVersion 31
+      ndk {
+      moduleName "Scanner"
+    }
+  }
+  /*sourceSets.main {
+    jni.srcDirs = []
+    jniLibs.srcDir 'src/main/libs'
+  }*/
+  buildTypes {
+    release {
+
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+
+repositories {
+  mavenCentral()
+  maven {
+    url 'https://raw.github.com/vRallev/mvn-repo/master/'
+  }
+  maven {
+    url "https://jitpack.io"
+  }
+  flatDir { dirs 'libs' }
+
+  google()
+}
+
+
+dependencies {
+  implementation fileTree(include: ['*.jar'], dir: 'libs')
+  implementation('com.davemorrissey.labs:subsampling-scale-image-view:3.10.0', {
+    exclude group: 'com.android.support'
+  })
+  implementation 'androidx.appcompat:appcompat:1.4.0'
+  implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
+  implementation project(path: ':opencv')
+
+
+}

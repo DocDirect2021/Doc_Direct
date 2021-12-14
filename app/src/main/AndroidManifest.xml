@@ -70,9 +70,6 @@
             android:exported="true" />
 
         <activity
-            android:name=".DocActivity"
-            android:exported="true" />
-        <activity
             android:name=".rdvPatient.PatientRendezVousActivity"
             android:exported="true">
 

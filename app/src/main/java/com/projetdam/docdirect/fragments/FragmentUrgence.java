@@ -1,4 +1,4 @@
-package com.projetdam.docdirect;
+package com.projetdam.docdirect.fragments;
 
 import android.Manifest;
 import android.content.ContentResolver;
@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.adapter.RecipientAdapter;
 import com.projetdam.docdirect.commons.ModelRecipient;
 import com.projetdam.docdirect.commons.ModelSosMessage;

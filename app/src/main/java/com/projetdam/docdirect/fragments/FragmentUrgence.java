@@ -105,12 +105,12 @@ public class FragmentUrgence extends Fragment {
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
+                        if (documentSnapshot.exists()&&documentSnapshot.get("sos_contact_id")!=null) {
                             String text;
                             text = documentSnapshot.getString("sos_text");
                             etMessage.setText(text);
-
-                            HashSet<Long> ids = new HashSet<Long>((Collection<? extends Long>) documentSnapshot.get("sos_contact_id"));
+                            HashSet<Long> ids =null;
+                            ids= new HashSet<Long>((Collection<? extends Long>) documentSnapshot.get("sos_contact_id"));
                             msg.setContactIds(ids);
 
                             // on coche les contacts selectionnés

@@ -43,7 +43,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.projetdam.docdirect.AddSampleDatasToFirebase;
+import com.projetdam.docdirect.commons.AddSampleDatasToFirebase;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.adapter.AdapterDoctor;
 import com.projetdam.docdirect.commons.ModelDoctor;
@@ -52,7 +52,6 @@ import com.projetdam.docdirect.searchDoc.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-
 
 public class FragmentAccueil extends Fragment implements OnMapReadyCallback, FragmentFilter.NoticeDialogListener {
 
@@ -65,22 +64,17 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
     private Query query;
     RecyclerView recyclerView;
 
-
     public void init() {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         query = db.collection("doctors").whereEqualTo("city", "Paris");
-        listeco =new boolean[getResources().getStringArray(R.array.specialites).length];
-
-
+        listeco = new boolean[getResources().getStringArray(R.array.specialites).length];
 
     }
-
 
     public FragmentAccueil() {
         // Required empty public constructor
     }
-
 
     // Variable emplacement
     private static final String emplacement
@@ -91,9 +85,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         super.onAttach(context);
         //Gol.addLog(emplacement, "onAttach");
 
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,29 +97,21 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         imageButton = view.findViewById(R.id.imageButton);
         rechercheView = view.findViewById(R.id.rechercheView);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        LinearLayoutManager llm = new LinearLayoutManager(view.getContext(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager llm = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
 
-       // FirestoreRecyclerOptions<ModelDoctor> products=new FirestoreRecyclerOptions.Builder<ModelDoctor>().setQuery(query,ModelDoctor.class).build();
+        // FirestoreRecyclerOptions<ModelDoctor> products=new FirestoreRecyclerOptions.Builder<ModelDoctor>().setQuery(query,ModelDoctor.class).build();
         adapterDoctor = new AdapterDoctor(view.getContext(), listDoc);
         recyclerView.setAdapter(adapterDoctor);
-                recyclerView.setLayoutManager(llm);
-                adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int pos) {
-                        Intent intent = new Intent(getActivity(), DetailActivity.class);
-//                        intent.putExtra(NodesNames.KEY_NOM,listDoc.get(pos).getName());
-//                        intent.putExtra(NodesNames.KEY_PRENOM,listDoc.get(pos).getFirstname());
-//                        intent.putExtra(NodesNames.KEY_TELEPHONE,listDoc.get(pos).getPhone());
-//                        intent.putExtra(NodesNames.KEY_AVATAR,listDoc.get(pos).getAvatar().toString());
-//                        intent.putExtra(NodesNames.KEY_ID,listDoc.get(pos).getDocumentID());
-                        intent.putExtra("doctor", listDoc.get(pos));
-                        startActivity(intent);
-                    }
+        recyclerView.setLayoutManager(llm);
+        adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
+            @Override
+            public void onItemClick(int pos) {
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                intent.putExtra("doctor", listDoc.get(pos));
+                startActivity(intent);
+            }
 
-
-
-                });
-
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -144,7 +128,6 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
     public void onResume() {
         // Gol.addLog(emplacement, "onResume");
         super.onResume();
-
 
     }
 
@@ -186,13 +169,13 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(@NonNull Marker marker) {
-                ModelDoctor md=(ModelDoctor)(marker.getTag());
+                ModelDoctor md = (ModelDoctor) (marker.getTag());
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra(NodesNames.KEY_NOM,md.getName());
-                intent.putExtra(NodesNames.KEY_PRENOM,md.getFirstname());
-                intent.putExtra(NodesNames.KEY_TELEPHONE,md.getPhone());
-                intent.putExtra(NodesNames.KEY_AVATAR,md.getAvatar().toString());
-                intent.putExtra(NodesNames.KEY_ID,md.getDocumentID());
+                intent.putExtra(NodesNames.KEY_NOM, md.getName());
+                intent.putExtra(NodesNames.KEY_PRENOM, md.getFirstname());
+                intent.putExtra(NodesNames.KEY_TELEPHONE, md.getPhone());
+                intent.putExtra(NodesNames.KEY_AVATAR, md.getAvatar().toString());
+                intent.putExtra(NodesNames.KEY_ID, md.getDocumentID());
                 intent.putExtra("doctor", (Parcelable) marker.getTag());
                 startActivity(intent);
 
@@ -205,9 +188,9 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                 View v = getLayoutInflater().inflate(R.layout.activity_detail, null);
 
                 TextView markerLabel = (TextView) v.findViewById(R.id.tvTitleDetail);
-                TextView markerSpe =(TextView) v.findViewById(R.id.tvActeurDetail);
-                ImageView markerImage=(ImageView) v.findViewById(R.id.ivAfficheDetail);
-                ModelDoctor md=(ModelDoctor)(marker.getTag());
+                TextView markerSpe = (TextView) v.findViewById(R.id.tvActeurDetail);
+                ImageView markerImage = (ImageView) v.findViewById(R.id.ivAfficheDetail);
+                ModelDoctor md = (ModelDoctor) (marker.getTag());
                 markerLabel.setText(md.getName());
                 markerSpe.setText(md.getSpeciality());
 
@@ -215,9 +198,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                         .error(R.mipmap.ic_launcher)
                         .placeholder(R.mipmap.ic_launcher);
                 Context context = getContext();
-                Glide.with(context).load(md.getAvatar()).apply(options).fitCenter().circleCrop().override(150,150).diskCacheStrategy(DiskCacheStrategy.ALL).into(markerImage);
-
-
+                Glide.with(context).load(md.getAvatar()).apply(options).fitCenter().circleCrop().override(150, 150).diskCacheStrategy(DiskCacheStrategy.ALL).into(markerImage);
 
                 return v;
             }
@@ -252,7 +233,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                             // Logic to handle location object
                             LatLng paris = new LatLng(location.getLatitude(), location.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paris, 12.0f));
-                           ArrayList<Uri> al= AddSampleDatasToFirebase.addDatasToFireBase(getContext());
+                            ArrayList<Uri> al = AddSampleDatasToFirebase.addDatasToFireBase(getContext());
 
                             init();
                             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -261,15 +242,12 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                         ModelDoctor doc = documentSnapshot.toObject(ModelDoctor.class);
 
-                                        doc.setAvatar(al.get((listDoc.size())%al.size()));
+                                        doc.setAvatar(al.get((listDoc.size()) % al.size()));
                                         Location loc = new Location("d2");
                                         loc.setLatitude(doc.getGeoloc().getLatitude());
                                         loc.setLongitude(doc.getGeoloc().getLongitude());
                                         doc.setDistance(location.distanceTo(loc));
                                         listDoc.add(doc);
-
-
-
 
                                     }
                                     listDoc.sort(new Comparator<ModelDoctor>() {
@@ -286,7 +264,6 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                                         }
                                     });
 
-
                                     adapterDoctor.notifyDataSetChanged();
 
                                 }
@@ -297,16 +274,14 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
 
                 });
 
-
-
         rechercheView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 mMap.clear();
-                for(ModelDoctor doc:listDoc)
-                    if(doc.getName()!=null&&doc.getName().contains(s)){
+                for (ModelDoctor doc : listDoc)
+                    if (doc.getName() != null && doc.getName().contains(s)) {
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         m.setTag(doc);
                     }
                 return false;
@@ -315,32 +290,25 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             @Override
             public boolean onQueryTextChange(String s) {
                 mMap.clear();
-                for(ModelDoctor doc:listDoc)
-                    if(doc.getName()!=null&&doc.getName().contains(s)){
+                for (ModelDoctor doc : listDoc)
+                    if (doc.getName() != null && doc.getName().contains(s)) {
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         m.setTag(doc);
                     }
                 return false;
             }
         });
 
-
-
-
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
                 FragmentFilter f = new FragmentFilter();
                 Bundle args = new Bundle();
-                args.putBooleanArray("checked",listeco);
+                args.putBooleanArray("checked", listeco);
                 f.setArguments(args);
-                f.show(getChildFragmentManager(),"Filter");
-
-
-
+                f.show(getChildFragmentManager(), "Filter");
 
             }
         });
@@ -348,29 +316,23 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-                mMap.clear();
+        mMap.clear();
 
-                ArrayList<String> listec=new ArrayList<String>();
-                FragmentFilter ff=(FragmentFilter) dialog;
-                listeco=ff.getSelectedItems();
-                for(int i=0;i<dialog.getResources().getStringArray(R.array.specialites).length;i++)
-                    if(listeco[i])
-                        listec.add(dialog.getResources().getStringArray(R.array.specialites)[i]);
+        ArrayList<String> listec = new ArrayList<String>();
+        FragmentFilter ff = (FragmentFilter) dialog;
+        listeco = ff.getSelectedItems();
+        for (int i = 0; i < dialog.getResources().getStringArray(R.array.specialites).length; i++)
+            if (listeco[i])
+                listec.add(dialog.getResources().getStringArray(R.array.specialites)[i]);
 
-
-
-
-                for(ModelDoctor doc:listDoc)
-                    if(listec.contains(doc.getSpeciality())){
-                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m=mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName()+" "+doc.getFirstname()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                        m.setTag(doc);
-                    }
-
+        for (ModelDoctor doc : listDoc)
+            if (listec.contains(doc.getSpeciality())) {
+                LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+                Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName() + " " + doc.getFirstname()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                m.setTag(doc);
             }
 
-
-
+    }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {

@@ -118,49 +118,6 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         return view;
     }
 
-    @Override
-    public void onStart() {
-        // Gol.addLog(emplacement, "onStart");
-        super.onStart();
-    }
-
-    @Override
-    public void onResume() {
-        // Gol.addLog(emplacement, "onResume");
-        super.onResume();
-
-    }
-
-    @Override
-    public void onPause() {
-        //Gol.addLog(emplacement, "onPause");
-        super.onPause();
-    }
-
-    @Override
-    public void onStop() {
-        //Gol.addLog(emplacement, "onStop");
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroyView() {
-        //Gol.addLog(emplacement, "onDestroyView");
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        //Gol.addLog(emplacement, "onDestroy");
-        super.onDestroy();
-    }
-
-    @Override
-    public void onDetach() {
-        //Gol.addLog(emplacement, "onDetach");
-        super.onDetach();
-    }
-
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -279,7 +236,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             public boolean onQueryTextSubmit(String s) {
                 mMap.clear();
                 for (ModelDoctor doc : listDoc)
-                    if (doc.getName() != null && doc.getName().contains(s)) {
+                    if (doc.getName() != null && doc.getName().contains(s.toUpperCase())) {
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                         Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         m.setTag(doc);
@@ -291,7 +248,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             public boolean onQueryTextChange(String s) {
                 mMap.clear();
                 for (ModelDoctor doc : listDoc)
-                    if (doc.getName() != null && doc.getName().contains(s)) {
+                    if (doc.getName() != null && doc.getName().contains(s.toUpperCase())) {
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                         Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         m.setTag(doc);

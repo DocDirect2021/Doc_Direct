@@ -65,26 +65,19 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
     RecyclerView recyclerView;
 
     public void init() {
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         query = db.collection("doctors").whereEqualTo("city", "Paris");
         listeco = new boolean[getResources().getStringArray(R.array.specialites).length];
-
     }
 
     public FragmentAccueil() {
         // Required empty public constructor
     }
 
-    // Variable emplacement
-    private static final String emplacement
-            = FragmentAccueil.class.getSimpleName();
-
     @Override
     public void onAttach(@NonNull @Nullable Context context) {
         super.onAttach(context);
         //Gol.addLog(emplacement, "onAttach");
-
     }
 
     @Override
@@ -110,7 +103,6 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                 intent.putExtra("doctor", listDoc.get(pos));
                 startActivity(intent);
             }
-
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -128,14 +120,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             public void onInfoWindowClick(@NonNull Marker marker) {
                 ModelDoctor md = (ModelDoctor) (marker.getTag());
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra(NodesNames.KEY_NOM, md.getName());
-                intent.putExtra(NodesNames.KEY_PRENOM, md.getFirstname());
-                intent.putExtra(NodesNames.KEY_TELEPHONE, md.getPhone());
-                intent.putExtra(NodesNames.KEY_AVATAR, md.getAvatar().toString());
-                intent.putExtra(NodesNames.KEY_ID, md.getDocumentID());
                 intent.putExtra("doctor", (Parcelable) marker.getTag());
                 startActivity(intent);
-
             }
         });
         mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
@@ -205,8 +191,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                                         loc.setLongitude(doc.getGeoloc().getLongitude());
                                         doc.setDistance(location.distanceTo(loc));
                                         listDoc.add(doc);
-
                                     }
+
                                     listDoc.sort(new Comparator<ModelDoctor>() {
                                         @Override
                                         public int compare(ModelDoctor modelDoctor, ModelDoctor t1) {
@@ -222,19 +208,17 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                                     });
 
                                     adapterDoctor.notifyDataSetChanged();
-
                                 }
                             });
-
                         }
                     }
-
                 });
 
         rechercheView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 mMap.clear();
+                if (s.isEmpty()) return false;
                 for (ModelDoctor doc : listDoc)
                     if (doc.getName() != null && doc.getName().contains(s.toUpperCase())) {
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
@@ -247,6 +231,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             @Override
             public boolean onQueryTextChange(String s) {
                 mMap.clear();
+                if (s.isEmpty()) return false;
                 for (ModelDoctor doc : listDoc)
                     if (doc.getName() != null && doc.getName().contains(s.toUpperCase())) {
                         LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
@@ -260,13 +245,11 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 FragmentFilter f = new FragmentFilter();
                 Bundle args = new Bundle();
                 args.putBooleanArray("checked", listeco);
                 f.setArguments(args);
                 f.show(getChildFragmentManager(), "Filter");
-
             }
         });
     }
@@ -288,11 +271,9 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                 Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName() + " " + doc.getFirstname()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                 m.setTag(doc);
             }
-
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-
     }
 }

@@ -27,23 +27,19 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvAdresse;
     TextView tvLikes;
     Uri affiche;
-    Button rdv,visio;
+    Button rdv, visio;
     ModelDoctor doctor;
 
-    String titre,acteurs,synopsis,iddoc;
-    int Likes;
+    String titre;
 
     public void init() {
         ivAvatar = findViewById(R.id.ivAfficheDetail);
         tvNom = findViewById(R.id.tvTitleDetail);
         tvAdresse = findViewById(R.id.tvActeurDetail);
         tvLikes = findViewById(R.id.tvAnneeDetail);
-        rdv=findViewById(R.id.button2);
-        visio=findViewById(R.id.button3);
-
+        rdv = findViewById(R.id.button2);
+        visio = findViewById(R.id.button3);
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,23 +64,17 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent nintent = new Intent(DetailActivity.this, PatientRendezVousActivity.class);
-//                nintent.putExtra(NodesNames.KEY_ID, doctorId);
-//                nintent.putExtra(NodesNames.KEY_NOM, titre);
-//                nintent.putExtra(NodesNames.KEY_AVATAR, getIntent().getStringExtra(NodesNames.KEY_AVATAR));
                 nintent.putExtra("doctor", doctor);
                 startActivity(nintent);
             }
         });
 
-
-    visio.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent vintent = new Intent(DetailActivity.this, VisioActivity.class);
-            startActivity(vintent);
-        }
-    });
-
-
+        visio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent vintent = new Intent(DetailActivity.this, VisioActivity.class);
+                startActivity(vintent);
+            }
+        });
     }
 }

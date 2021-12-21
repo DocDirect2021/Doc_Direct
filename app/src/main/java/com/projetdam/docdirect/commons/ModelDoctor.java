@@ -46,8 +46,8 @@ public class ModelDoctor implements Parcelable {
     private Uri avatar;
     private float distance;
 
-    public float getDistance() {
-        return distance;
+    public int getDistance() {
+        return Math.round(distance);
     }
 
     public void setDistance(float distance) {

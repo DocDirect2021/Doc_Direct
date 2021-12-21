@@ -36,21 +36,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     // La gestion des fragments
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-    FragmentAccueil fa;
+    FragmentAccueil fragmentAccueil;
+
     // Gestion de la NavigationView
     private NavigationView navigationView;
-
-    // Variable emplacement
-    private static final String emplacement
-            = MainActivity.class.getSimpleName();
-
-
 
     public void initUI() {
         toolbar = findViewById(R.id.toolbar);
         drawer_layout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_navigationView);
-
     }
 
     @Override
@@ -58,7 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        fa=new FragmentAccueil();
+        fragmentAccueil = new FragmentAccueil();
         // Appel de la méthode d'initialisation de l'UI
         initUI();
         // Ajout du support pour la gestio nde la Toolbar
@@ -85,11 +79,10 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             navigationView.setCheckedItem(R.id.nav_fragmentAccueil);
             getSupportFragmentManager().
                     beginTransaction().
-                    replace(R.id.fragment_container,fa).
+                    replace(R.id.fragment_container, fragmentAccueil).
                     commit();
-
         }
-    }// create
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -98,7 +91,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_fragmentAccueil:
                 getSupportFragmentManager().
                         beginTransaction().
-                        replace(R.id.fragment_container,fa).
+                        replace(R.id.fragment_container, fragmentAccueil).
                         commit();
                 break;
             case R.id.nav_fragmentDocuments:
@@ -129,10 +122,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(ProfileActivity.this, MainActivity.class));
                 finish();
-//                getSupportFragmentManager().
-//                        beginTransaction().
-//                        replace(R.id.fragment_container, new FragmentDeconnexion()).
-//                        commit();
                 break;
         }
 
@@ -159,20 +148,15 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         fragmentTransaction.add(R.id.fragment_container, fragmentAccueil);
         // Finalisation de la création du fragment
         fragmentTransaction.commit();
-
-//        getSupportFragmentManager().
-//                beginTransaction().
-//                add(R.id.fragment_container, new FragmentAccueil()).
-//                commit();
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        fa.onDialogPositiveClick(dialog);
+        fragmentAccueil.onDialogPositiveClick(dialog);
     }
 
     @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        fa.onDialogNegativeClick(dialog);
+        fragmentAccueil.onDialogNegativeClick(dialog);
     }
 }

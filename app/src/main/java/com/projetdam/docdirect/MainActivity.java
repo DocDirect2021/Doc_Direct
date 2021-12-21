@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * var
      **/
-
     private TextView register, forgotPassword;
     private static final String TAG = "Main Activity";
     private EditText edEmailSignUp, edPasswordSignUp;
@@ -39,24 +38,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Initialisation des composants
      **/
     public void init() {
-
         register = findViewById(R.id.register);
         register.setOnClickListener(this);
 
         btSignIn = findViewById(R.id.btSignIn);
         btSignIn.setOnClickListener(this);
 
-        edEmailSignUp = findViewById(R.id.edEmailSignUp);
-        edPasswordSignUp = findViewById(R.id.edPasswordSignUp);
-
-        progressBar = findViewById(R.id.progressBar);
-
-        mAuth = FirebaseAuth.getInstance();
-
         forgotPassword = findViewById(R.id.forgotPassword);
         forgotPassword.setOnClickListener(this);
 
+        edEmailSignUp = findViewById(R.id.edEmailSignUp);
+        edPasswordSignUp = findViewById(R.id.edPasswordSignUp);
+        progressBar = findViewById(R.id.progressBar);
 
+        mAuth = FirebaseAuth.getInstance();
     }
 
     @Override
@@ -64,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-
     }
 
     @Override
@@ -80,33 +74,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, ForgotPassword.class));
                 break;
         }
-
     }
 
     private void userLogin() {
         String email = edEmailSignUp.getText().toString().trim();
         String password = edPasswordSignUp.getText().toString().trim();
 
-        if (email.isEmpty()) {
-            edEmailSignUp.setError("Email doit etre renseigner !");
+        if (email.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edEmailSignUp.setError("Email non valide !");
             edEmailSignUp.requestFocus();
             return;
         }
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            edEmailSignUp.setError("entrer un email correct svp !");
-            edEmailSignUp.requestFocus();
-            return;
-        }
-
-        if (password.isEmpty()) {
-            edPasswordSignUp.setError("Email doit etre renseigner !");
-            edPasswordSignUp.requestFocus();
-            return;
-        }
-
-        if (password.length() < 6) {
-            edPasswordSignUp.setError("6 caractère min pour password !");
+        if (password.isEmpty() || password.length() < 6) {
+            edPasswordSignUp.setError("6 caractères minimum !");
             edPasswordSignUp.requestFocus();
             return;
         }
@@ -115,18 +96,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.INVISIBLE);
                 if (task.isSuccessful()) {
                     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    //if(user.isEmailVerified()){
                     // redirection vers la page profil
                     startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                    //}
-                    //else{
-//                        user.sendEmailVerification();
-//                        Toast.makeText(MainActivity.this, "verifiez votre email", Toast.LENGTH_SHORT).show();
-//                    }
+                    // terminer l’activité courante
+                    finish();
                 } else {
-                    Toast.makeText(MainActivity.this, "Connexion echoué, merci de vérifier vos identifiants", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Connexion echouée, merci de vérifier vos identifiants", Toast.LENGTH_SHORT).show();
                 }
             }
         });

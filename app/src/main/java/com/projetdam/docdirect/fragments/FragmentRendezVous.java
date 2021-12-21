@@ -1,7 +1,6 @@
 package com.projetdam.docdirect.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,36 +16,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.projetdam.docdirect.ConfirmeRdvActivity;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.adapter.AdapterHistoRdv;
-import com.projetdam.docdirect.adapter.PatientRdvAdapter;
-import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.ModelHistRdv;
-import com.projetdam.docdirect.commons.ModelTimeSlot;
-import com.projetdam.docdirect.commons.RdvInformation;
-import com.projetdam.docdirect.rdvPatient.PatientRendezVousActivity;
-import com.projetdam.docdirect.searchDoc.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 
 public class FragmentRendezVous extends Fragment {
 
@@ -60,12 +43,12 @@ public class FragmentRendezVous extends Fragment {
 
     public FragmentRendezVous() {
     }
+
     @Override
     public void onAttach(@NonNull @Nullable Context context) {
         super.onAttach(context);
         //Gol.addLog(emplacement, "onAttach");
     }
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -79,15 +62,14 @@ public class FragmentRendezVous extends Fragment {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                for(DocumentSnapshot snapshot : snapshotList)
-                {
+                for (DocumentSnapshot snapshot : snapshotList) {
                     HistRdv = snapshot.toObject(ModelHistRdv.class);
                     dataHolder.add(HistRdv);
 
                 }
 
                 //dataHolder.add(new ModelHistRdv(listHistRdv));
-                adapter = new AdapterHistoRdv(getContext(),dataHolder);
+                adapter = new AdapterHistoRdv(getContext(), dataHolder);
                 histoRdvRecyView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
@@ -101,7 +83,6 @@ public class FragmentRendezVous extends Fragment {
                     }
                 });
 
-
     }
 
     @Override
@@ -112,7 +93,6 @@ public class FragmentRendezVous extends Fragment {
         histoRdvRecyView = view.findViewById(R.id.histoRdvRecyView);
         histoRdvRecyView.setHasFixedSize(true);
         histoRdvRecyView.setLayoutManager(new LinearLayoutManager(getContext()));
-
 
         return view;
     }

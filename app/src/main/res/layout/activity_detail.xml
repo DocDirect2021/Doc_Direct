@@ -64,7 +64,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="RDV" />
+                android:text="RDV"
+                android:textColor="#01579B" />
 
             <Button
                 android:id="@+id/button3"
@@ -72,7 +73,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:text="RDV Visio" />
+                android:text="RDV Visio"
+                android:textColor="#01579B" />
         </LinearLayout>
     </LinearLayout>
 

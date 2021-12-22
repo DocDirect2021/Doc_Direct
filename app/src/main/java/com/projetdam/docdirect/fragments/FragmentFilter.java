@@ -12,19 +12,21 @@ import androidx.fragment.app.DialogFragment;
 
 import com.projetdam.docdirect.R;
 
-public class FragmentFilter extends DialogFragment  {
-
-
+public class FragmentFilter extends DialogFragment {
 
     public FragmentFilter() {
     }
 
+    /* The activity that creates an instance of this dialog fragment must
+     * implement this interface in order to receive event callbacks.
+     * Each method passes the DialogFragment in case the host needs to query it. */
     public interface NoticeDialogListener {
         void onDialogPositiveClick(DialogFragment dialog);
+
         void onDialogNegativeClick(DialogFragment dialog);
     }
-    NoticeDialogListener listener;
 
+    NoticeDialogListener listener;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -35,12 +37,9 @@ public class FragmentFilter extends DialogFragment  {
             listener = (NoticeDialogListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
-           // throw new ClassCastException(" must implement NoticeDialogListener");
+            // throw new ClassCastException(" must implement NoticeDialogListener");
         }
-
     }
-
-
 
     private boolean[] selectedItems;
     private boolean[] checkeditems;
@@ -49,18 +48,18 @@ public class FragmentFilter extends DialogFragment  {
         return selectedItems;
     }
 
-    public void setSelectedItems(boolean []selectedItems) {
+    public void setSelectedItems(boolean[] selectedItems) {
         this.selectedItems = selectedItems;
     }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        selectedItems=new boolean[getResources().getStringArray(R.array.specialites).length];
+        selectedItems = new boolean[getResources().getStringArray(R.array.specialites).length];
 
-        Bundle args=getArguments();
-        checkeditems=args.getBooleanArray("checked");
+        Bundle args = getArguments();
+        checkeditems = args.getBooleanArray("checked");
 
-          // Where we track the selected items
+        // Where we track the selected items
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Set the dialog title
         builder.setTitle(R.string.choisir_spe)
@@ -71,8 +70,8 @@ public class FragmentFilter extends DialogFragment  {
                             @Override
                             public void onClick(DialogInterface dialog, int which,
                                                 boolean isChecked) {
-                                  // If the user checked the item, add it to the selected items
-                                    selectedItems[which]=isChecked;
+                                // If the user checked the item, add it to the selected items
+                                selectedItems[which] = isChecked;
                             }
                         })
                 // Set the action buttons
@@ -82,7 +81,6 @@ public class FragmentFilter extends DialogFragment  {
                         // User clicked OK, so save the selectedItems results somewhere
                         // or return them to the component that opened the dialog
                         listener.onDialogPositiveClick(FragmentFilter.this);
-
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -91,12 +89,10 @@ public class FragmentFilter extends DialogFragment  {
                         listener.onDialogNegativeClick(FragmentFilter.this);
                     }
                 });
-        View v = getActivity().getLayoutInflater().inflate(R.layout.activity_filter,null);
+        View v = getActivity().getLayoutInflater().inflate(R.layout.activity_filter, null);
         builder.setView(v);
-
 
         return builder.create();
     }
-
 
 }

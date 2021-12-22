@@ -47,7 +47,6 @@ import com.projetdam.docdirect.commons.AddSampleDatasToFirebase;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.adapter.AdapterDoctor;
 import com.projetdam.docdirect.commons.ModelDoctor;
-import com.projetdam.docdirect.commons.NodesNames;
 import com.projetdam.docdirect.searchDoc.DetailActivity;
 
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ import java.util.Comparator;
 
 public class FragmentAccueil extends Fragment implements OnMapReadyCallback, FragmentFilter.NoticeDialogListener {
 
-    private ImageButton imageButton;
+    private ImageButton filterButton;
     private SearchView rechercheView;
     private GoogleMap mMap;
     private ArrayList<ModelDoctor> listDoc;
@@ -87,7 +86,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         // Inflate the layout for this fragment
         listDoc = new ArrayList<ModelDoctor>();
         View view = inflater.inflate(R.layout.fragment_accueil, container, false);
-        imageButton = view.findViewById(R.id.imageButton);
+        filterButton = view.findViewById(R.id.imageButton);
         rechercheView = view.findViewById(R.id.rechercheView);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         LinearLayoutManager llm = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
@@ -134,14 +133,14 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                 TextView markerSpe = (TextView) v.findViewById(R.id.tvActeurDetail);
                 ImageView markerImage = (ImageView) v.findViewById(R.id.ivAfficheDetail);
                 ModelDoctor md = (ModelDoctor) (marker.getTag());
-                markerLabel.setText(md.getName());
+                markerLabel.setText(md.getName() + " " + md.getFirstname());
                 markerSpe.setText(md.getSpeciality());
 
                 RequestOptions options = new RequestOptions().centerCrop()
                         .error(R.mipmap.ic_launcher)
                         .placeholder(R.mipmap.ic_launcher);
                 Context context = getContext();
-                Glide.with(context).load(md.getAvatar()).apply(options).fitCenter().circleCrop().override(150, 150).diskCacheStrategy(DiskCacheStrategy.ALL).into(markerImage);
+                Glide.with(context).load(md.getAvatar()).apply(options).fitCenter().circleCrop().override(80, 80).diskCacheStrategy(DiskCacheStrategy.ALL).into(markerImage);
 
                 return v;
             }
@@ -174,8 +173,8 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             // Logic to handle location object
-                            LatLng paris = new LatLng(location.getLatitude(), location.getLongitude());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(paris, 12.0f));
+                            LatLng coordo = new LatLng(location.getLatitude(), location.getLongitude());
+                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordo, 12.0f));
                             ArrayList<Uri> al = AddSampleDatasToFirebase.addDatasToFireBase(getContext());
 
                             init();
@@ -217,14 +216,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         rechercheView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                mMap.clear();
-                if (s.isEmpty()) return false;
-                for (ModelDoctor doc : listDoc)
-                    if (doc.getName() != null && doc.getName().contains(s.toUpperCase())) {
-                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                        m.setTag(doc);
-                    }
+                // traité avant sur onQueryTextChange
                 return false;
             }
 
@@ -232,17 +224,21 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             public boolean onQueryTextChange(String s) {
                 mMap.clear();
                 if (s.isEmpty()) return false;
+                LatLng coordo;
                 for (ModelDoctor doc : listDoc)
                     if (doc.getName() != null && doc.getName().contains(s.toUpperCase())) {
-                        LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getCity()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        coordo = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+                        Marker m = mMap.addMarker(new MarkerOptions()
+                                .position(coordo)
+                                .title(doc.getCity())
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         m.setTag(doc);
                     }
                 return false;
             }
         });
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentFilter f = new FragmentFilter();
@@ -265,11 +261,18 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             if (listeco[i])
                 listec.add(dialog.getResources().getStringArray(R.array.specialites)[i]);
 
+        LatLng coordo;
         for (ModelDoctor doc : listDoc)
             if (listec.contains(doc.getSpeciality())) {
-                LatLng paris = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                Marker m = mMap.addMarker(new MarkerOptions().position(paris).title(doc.getName() + " " + doc.getFirstname()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                coordo = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+                Marker m = mMap.addMarker(
+                        new MarkerOptions()
+                                .position(coordo)
+                                .title(doc.getName() + "~" + doc.getFirstname())
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                );
                 m.setTag(doc);
+                m.showInfoWindow();
             }
     }
 

@@ -21,7 +21,8 @@
             android:id="@+id/toggleButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textColor="#455A64" />
 
         <TextView
             android:id="@+id/textView2"
@@ -34,7 +35,8 @@
             android:id="@+id/toggleButton2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ToggleButton" />
+            android:text="ToggleButton"
+            android:textColor="#455A64" />
 
         <TextView
             android:id="@+id/textView3"
@@ -44,10 +46,12 @@
             android:textAlignment="center"
             />
 
-        <com.google.android.material.slider.Slider android:layout_width="match_parent"
+        <com.google.android.material.slider.Slider
+            android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:contentDescription="Distance slider"
             android:valueFrom="0.0"
-            android:valueTo="10.0"  />
+            android:valueTo="10.0" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

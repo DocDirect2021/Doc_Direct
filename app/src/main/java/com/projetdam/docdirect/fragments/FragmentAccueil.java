@@ -58,7 +58,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
     private SearchView rechercheView;
     private GoogleMap mMap;
     private ArrayList<ModelDoctor> listDoc;
-    private boolean[] listeco;
+    private boolean[] listeChk;
     private AdapterDoctor adapterDoctor;
     private Query query;
     RecyclerView recyclerView;
@@ -66,7 +66,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
     public void init() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         query = db.collection("doctors").whereEqualTo("city", "Paris");
-        listeco = new boolean[getResources().getStringArray(R.array.specialites).length];
+        listeChk = new boolean[getResources().getStringArray(R.array.specialites).length];
     }
 
     public FragmentAccueil() {
@@ -194,14 +194,15 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
 
                                     listDoc.sort(new Comparator<ModelDoctor>() {
                                         @Override
-                                        public int compare(ModelDoctor modelDoctor, ModelDoctor t1) {
+                                        public int compare(ModelDoctor doc1, ModelDoctor doc2) {
                                             Location loc1 = new Location("d1");
-                                            loc1.setLatitude(modelDoctor.getGeoloc().getLatitude());
-                                            loc1.setLongitude(modelDoctor.getGeoloc().getLongitude());
+                                            loc1.setLatitude(doc1.getGeoloc().getLatitude());
+                                            loc1.setLongitude(doc1.getGeoloc().getLongitude());
 
                                             Location loc2 = new Location("d2");
-                                            loc2.setLatitude(t1.getGeoloc().getLatitude());
-                                            loc2.setLongitude(t1.getGeoloc().getLongitude());
+                                            loc2.setLatitude(doc2.getGeoloc().getLatitude());
+                                            loc2.setLongitude(doc2.getGeoloc().getLongitude());
+
                                             return Float.compare(location.distanceTo(loc1), location.distanceTo(loc2));
                                         }
                                     });
@@ -241,11 +242,11 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentFilter f = new FragmentFilter();
+                FragmentFilter fragFilter = new FragmentFilter();
                 Bundle args = new Bundle();
-                args.putBooleanArray("checked", listeco);
-                f.setArguments(args);
-                f.show(getChildFragmentManager(), "Filter");
+                args.putBooleanArray("checked", listeChk);
+                fragFilter.setArguments(args);
+                fragFilter.show(getChildFragmentManager(), "Filter");
             }
         });
     }
@@ -254,25 +255,24 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
     public void onDialogPositiveClick(DialogFragment dialog) {
         mMap.clear();
 
-        ArrayList<String> listec = new ArrayList<String>();
-        FragmentFilter ff = (FragmentFilter) dialog;
-        listeco = ff.getSelectedItems();
+        ArrayList<String> listeSpe = new ArrayList<String>();
+        FragmentFilter fragFilter = (FragmentFilter) dialog;
+        listeChk = fragFilter.getSelectedItems();
         for (int i = 0; i < dialog.getResources().getStringArray(R.array.specialites).length; i++)
-            if (listeco[i])
-                listec.add(dialog.getResources().getStringArray(R.array.specialites)[i]);
+            if (listeChk[i])
+                listeSpe.add(dialog.getResources().getStringArray(R.array.specialites)[i]);
 
         LatLng coordo;
         for (ModelDoctor doc : listDoc)
-            if (listec.contains(doc.getSpeciality())) {
+            if (listeSpe.contains(doc.getSpeciality())) {
                 coordo = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                 Marker m = mMap.addMarker(
                         new MarkerOptions()
                                 .position(coordo)
-                                .title(doc.getName() + "~" + doc.getFirstname())
+//                                .title(doc.getName() + "~" + doc.getFirstname())
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                 );
                 m.setTag(doc);
-                m.showInfoWindow();
             }
     }
 

@@ -7,8 +7,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,8 +32,6 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     DrawerLayout drawer_layout;
 
     // La gestion des fragments
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     FragmentAccueil fragmentAccueil;
 
     // Gestion de la NavigationView
@@ -74,13 +70,13 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            addFragment();
+            addFragmentAccueil();
             // Force l'affichage du 1er fragment au démarrage
             navigationView.setCheckedItem(R.id.nav_fragmentAccueil);
-            getSupportFragmentManager().
-                    beginTransaction().
-                    replace(R.id.fragment_container, fragmentAccueil).
-                    commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragmentAccueil)
+                    .commit();
         }
     }
 
@@ -89,34 +85,34 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
         switch (item.getItemId()) {
             case R.id.nav_fragmentAccueil:
-                getSupportFragmentManager().
-                        beginTransaction().
-                        replace(R.id.fragment_container, fragmentAccueil).
-                        commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, fragmentAccueil)
+                        .commit();
                 break;
             case R.id.nav_fragmentDocuments:
-                getSupportFragmentManager().
-                        beginTransaction().
-                        replace(R.id.fragment_container, new FragmentDocuments()).
-                        commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new FragmentDocuments())
+                        .commit();
                 break;
             case R.id.nav_fragmentRendezVous:
-                getSupportFragmentManager().
-                        beginTransaction().
-                        replace(R.id.fragment_container, new FragmentRendezVous()).
-                        commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new FragmentRendezVous())
+                        .commit();
                 break;
             case R.id.nav_fragmentUrgence:
-                getSupportFragmentManager().
-                        beginTransaction().
-                        replace(R.id.fragment_container, new FragmentUrgence()).
-                        commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new FragmentUrgence())
+                        .commit();
                 break;
             case R.id.nav_fragmentCompte:
-                getSupportFragmentManager().
-                        beginTransaction().
-                        replace(R.id.fragment_container, new FragmentCompte()).
-                        commit();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragment_container, new FragmentCompte())
+                        .commit();
                 break;
             case R.id.nav_fragmentLogOut:
                 FirebaseAuth.getInstance().signOut();
@@ -138,16 +134,11 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         }
     }
 
-    private void addFragment() {
-        fragmentManager = getSupportFragmentManager();
-        // Commencer la discussion
-        fragmentTransaction = fragmentManager.beginTransaction();
-        // Appel du nouveau fragment
-        FragmentAccueil fragmentAccueil = new FragmentAccueil();
-        // Ajouter au container de fragment
-        fragmentTransaction.add(R.id.fragment_container, fragmentAccueil);
-        // Finalisation de la création du fragment
-        fragmentTransaction.commit();
+    private void addFragmentAccueil() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragment_container, fragmentAccueil)
+                .commit();
     }
 
     @Override

@@ -1,43 +1,26 @@
 package com.projetdam.docdirect.commons;
 
 import android.os.Build;
-import android.text.style.LocaleSpan;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class UtilsTimeSlot {
     private static final String TAG = "TEST TEST";
 
-    public static CollectionReference doctors = FirebaseFirestore.getInstance().collection("doctors");
-    public static CollectionReference consultations = FirebaseFirestore.getInstance().collection("consultations");
-    public static CollectionReference patients = FirebaseFirestore.getInstance().collection("users");
+    private static final CollectionReference consultations = AppSingleton.consultations;
+    private static final CollectionReference patients = AppSingleton.patients;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static ArrayList<String> createSlots(String startTime, String endTime, int duration) {
@@ -50,10 +33,6 @@ public class UtilsTimeSlot {
             hours.add(formatHeure(t));
         }
         return hours;
-
-
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -103,13 +82,14 @@ public class UtilsTimeSlot {
                     }
                 });
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void annulRdv(ModelTimeSlot slot) {
         String patientId = slot.getPatientId();
         String doctorId = slot.getDoctorId();
         String rdvId = slot.getCreateId();
 
-       DocumentReference docRef =  consultations.document(doctorId).collection("slots").document(rdvId);
+        DocumentReference docRef = consultations.document(doctorId).collection("slots").document(rdvId);
         Map<String, Object> map = new HashMap<>();
         map.put("patientId", "");
         docRef.update(map)
@@ -143,7 +123,6 @@ public class UtilsTimeSlot {
 
                     }
                 });
-
     }
 
 }

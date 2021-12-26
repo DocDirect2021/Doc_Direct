@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.projetdam.docdirect.authentification.ForgotPassword;
 import com.projetdam.docdirect.authentification.RegisterUser;
+import com.projetdam.docdirect.commons.AppSingleton;
 import com.projetdam.docdirect.searchDoc.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -98,7 +99,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.INVISIBLE);
                 if (task.isSuccessful()) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    AppSingleton.getInstance()
+                            .setPatientId(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     // redirection vers la page profil
                     startActivity(new Intent(MainActivity.this, ProfileActivity.class));
                     // terminer l’activité courante

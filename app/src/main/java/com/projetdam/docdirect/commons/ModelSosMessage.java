@@ -4,21 +4,18 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.projetdam.docdirect.adapter.RecipientAdapter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 public class ModelSosMessage {
-    private String patientId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    private DocumentReference patientDocument = UtilsTimeSlot.patients.document(patientId);
+    private String patientId = AppSingleton.getInstance().getPatientId();
+    private DocumentReference patientDocument = AppSingleton.patients.document(patientId);
 
     public DocumentReference getPatientDocument() {
         return patientDocument;

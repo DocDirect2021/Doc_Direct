@@ -9,7 +9,6 @@ import androidx.annotation.RequiresApi;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -89,21 +88,16 @@ public class UtilsTimeSlot {
         String doctorId = slot.getDoctorId();
         String rdvId = slot.getCreateId();
 
-        DocumentReference docRef = consultations.document(doctorId).collection("slots").document(rdvId);
-        Map<String, Object> map = new HashMap<>();
-        map.put("patientId", "");
-        docRef.update(map)
+        consultations.document(doctorId).collection("slots").document(rdvId).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.e("onSuccess update", "update the doc with field patientId");
 
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.e("onFailure update", "update the doc with field patientId ", e);
 
                     }
                 });

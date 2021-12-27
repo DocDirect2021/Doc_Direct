@@ -1,4 +1,3 @@
-
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.DocDirect" parent="Theme.MaterialComponents.DayNight.NoActionBar">
@@ -6,7 +5,7 @@
         <!-- Primary brand color. -->
         <item name="colorPrimary">#FBD6E3</item>
         <item name="colorPrimaryVariant">#6DA3CD</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">#3F51B5</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
@@ -16,4 +15,3 @@
         <!-- Customize your theme here. -->
     </style>
 </resources>
-

@@ -14,11 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.projetdam.docdirect.PriseRdvActivity;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.VisioActivity;
 import com.projetdam.docdirect.commons.ModelDoctor;
-import com.projetdam.docdirect.commons.NodesNames;
-import com.projetdam.docdirect.rdvPatient.PatientRendezVousActivity;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -63,9 +62,9 @@ public class DetailActivity extends AppCompatActivity {
         rdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent nintent = new Intent(DetailActivity.this, PatientRendezVousActivity.class);
-                nintent.putExtra("doctor", doctor);
-                startActivity(nintent);
+                Intent intent = new Intent(DetailActivity.this, PriseRdvActivity.class);
+                intent.putExtra("doctor", doctor);
+                startActivity(intent);
             }
         });
 

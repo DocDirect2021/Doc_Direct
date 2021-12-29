@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -43,30 +42,37 @@ public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlo
         int slotCountBy3 = (slotCount - 1) / 3;
         holder.tvDate.setText(daySlots.getDate());
 
+        Button[] btnSlot = new Button[3];
         for (int i = 0; i <= slotCountBy3; i++) {
             TableRow tableRow = (TableRow) LayoutInflater.from(context)
                     .inflate(R.layout.row_three_slots, null);
-            Button button1 = tableRow.findViewById(R.id.btnSlot1);
-            Button button2 = tableRow.findViewById(R.id.btnSlot2);
-            Button button3 = tableRow.findViewById(R.id.btnSlot3);
-            int j = 3 * i;
-            if (j < slotCount) {
-                button1.setText(slots.get(j));
-            } else {
-                button1.setVisibility(View.INVISIBLE);
-            }
-            if (++j < slotCount) {
-                button2.setText(slots.get(j));
-            } else {
-                button2.setVisibility(View.INVISIBLE);
-            }
-            if (++j < slotCount) {
-                button3.setText(slots.get(j));
-            } else {
-                button3.setVisibility(View.INVISIBLE);
+            btnSlot[0] = tableRow.findViewById(R.id.btnSlot1);
+            btnSlot[1] = tableRow.findViewById(R.id.btnSlot2);
+            btnSlot[2] = tableRow.findViewById(R.id.btnSlot3);
+            for (int j = 0; j < 3; j++) {
+                if (j + 3 * i >= slotCount) {
+                    btnSlot[j].setVisibility(View.INVISIBLE);
+                    continue;
+                }
+                btnSlot[j].setText(slots.get(j + 3 * i));
             }
             holder.table_slots.addView(tableRow);
         }
+
+        holder.tvDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int img;
+                if (holder.table_slots.getVisibility() != View.GONE) {
+                    holder.table_slots.setVisibility(View.GONE);
+                    img = R.drawable.ic_keyboard_arrow_down;
+                } else {
+                    holder.table_slots.setVisibility(View.VISIBLE);
+                    img = R.drawable.ic_keyboard_arrow_up;
+                }
+                ((TextView) v).setCompoundDrawablesWithIntrinsicBounds(0, 0, img, 0);
+            }
+        });
     }
 
     @Override
@@ -77,13 +83,11 @@ public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlo
     public class DaySlotViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvDate;
         private final TableLayout table_slots;
-        private final TableRow tableRow;
 
         public DaySlotViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDate = itemView.findViewById(R.id.tvDate);
             table_slots = itemView.findViewById(R.id.table_slots);
-            tableRow = table_slots.findViewById(R.id.txtDocId);
         }
     }
 }

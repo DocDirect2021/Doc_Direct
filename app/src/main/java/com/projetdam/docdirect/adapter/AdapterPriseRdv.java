@@ -1,6 +1,8 @@
 package com.projetdam.docdirect.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,18 +10,22 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.projetdam.docdirect.R;
+import com.projetdam.docdirect.commons.AppSingleton;
 import com.projetdam.docdirect.commons.ModelDaySlots;
+import com.projetdam.docdirect.commons.ModelDoctor;
 
 import java.util.ArrayList;
 
 public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlotViewHolder> {
     Context context;
     ArrayList<ModelDaySlots> hours;
+    private ModelDoctor doctor = AppSingleton.getInstance().getPickedDoctor();
 
     public AdapterPriseRdv(Context context, ArrayList<ModelDaySlots> hours) {
         this.context = context;
@@ -55,6 +61,15 @@ public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlo
                     continue;
                 }
                 btnSlot[j].setText(slots.get(j + 3 * i));
+                btnSlot[j].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String date = holder.tvDate.getText().toString();
+                        String hour = ((Button) v).getText().toString();
+                        AlertDialog dialog = getBuilder(date, hour).create();
+                        dialog.show();
+                    }
+                });
             }
             holder.table_slots.addView(tableRow);
         }
@@ -78,6 +93,31 @@ public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlo
     @Override
     public int getItemCount() {
         return hours.size();
+    }
+
+    private AlertDialog.Builder getBuilder(String date, String hour) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        builder.setTitle("Votre rdv : " + date)
+                .setMessage("à " + hour + " avec le Dr " + doctor.getName() + " " + doctor.getFirstname());
+
+        builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(context, "Rendez-vous confirmé !", Toast.LENGTH_LONG).show();
+//                confirmRdv(date, hour);
+
+            }
+        });
+
+        builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(context, "Rendez-vous annulé !", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        return builder;
     }
 
     public class DaySlotViewHolder extends RecyclerView.ViewHolder {

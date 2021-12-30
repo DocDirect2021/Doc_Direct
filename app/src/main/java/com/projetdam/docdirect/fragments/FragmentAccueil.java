@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +42,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.projetdam.docdirect.commons.AddSampleDatasToFirebase;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.adapter.AdapterDoctor;
+import com.projetdam.docdirect.commons.AddSampleDatasToFirebase;
+import com.projetdam.docdirect.commons.AppSingleton;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.searchDoc.DetailActivity;
 
@@ -98,6 +98,7 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
         adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
+                AppSingleton.getInstance().setPickedDoctor(listDoc.get(pos));
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
                 intent.putExtra("doctor", listDoc.get(pos));
                 startActivity(intent);
@@ -118,8 +119,9 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             @Override
             public void onInfoWindowClick(@NonNull Marker marker) {
                 ModelDoctor md = (ModelDoctor) (marker.getTag());
+                AppSingleton.getInstance().setPickedDoctor(md);
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra("doctor", (Parcelable) marker.getTag());
+                intent.putExtra("doctor", md);
                 startActivity(intent);
             }
         });

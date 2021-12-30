@@ -6,6 +6,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class AppSingleton {
     private static AppSingleton instance = null;
     private String patientId = null;
+    private ModelDoctor pickedDoctor = null;
 
     public static final CollectionReference doctors
             = FirebaseFirestore.getInstance().collection("doctors");
@@ -37,5 +38,13 @@ public class AppSingleton {
 
     public void setPatientId(String patientId) {
         this.patientId = patientId;
+    }
+
+    public ModelDoctor getPickedDoctor() {
+        return pickedDoctor;
+    }
+
+    public void setPickedDoctor(ModelDoctor pickedDoctor) {
+        this.pickedDoctor = pickedDoctor;
     }
 }

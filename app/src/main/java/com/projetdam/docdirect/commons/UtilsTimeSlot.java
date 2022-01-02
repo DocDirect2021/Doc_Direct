@@ -1,5 +1,7 @@
 package com.projetdam.docdirect.commons;
 
+import static java.time.Instant.ofEpochMilli;
+
 import android.os.Build;
 import android.util.Log;
 
@@ -8,9 +10,13 @@ import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +38,22 @@ public class UtilsTimeSlot {
             hours.add(formatHeure(t));
         }
         return hours;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    LocalDateTime dateTime(Timestamp timestamp) {
+        LocalDateTime dateTime;
+        ZoneId zoneId = ZoneId.systemDefault();
+        ZoneOffset zoneOffset = ZoneOffset.of("+01:00");
+        dateTime = LocalDateTime.ofInstant(ofEpochMilli(timestamp.getSeconds() * 1000), zoneId);
+        dateTime = LocalDateTime.ofEpochSecond(timestamp.getSeconds(), 0, zoneOffset);
+        return dateTime;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    Timestamp timestamp(LocalDateTime dateTime) {
+        Timestamp stamp = new Timestamp(dateTime.toEpochSecond(ZoneOffset.of("+01:00")), 0);
+        return stamp;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

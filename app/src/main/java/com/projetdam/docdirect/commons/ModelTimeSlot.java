@@ -7,15 +7,21 @@ import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.Exclude;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Modèle pour document Firestore
+ **/
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ModelTimeSlot {
     @DocumentId
@@ -25,9 +31,11 @@ public class ModelTimeSlot {
     private String patientId;
     private String date;
     private String startTime;
-    private String endTime;
     private boolean visio;
-    private String requestDate;
+    private Timestamp rdvDate;
+    private Timestamp requestDate;
+
+    private String endTime;
 
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
@@ -35,22 +43,24 @@ public class ModelTimeSlot {
     }
 
     public ModelTimeSlot(String doctorId, String patientId, String date, String startTime, String endTime, boolean visio, String a, String b, String c) {
+        LocalDateTime time = LocalDateTime.parse(date + " " + startTime, timeFormatter);
         this.doctorId = doctorId;
         this.patientId = patientId;
         this.date = date;
         this.startTime = startTime;
-        this.requestDate = LocalDateTime.now(ZoneId.of("Europe/Paris")).format(timeFormatter);
+        this.requestDate = Timestamp.now();
+        this.rdvDate = new Timestamp(time.toEpochSecond(ZoneOffset.of("+01:00")), 0);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public ModelTimeSlot(String doctorId, String patientId, String date, String startTime, String endTime, boolean visio) {
+    public ModelTimeSlot(String doctorId, String patientId, LocalDate date, LocalTime time, boolean visio) {
         this.doctorId = doctorId;
         this.patientId = patientId;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.date = date.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        this.startTime = time.format(DateTimeFormatter.ofPattern("HH:mm"));
         this.visio = visio;
-        this.requestDate = LocalDateTime.now(ZoneId.of("Europe/Paris")).format(timeFormatter);
+        this.requestDate = Timestamp.now();
+        LocalDateTime dateTime = LocalDateTime.of(date, time);
+        this.rdvDate = new Timestamp(dateTime.toEpochSecond(ZoneOffset.of("+01:00")), 0);
     }
 
     @Exclude
@@ -58,10 +68,19 @@ public class ModelTimeSlot {
         return "rdv_" + date.replaceAll("\\D", "") + "_" + startTime.replaceAll("\\D", "");
     }
 
+    public Timestamp getRdvDate() {
+        return rdvDate;
+    }
+
+    public void setRdvDate(Timestamp rdvDate) {
+        this.rdvDate = rdvDate;
+    }
+
     public String getDocumentID() {
         return documentID;
     }
 
+    @Exclude
     public String getDate() {
         return date;
     }
@@ -90,6 +109,7 @@ public class ModelTimeSlot {
         this.patientId = patientId;
     }
 
+    @Exclude
     public String getStartTime() {
         return startTime;
     }
@@ -98,6 +118,7 @@ public class ModelTimeSlot {
         this.startTime = startTime;
     }
 
+    @Exclude
     public String getEndTime() {
         return endTime;
     }
@@ -114,11 +135,11 @@ public class ModelTimeSlot {
         this.visio = visio;
     }
 
-    public String getRequestDate() {
+    public Timestamp getRequestDate() {
         return requestDate;
     }
 
-    public void setRequestDate(String requestDate) {
+    public void setRequestDate(Timestamp requestDate) {
         this.requestDate = requestDate;
     }
 

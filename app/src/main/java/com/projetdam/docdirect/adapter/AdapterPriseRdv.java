@@ -3,6 +3,7 @@ package com.projetdam.docdirect.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,21 +14,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.commons.AppSingleton;
-import com.projetdam.docdirect.commons.ModelDaySlots;
+import com.projetdam.docdirect.commons.ModelDayPlanner;
 import com.projetdam.docdirect.commons.ModelDoctor;
+import com.projetdam.docdirect.commons.ModelTimeSlot;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlotViewHolder> {
     Context context;
-    ArrayList<ModelDaySlots> hours;
-    private ModelDoctor doctor = AppSingleton.getInstance().getPickedDoctor();
+    ArrayList<ModelDayPlanner> hours;
+    ModelTimeSlot rdv;
+    private final ModelDoctor doctor = AppSingleton.getInstance().getPickedDoctor();
+    private final String patientId = AppSingleton.getInstance().getPatientId();
 
-    public AdapterPriseRdv(Context context, ArrayList<ModelDaySlots> hours) {
+    public AdapterPriseRdv(Context context, ArrayList<ModelDayPlanner> hours) {
         this.context = context;
         this.hours = hours;
     }
@@ -40,13 +46,15 @@ public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlo
         return new DaySlotViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull DaySlotViewHolder holder, int position) {
-        ModelDaySlots daySlots = hours.get(position);
-        ArrayList<String> slots = daySlots.getSlots();
+        ModelDayPlanner daySlots = hours.get(position);
+        ArrayList<String> slots = daySlots.getOpenSlots();
         int slotCount = slots.size();
         int slotCountBy3 = (slotCount - 1) / 3;
-        holder.tvDate.setText(daySlots.getDate());
+        String date = daySlots.getDisplayDate();
+        holder.tvDate.setText(date);
 
         Button[] btnSlot = new Button[3];
         for (int i = 0; i <= slotCountBy3; i++) {
@@ -60,12 +68,13 @@ public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlo
                     btnSlot[j].setVisibility(View.INVISIBLE);
                     continue;
                 }
-                btnSlot[j].setText(slots.get(j + 3 * i));
+                String hour = slots.get(j + 3 * i);
+                btnSlot[j].setText(hour);
                 btnSlot[j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String date = holder.tvDate.getText().toString();
-                        String hour = ((Button) v).getText().toString();
+//                        String hour = ((Button) v).getText().toString();
+                        rdv = new ModelTimeSlot(doctor.getDoctorId(), patientId, daySlots.getDate(), LocalTime.parse(hour), false);
                         AlertDialog dialog = getBuilder(date, hour).create();
                         dialog.show();
                     }
@@ -102,11 +111,11 @@ public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlo
                 .setMessage("à " + hour + " avec le Dr " + doctor.getName() + " " + doctor.getFirstname());
 
         builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(context, "Rendez-vous confirmé !", Toast.LENGTH_LONG).show();
-//                confirmRdv(date, hour);
-
+                rdv.save();
             }
         });
 
@@ -120,9 +129,10 @@ public class AdapterPriseRdv extends RecyclerView.Adapter<AdapterPriseRdv.DaySlo
         return builder;
     }
 
-    public class DaySlotViewHolder extends RecyclerView.ViewHolder {
+    public static class DaySlotViewHolder extends RecyclerView.ViewHolder {
         private final TextView tvDate;
         private final TableLayout table_slots;
+
 
         public DaySlotViewHolder(@NonNull View itemView) {
             super(itemView);

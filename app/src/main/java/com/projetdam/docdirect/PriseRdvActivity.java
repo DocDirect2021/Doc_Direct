@@ -1,31 +1,52 @@
 package com.projetdam.docdirect;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.projetdam.docdirect.adapter.AdapterPriseRdv;
-import com.projetdam.docdirect.commons.ModelDaySlots;
+import com.projetdam.docdirect.commons.AppSingleton;
+import com.projetdam.docdirect.commons.ModelDayPlanner;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.UtilsTimeSlot;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class PriseRdvActivity extends AppCompatActivity {
+    private static final String TAG = "TEST TEST";
+
     RecyclerView rcvTimeSlots;
     TextView tvDocName;
     ImageView ivDocPhoto;
 
-    ModelDoctor doctor;
-    ArrayList<ModelDaySlots> daySlots = new ArrayList<>();
+    ModelDoctor doctor = AppSingleton.getInstance().getPickedDoctor();
     AdapterPriseRdv adapter;
+
+    ArrayList<ModelDayPlanner> daySlots = new ArrayList<>();
+    // créneaux indisponibles
+    HashMap<LocalDate, ArrayList<String>> offSlots = new HashMap<>();
+
+    Query query = AppSingleton.consultations.document(doctor.getDoctorId()).collection("slots")
+            .whereGreaterThan("rdvDate", Timestamp.now()).orderBy("rdvDate");
 
     void init() {
         tvDocName = findViewById(R.id.tvDocName);
@@ -38,22 +59,79 @@ public class PriseRdvActivity extends AppCompatActivity {
         rcvTimeSlots.setAdapter(adapter);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prise_rdv);
 
-        daySlots.add(new ModelDaySlots("01/01/2022",
-                UtilsTimeSlot.createSlots("09:00", "12:10", 20)));
-        daySlots.add(new ModelDaySlots("02/01/2022",
-                UtilsTimeSlot.createSlots("09:30", "15:10", 20)));
-        daySlots.add(new ModelDaySlots("03/01/2022",
-                UtilsTimeSlot.createSlots("09:00", "12:00", 20)));
         init();
 
-        Intent intent = getIntent();
-        doctor = intent.getParcelableExtra("doctor");
+//        doctor = getIntent().getParcelableExtra("doctor");
         tvDocName.setText(String.format("%s %s", doctor.getName(), doctor.getFirstname()));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        queryData(new QueryCallback() {
+            @Override
+            public void onCallback(ArrayList<Timestamp> list) {
+                LocalDate lastDate = LocalDate.of(2020, 1, 1);
+                ArrayList<String> list1 = new ArrayList<>();
+                for (Timestamp t : list) {
+                    LocalDateTime dateTime = UtilsTimeSlot.getDateTime(t);
+                    LocalDate date = dateTime.toLocalDate();
+                    LocalTime time = dateTime.toLocalTime();
+
+                    if (date.isAfter(lastDate)) {
+                        offSlots.put(date, new ArrayList<>());
+                        lastDate = date;
+                    }
+                    offSlots.get(date).add(time.toString());
+                }
+                setTimetable();
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void setTimetable() {
+        LocalDate dayDate = LocalDate.now();
+        do {
+            ModelDayPlanner dayPlanner = new ModelDayPlanner(
+                    dayDate, "09:30", "17:00", 30, offSlots.get(dayDate), dayDate.isEqual(LocalDate.now()));
+            dayDate = dayDate.plusDays(1);
+            if (dayPlanner.getOpenSlots().isEmpty()) continue;
+            daySlots.add(dayPlanner);
+            if (dayDate.getDayOfWeek() == DayOfWeek.SATURDAY) dayDate = dayDate.plusDays(1);
+            if (dayDate.getDayOfWeek() == DayOfWeek.SUNDAY) dayDate = dayDate.plusDays(1);
+        } while (daySlots.size() < 5);
+    }
+
+    /**
+     * Utilisation des callbacks
+     **/
+    private void queryData(QueryCallback queryCallback) {
+        query.get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        ArrayList<Timestamp> list = new ArrayList<>();
+                        for (DocumentSnapshot snapshot : queryDocumentSnapshots) {
+                            list.add(snapshot.getTimestamp("rdvDate"));
+                        }
+                        queryCallback.onCallback(list);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+    }
+
+    private interface QueryCallback {
+        void onCallback(ArrayList<Timestamp> list);
     }
 }

@@ -17,27 +17,26 @@ import com.bumptech.glide.request.RequestOptions;
 import com.projetdam.docdirect.PriseRdvActivity;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.VisioActivity;
+import com.projetdam.docdirect.commons.AppSingleton;
 import com.projetdam.docdirect.commons.ModelDoctor;
 
 public class DetailActivity extends AppCompatActivity {
 
     ImageView ivAvatar;
-    TextView tvNom;
-    TextView tvAdresse;
-    TextView tvLikes;
+    TextView tvNom, tvSkill, tvAdresse, tvVille, tvLikes;
     Uri affiche;
-    Button rdv, visio;
-    ModelDoctor doctor;
-
-    String titre;
+    Button btnRdv, btnVisio;
+    ModelDoctor doctor = AppSingleton.getInstance().getPickedDoctor();
 
     public void init() {
         ivAvatar = findViewById(R.id.ivAfficheDetail);
         tvNom = findViewById(R.id.tvTitleDetail);
+        tvSkill = findViewById(R.id.tvSkill);
         tvAdresse = findViewById(R.id.tvActeurDetail);
+        tvVille = findViewById(R.id.tvVille);
         tvLikes = findViewById(R.id.tvAnneeDetail);
-        rdv = findViewById(R.id.button2);
-        visio = findViewById(R.id.button3);
+        btnRdv = findViewById(R.id.button2);
+        btnVisio = findViewById(R.id.button3);
     }
 
     @Override
@@ -45,13 +44,14 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         init();
-        Intent intent = getIntent();
-        doctor = intent.getParcelableExtra("doctor");
+//        doctor = getIntent().getParcelableExtra("doctor");
 
-        titre = "Dr. " + doctor.getName() + " " + doctor.getFirstname();
+        String titre = "Dr " + doctor.getFirstname() + " " + doctor.getName();
         affiche = doctor.getAvatar();
 
-        tvAdresse.setText(doctor.getStreet());
+        tvSkill.setText(doctor.getSpeciality());
+        tvAdresse.setText(doctor.getHousenumber() + " " + doctor.getStreet());
+        tvVille.setText(doctor.getPostcode() + " " + doctor.getCity());
         tvNom.setText(titre);
 
         RequestOptions options = new RequestOptions().centerCrop()
@@ -59,20 +59,20 @@ public class DetailActivity extends AppCompatActivity {
                 .placeholder(R.mipmap.ic_launcher);
         Context context = ivAvatar.getContext();
         Glide.with(context).load(affiche).apply(options).fitCenter().circleCrop().override(350, 350).diskCacheStrategy(DiskCacheStrategy.ALL).into(ivAvatar);
-        rdv.setOnClickListener(new View.OnClickListener() {
+        btnRdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DetailActivity.this, PriseRdvActivity.class);
-                intent.putExtra("doctor", doctor);
+//                intent.putExtra("doctor", doctor);
                 startActivity(intent);
             }
         });
 
-        visio.setOnClickListener(new View.OnClickListener() {
+        btnVisio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent vintent = new Intent(DetailActivity.this, VisioActivity.class);
-                startActivity(vintent);
+                Intent vIntent = new Intent(DetailActivity.this, VisioActivity.class);
+                startActivity(vIntent);
             }
         });
     }

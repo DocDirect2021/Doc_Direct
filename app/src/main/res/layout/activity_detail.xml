@@ -29,6 +29,14 @@
             android:textAlignment="center" />
 
         <TextView
+            android:id="@+id/tvSkill"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Title"
+            android:textAlignment="center" />
+
+        <TextView
             android:id="@+id/tvActeurDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,18 +45,18 @@
             android:textAlignment="center" />
 
         <TextView
+            android:id="@+id/tvVille"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center" />
+
+        <TextView
             android:id="@+id/tvAnneeDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Likes:"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/tvSynopsysDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:textAlignment="center" />
 
         <LinearLayout

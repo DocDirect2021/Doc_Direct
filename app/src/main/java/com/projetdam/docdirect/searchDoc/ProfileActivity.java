@@ -20,6 +20,7 @@ import com.projetdam.docdirect.fragments.FragmentAccueil;
 import com.projetdam.docdirect.fragments.FragmentCompte;
 import com.projetdam.docdirect.fragments.FragmentDocuments;
 import com.projetdam.docdirect.fragments.FragmentFilter;
+import com.projetdam.docdirect.fragments.FragmentRdvList;
 import com.projetdam.docdirect.fragments.FragmentRendezVous;
 import com.projetdam.docdirect.fragments.FragmentUrgence;
 
@@ -99,7 +100,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             case R.id.nav_fragmentRendezVous:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragment_container, new FragmentRendezVous())
+                        .replace(R.id.fragment_container, new FragmentRdvList())
                         .commit();
                 break;
             case R.id.nav_fragmentUrgence:

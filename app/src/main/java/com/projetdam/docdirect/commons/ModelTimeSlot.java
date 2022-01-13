@@ -25,24 +25,22 @@ import java.util.Map;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class ModelTimeSlot {
     @DocumentId
-    private String documentID;
+    private String documentID;      // Firestore document Id
+    private String doctorId;        // Firestore string
+    private String patientId;       // Firestore string
+    private Timestamp rdvDate;      // Firestore timestamp
+    private Timestamp requestDate;  // Firestore timestamp
+    private boolean visio;          // Firestore boolean
 
-    private String doctorId;
-    private String patientId;
     private String date;
     private String startTime;
-    private boolean visio;
-    private Timestamp rdvDate;
-    private Timestamp requestDate;
-
-    private String endTime;
-
-    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
 
     public ModelTimeSlot() {
     }
 
+    // TODO: 13/01/2022 Constructeur à supprimer
     public ModelTimeSlot(String doctorId, String patientId, String date, String startTime, String endTime, boolean visio, String a, String b, String c) {
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
         LocalDateTime time = LocalDateTime.parse(date + " " + startTime, timeFormatter);
         this.doctorId = doctorId;
         this.patientId = patientId;
@@ -80,15 +78,6 @@ public class ModelTimeSlot {
         return documentID;
     }
 
-    @Exclude
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
     public void setDocumentID(String documentID) {
         this.documentID = documentID;
     }
@@ -109,24 +98,6 @@ public class ModelTimeSlot {
         this.patientId = patientId;
     }
 
-    @Exclude
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    @Exclude
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
     public boolean isVisio() {
         return visio;
     }
@@ -145,6 +116,7 @@ public class ModelTimeSlot {
 
     public void save() {
         String rdvId = getCreateId();
+
         // fix : doc vide pour forcer la création du document
         Map<String, Object> noData = new HashMap<>();
         AppSingleton.consultations.document(doctorId).set(noData);
@@ -154,59 +126,54 @@ public class ModelTimeSlot {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
+
         // Ajout rdv dans les rdvs du patient
         AppSingleton.patients.document(patientId).collection("rdvs").document(rdvId).set(this)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
     }
 
     public void delete() {
-        String rdvId = getCreateId();
+        String rdvId = documentID;
 
+        // Supression rdv dans la collection consultations
         AppSingleton.consultations.document(doctorId).collection("slots").document(rdvId).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
 
+        // Suppression rdv dans les rdvs du patient
         AppSingleton.patients.document(patientId).collection("rdvs").document(rdvId).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-
                     }
                 });
     }

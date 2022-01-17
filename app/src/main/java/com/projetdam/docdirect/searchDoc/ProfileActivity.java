@@ -1,5 +1,9 @@
 package com.projetdam.docdirect.searchDoc;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,10 +11,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,11 +23,9 @@ import com.projetdam.docdirect.fragments.FragmentCompte;
 import com.projetdam.docdirect.fragments.FragmentDocuments;
 import com.projetdam.docdirect.fragments.FragmentFilter;
 import com.projetdam.docdirect.fragments.FragmentRdvList;
-import com.projetdam.docdirect.fragments.FragmentRendezVous;
 import com.projetdam.docdirect.fragments.FragmentUrgence;
 
 public class ProfileActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentFilter.NoticeDialogListener {
-
     /**
      * Variables globales fragment
      **/
@@ -33,15 +33,23 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
     DrawerLayout drawer_layout;
 
     // La gestion des fragments
+    FragmentManager fragmentManager = getSupportFragmentManager();
     FragmentAccueil fragmentAccueil;
 
     // Gestion de la NavigationView
     private NavigationView navigationView;
 
-    public void initUI() {
+    private void initUI() {
         toolbar = findViewById(R.id.toolbar);
         drawer_layout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_navigationView);
+    }
+
+    private void addFragmentAccueil() {
+        fragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container, fragmentAccueil)
+                .commit();
     }
 
     @Override
@@ -52,20 +60,20 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
         fragmentAccueil = new FragmentAccueil();
         // Appel de la méthode d'initialisation de l'UI
         initUI();
-        // Ajout du support pour la gestio nde la Toolbar
+        // Ajout du support pour la gestion de la Toolbar
         setSupportActionBar(toolbar);
 
         // Ajout de la gestion des options d'accessibilité
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, // Le context de l'activité
-                drawer_layout, // Le layout du MainActivity
+                this, // L'activité hôte du drawer
+                drawer_layout, // Le layout dans l'activité
                 toolbar, // La toolbar
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close);
 
         // Ajout d'un listener sur le bouton hamburger
         drawer_layout.addDrawerListener(toggle);
-        // Synchro le bouton hamburger et le menu
+        // Synchro du bouton hamburger avec le menu
         toggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(this);
@@ -74,7 +82,7 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
             addFragmentAccueil();
             // Force l'affichage du 1er fragment au démarrage
             navigationView.setCheckedItem(R.id.nav_fragmentAccueil);
-            getSupportFragmentManager()
+            fragmentManager
                     .beginTransaction()
                     .replace(R.id.fragment_container, fragmentAccueil)
                     .commit();
@@ -83,37 +91,22 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
+        Fragment targetFragment = fragmentAccueil;
         switch (item.getItemId()) {
             case R.id.nav_fragmentAccueil:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, fragmentAccueil)
-                        .commit();
+                targetFragment = fragmentAccueil;
                 break;
             case R.id.nav_fragmentDocuments:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new FragmentDocuments())
-                        .commit();
+                targetFragment = new FragmentDocuments();
                 break;
             case R.id.nav_fragmentRendezVous:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new FragmentRdvList())
-                        .commit();
+                targetFragment = new FragmentRdvList();
                 break;
             case R.id.nav_fragmentUrgence:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new FragmentUrgence())
-                        .commit();
+                targetFragment = new FragmentUrgence();
                 break;
             case R.id.nav_fragmentCompte:
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, new FragmentCompte())
-                        .commit();
+                targetFragment = new FragmentCompte();
                 break;
             case R.id.nav_fragmentLogOut:
                 FirebaseAuth.getInstance().signOut();
@@ -122,24 +115,29 @@ public class ProfileActivity extends AppCompatActivity implements NavigationView
                 break;
         }
 
+        fragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, targetFragment)
+                .commit();
+
         drawer_layout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     @Override
     public void onBackPressed() {
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.fragment_container);
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START);
+        } else if (currentFragment != fragmentAccueil) {
+            navigationView.setCheckedItem(R.id.nav_fragmentAccueil);
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragmentAccueil)
+                    .commit();
         } else {
             super.onBackPressed();
         }
-    }
-
-    private void addFragmentAccueil() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.fragment_container, fragmentAccueil)
-                .commit();
     }
 
     @Override

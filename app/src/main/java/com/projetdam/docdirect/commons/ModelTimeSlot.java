@@ -38,18 +38,6 @@ public class ModelTimeSlot {
     public ModelTimeSlot() {
     }
 
-    // TODO: 13/01/2022 Constructeur à supprimer
-    public ModelTimeSlot(String doctorId, String patientId, String date, String startTime, String endTime, boolean visio, String a, String b, String c) {
-        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
-        LocalDateTime time = LocalDateTime.parse(date + " " + startTime, timeFormatter);
-        this.doctorId = doctorId;
-        this.patientId = patientId;
-        this.date = date;
-        this.startTime = startTime;
-        this.requestDate = Timestamp.now();
-        this.rdvDate = new Timestamp(time.toEpochSecond(ZoneOffset.of("+01:00")), 0);
-    }
-
     public ModelTimeSlot(String doctorId, String patientId, LocalDate date, LocalTime time, boolean visio) {
         this.doctorId = doctorId;
         this.patientId = patientId;

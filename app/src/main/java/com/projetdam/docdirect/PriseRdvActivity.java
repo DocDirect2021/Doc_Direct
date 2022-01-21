@@ -41,6 +41,7 @@ public class PriseRdvActivity extends AppCompatActivity {
     ModelDoctor doctor = AppSingleton.getInstance().getPickedDoctor();
     AdapterPriseRdv adapter;
 
+    // créneaux ouverts
     ArrayList<ModelDayPlanner> daySlots = new ArrayList<>();
     // créneaux indisponibles
     HashMap<LocalDate, ArrayList<String>> offSlots = new HashMap<>();
@@ -67,18 +68,17 @@ public class PriseRdvActivity extends AppCompatActivity {
         init();
 
 //        doctor = getIntent().getParcelableExtra("doctor");
-        tvDocName.setText(String.format("%s %s", doctor.getName(), doctor.getFirstname()));
+        tvDocName.setText(String.format("Dr %s %s", doctor.getFirstname(), doctor.getName()));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        queryData(new QueryCallback() {
+        getQueryData(new QueryCallback() {
             @Override
             public void onCallback(ArrayList<Timestamp> list) {
                 LocalDate lastDate = LocalDate.of(2020, 1, 1);
-                ArrayList<String> list1 = new ArrayList<>();
                 for (Timestamp t : list) {
                     LocalDateTime dateTime = UtilsTimeSlot.getDateTime(t);
                     LocalDate date = dateTime.toLocalDate();
@@ -96,6 +96,9 @@ public class PriseRdvActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Planning factice de test
+     */
     private void setTimetable() {
         LocalDate dayDate = LocalDate.now();
         do {
@@ -112,7 +115,7 @@ public class PriseRdvActivity extends AppCompatActivity {
     /**
      * Utilisation des callbacks
      **/
-    private void queryData(QueryCallback queryCallback) {
+    private void getQueryData(QueryCallback queryCallback) {
         query.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

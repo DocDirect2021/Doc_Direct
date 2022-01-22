@@ -2,7 +2,6 @@ package com.projetdam.docdirect.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -38,7 +37,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -49,59 +47,87 @@ import com.projetdam.docdirect.commons.AppSingleton;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.searchDoc.DetailActivity;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 
 public class FragmentAccueil extends Fragment implements OnMapReadyCallback, FragmentFilter.NoticeDialogListener {
 
+    private RecyclerView rcvDoctorList;
     private ImageButton filterButton;
     private SearchView rechercheView;
     private GoogleMap mMap;
     private ArrayList<ModelDoctor> listDoc;
-    private boolean[] listeChk;
     private AdapterDoctor adapterDoctor;
-    private Query query;
-    RecyclerView recyclerView;
+    private Query query = AppSingleton.doctors.whereEqualTo("city", "Paris");
+    private String[] specialties;
+    private boolean[] listChk;
 
-    public void init() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        query = db.collection("doctors").whereEqualTo("city", "Paris");
-        listeChk = new boolean[getResources().getStringArray(R.array.specialites).length];
+    private void init() {
+        specialties = getResources().getStringArray(R.array.specialites);
+        listChk = new boolean[specialties.length];
     }
 
     public FragmentAccueil() {
-        // Required empty public constructor
-    }
+    }     // Required empty public constructor
 
     @Override
-    public void onAttach(@NonNull @Nullable Context context) {
-        super.onAttach(context);
-        //Gol.addLog(emplacement, "onAttach");
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        init();
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Gol.addLog(emplacement, "onCreateView");
         // Inflate the layout for this fragment
         listDoc = new ArrayList<ModelDoctor>();
         View view = inflater.inflate(R.layout.fragment_accueil, container, false);
         filterButton = view.findViewById(R.id.imageButton);
         rechercheView = view.findViewById(R.id.rechercheView);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        rcvDoctorList = view.findViewById(R.id.rcvDoctorList);
         LinearLayoutManager llm = new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false);
 
-        // FirestoreRecyclerOptions<ModelDoctor> products=new FirestoreRecyclerOptions.Builder<ModelDoctor>().setQuery(query,ModelDoctor.class).build();
         adapterDoctor = new AdapterDoctor(view.getContext(), listDoc);
-        recyclerView.setAdapter(adapterDoctor);
-        recyclerView.setLayoutManager(llm);
+        rcvDoctorList.setAdapter(adapterDoctor);
+        rcvDoctorList.setLayoutManager(llm);
         adapterDoctor.setOnItemClickListener(new AdapterDoctor.OnItemClickListener() {
             @Override
             public void onItemClick(int pos) {
                 AppSingleton.getInstance().setPickedDoctor(listDoc.get(pos));
                 Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra("doctor", listDoc.get(pos));
                 startActivity(intent);
+            }
+        });
+
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentFilter fragFilter = new FragmentFilter();
+                Bundle args = new Bundle();
+                args.putBooleanArray("checked", listChk);
+                args.putStringArray("specialties", specialties);
+                fragFilter.setArguments(args);
+                fragFilter.show(getChildFragmentManager(), "Filter");
+            }
+        });
+
+        rechercheView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;    // traité avant sur onQueryTextChange
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                mMap.clear();
+                if (s.isEmpty()) return false;
+                LatLng coordo;
+                for (ModelDoctor doc : listDoc)
+                    if (doc.getName() != null && doc.getName().contains(s.toUpperCase())) {
+                        coordo = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+                        Marker m = mMap.addMarker(new MarkerOptions()
+                                .position(coordo)
+                                .title(doc.getCity())
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        m.setTag(doc);
+                    }
+                return false;
             }
         });
 
@@ -113,47 +139,6 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-
-        mMap = googleMap;
-        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(@NonNull Marker marker) {
-                ModelDoctor md = (ModelDoctor) (marker.getTag());
-                AppSingleton.getInstance().setPickedDoctor(md);
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                intent.putExtra("doctor", md);
-                startActivity(intent);
-            }
-        });
-        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
-            @Nullable
-            @Override
-            public View getInfoContents(@NonNull Marker marker) {
-                View v = getLayoutInflater().inflate(R.layout.activity_detail, null);
-
-                TextView markerLabel = (TextView) v.findViewById(R.id.tvTitleDetail);
-                TextView markerSpe = (TextView) v.findViewById(R.id.tvActeurDetail);
-                ImageView markerImage = (ImageView) v.findViewById(R.id.ivAfficheDetail);
-                ModelDoctor md = (ModelDoctor) (marker.getTag());
-                markerLabel.setText(md.getName() + " " + md.getFirstname());
-                markerSpe.setText(md.getSpeciality());
-
-                RequestOptions options = new RequestOptions().centerCrop()
-                        .error(R.mipmap.ic_launcher)
-                        .placeholder(R.mipmap.ic_launcher);
-                Context context = getContext();
-                Glide.with(context).load(md.getAvatar()).apply(options).fitCenter().circleCrop().override(80, 80).diskCacheStrategy(DiskCacheStrategy.ALL).into(markerImage);
-
-                return v;
-            }
-
-            @Nullable
-            @Override
-            public View getInfoWindow(@NonNull Marker marker) {
-                return null;
-            }
-        });
-
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -165,8 +150,55 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             return;
         }
-        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        mMap = googleMap;
+
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(@NonNull Marker marker) {
+                AppSingleton.getInstance().setPickedDoctor((ModelDoctor) (marker.getTag()));
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Nullable
+            @Override
+            public View getInfoContents(@NonNull Marker marker) {
+                View v = getLayoutInflater().inflate(R.layout.activity_detail, null);
+
+                TextView tvNom = v.findViewById(R.id.tvTitleDetail);
+                TextView tvSkill = v.findViewById(R.id.tvSkill);
+                ImageView ivAvatar = v.findViewById(R.id.ivAfficheDetail);
+                TextView tvAdresse = v.findViewById(R.id.tvActeurDetail);
+                TextView tvVille = v.findViewById(R.id.tvVille);
+
+                ModelDoctor md = (ModelDoctor) (marker.getTag());
+                tvNom.setText(MessageFormat.format("Dr {0} {1}", md.getFirstname(), md.getName()));
+                tvSkill.setText(md.getSpeciality());
+                tvAdresse.setText(MessageFormat.format("{0} {1}", md.getHousenumber(), md.getStreet()));
+                tvVille.setText(MessageFormat.format("{0} {1}", md.getPostcode(), md.getCity()));
+
+                RequestOptions options = new RequestOptions().centerCrop()
+                        .error(R.mipmap.ic_launcher)
+                        .placeholder(R.mipmap.ic_launcher);
+                Glide.with(getContext()).load(md.getAvatar()).apply(options).fitCenter().circleCrop().override(80, 80)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL).into(ivAvatar);
+
+                return v;
+            }
+
+            @Nullable
+            @Override
+            public View getInfoWindow(@NonNull Marker marker) {
+                return null;
+            }
+        });
+
         mMap.setMyLocationEnabled(true);
+
+        FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                     @SuppressLint({"NewApi", "NotifyDataSetChanged"})
@@ -177,16 +209,15 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                             // Logic to handle location object
                             LatLng coordo = new LatLng(location.getLatitude(), location.getLongitude());
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordo, 12.0f));
-                            ArrayList<Uri> al = AddSampleDatasToFirebase.addDatasToFireBase(getContext());
+                            ArrayList<Uri> avatars = AddSampleDatasToFirebase.addDatasToFireBase(getContext());
 
-                            init();
                             query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                         ModelDoctor doc = documentSnapshot.toObject(ModelDoctor.class);
 
-                                        doc.setAvatar(al.get((listDoc.size()) % al.size()));
+                                        doc.setAvatar(avatars.get((listDoc.size()) % avatars.size()));
                                         Location loc = new Location("d2");
                                         loc.setLatitude(doc.getGeoloc().getLatitude());
                                         loc.setLongitude(doc.getGeoloc().getLongitude());
@@ -208,66 +239,27 @@ public class FragmentAccueil extends Fragment implements OnMapReadyCallback, Fra
                                             return Float.compare(location.distanceTo(loc1), location.distanceTo(loc2));
                                         }
                                     });
-
                                     adapterDoctor.notifyDataSetChanged();
                                 }
                             });
                         }
                     }
                 });
-
-        rechercheView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                // traité avant sur onQueryTextChange
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                mMap.clear();
-                if (s.isEmpty()) return false;
-                LatLng coordo;
-                for (ModelDoctor doc : listDoc)
-                    if (doc.getName() != null && doc.getName().contains(s.toUpperCase())) {
-                        coordo = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
-                        Marker m = mMap.addMarker(new MarkerOptions()
-                                .position(coordo)
-                                .title(doc.getCity())
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
-                        m.setTag(doc);
-                    }
-                return false;
-            }
-        });
-
-        filterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentFilter fragFilter = new FragmentFilter();
-                Bundle args = new Bundle();
-                args.putBooleanArray("checked", listeChk);
-                fragFilter.setArguments(args);
-                fragFilter.show(getChildFragmentManager(), "Filter");
-            }
-        });
     }
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
         mMap.clear();
 
-        ArrayList<String> listeSpe = new ArrayList<String>();
+        ArrayList<String> listSpe = new ArrayList<String>();
         FragmentFilter fragFilter = (FragmentFilter) dialog;
-        listeChk = fragFilter.getSelectedItems();
-        for (int i = 0; i < dialog.getResources().getStringArray(R.array.specialites).length; i++)
-            if (listeChk[i])
-                listeSpe.add(dialog.getResources().getStringArray(R.array.specialites)[i]);
+        listChk = fragFilter.getSelectedItems();
+        for (int i = 0; i < specialties.length; i++)
+            if (listChk[i]) listSpe.add(specialties[i]);
 
-        LatLng coordo;
         for (ModelDoctor doc : listDoc)
-            if (listeSpe.contains(doc.getSpeciality())) {
-                coordo = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
+            if (listSpe.contains(doc.getSpeciality())) {
+                LatLng coordo = new LatLng(doc.getGeoloc().getLatitude(), doc.getGeoloc().getLongitude());
                 Marker m = mMap.addMarker(
                         new MarkerOptions()
                                 .position(coordo)

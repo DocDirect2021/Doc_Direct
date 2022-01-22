@@ -102,13 +102,13 @@ public class PriseRdvActivity extends AppCompatActivity {
     private void setTimetable() {
         LocalDate dayDate = LocalDate.now();
         do {
+            if (dayDate.getDayOfWeek() == DayOfWeek.SATURDAY) dayDate = dayDate.plusDays(1);
+            if (dayDate.getDayOfWeek() == DayOfWeek.SUNDAY) dayDate = dayDate.plusDays(1);
             ModelDayPlanner dayPlanner = new ModelDayPlanner(
                     dayDate, "09:30", "17:00", 30, offSlots.get(dayDate), dayDate.isEqual(LocalDate.now()));
             dayDate = dayDate.plusDays(1);
             if (dayPlanner.getOpenSlots().isEmpty()) continue;
             daySlots.add(dayPlanner);
-            if (dayDate.getDayOfWeek() == DayOfWeek.SATURDAY) dayDate = dayDate.plusDays(1);
-            if (dayDate.getDayOfWeek() == DayOfWeek.SUNDAY) dayDate = dayDate.plusDays(1);
         } while (daySlots.size() < 5);
     }
 

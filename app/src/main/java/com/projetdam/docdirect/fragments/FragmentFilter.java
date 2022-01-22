@@ -42,7 +42,6 @@ public class FragmentFilter extends DialogFragment {
     }
 
     private boolean[] selectedItems;
-    private boolean[] checkeditems;
 
     public boolean[] getSelectedItems() {
         return selectedItems;
@@ -54,10 +53,11 @@ public class FragmentFilter extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        selectedItems = new boolean[getResources().getStringArray(R.array.specialites).length];
-
         Bundle args = getArguments();
-        checkeditems = args.getBooleanArray("checked");
+        boolean[] checkedItems = args.getBooleanArray("checked");
+        String[] specialties = args.getStringArray("specialties");
+
+        selectedItems = new boolean[specialties.length];
 
         // Where we track the selected items
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -65,7 +65,7 @@ public class FragmentFilter extends DialogFragment {
         builder.setTitle(R.string.choisir_spe)
                 // Specify the list array, the items to be selected by default (null for none),
                 // and the listener through which to receive callbacks when items are selected
-                .setMultiChoiceItems(R.array.specialites, checkeditems,
+                .setMultiChoiceItems(specialties, checkedItems,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which,
@@ -89,8 +89,8 @@ public class FragmentFilter extends DialogFragment {
                         listener.onDialogNegativeClick(FragmentFilter.this);
                     }
                 });
-        View v = getActivity().getLayoutInflater().inflate(R.layout.activity_filter, null);
-        builder.setView(v);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.view_filter, null);
+        builder.setView(view);
 
         return builder.create();
     }

@@ -4,10 +4,8 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import android.util.Log;
-
 import com.google.firebase.Timestamp;
-import com.projetdam.docdirect.commons.UtilsTimeSlot;
+import com.projetdam.docdirect.commons.HelperTime;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,15 +19,15 @@ public class HashMapTest {
     @Test
     public void goTest() {
         ArrayList<Timestamp> list = new ArrayList<>();
-        list.add(UtilsTimeSlot.
+        list.add(HelperTime.
                 getTimestamp(LocalDateTime.of(2020, 3, 9, 15, 5)));
-        list.add(UtilsTimeSlot.
+        list.add(HelperTime.
                 getTimestamp(LocalDateTime.of(2020, 3, 9, 11, 15)));
-        list.add(UtilsTimeSlot.
+        list.add(HelperTime.
                 getTimestamp(LocalDateTime.of(2020, 5, 15, 12, 25)));
-        list.add(UtilsTimeSlot.
+        list.add(HelperTime.
                 getTimestamp(LocalDateTime.of(2020, 5, 20, 11, 35)));
-        list.add(UtilsTimeSlot.
+        list.add(HelperTime.
                 getTimestamp(LocalDateTime.of(2020, 5, 20, 11, 45)));
         int total = 3;
 
@@ -39,7 +37,7 @@ public class HashMapTest {
         LocalDate lastDate = LocalDate.of(2020, 1, 1);
 
         for (Timestamp t : list) {
-            LocalDateTime dateTime = UtilsTimeSlot.getDateTime(t);
+            LocalDateTime dateTime = HelperTime.getDateTime(t);
             LocalDate date = dateTime.toLocalDate();
             LocalTime time = dateTime.toLocalTime();
 

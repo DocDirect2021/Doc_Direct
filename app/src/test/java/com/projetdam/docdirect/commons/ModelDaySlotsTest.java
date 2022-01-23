@@ -24,7 +24,7 @@ public class ModelDaySlotsTest {
     @Test
     public void setSlots() {
         LocalDate date = LocalDate.of(2022, 1, 3);
-        ArrayList<String> slots = new ArrayList<>(); //UtilsTimeSlot.createSlots();
+        ArrayList<String> slots = new ArrayList<>(); //HelperTime.createSlots();
         ModelDayPlanner slots1 = new ModelDayPlanner(date, "9:00", "15:30", 20, slots);
         assertEquals(date, slots1.getDate());
     }

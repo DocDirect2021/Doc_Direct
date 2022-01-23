@@ -21,7 +21,7 @@ import com.projetdam.docdirect.adapter.AdapterPriseRdv;
 import com.projetdam.docdirect.commons.AppSingleton;
 import com.projetdam.docdirect.commons.ModelDayPlanner;
 import com.projetdam.docdirect.commons.ModelDoctor;
-import com.projetdam.docdirect.commons.UtilsTimeSlot;
+import com.projetdam.docdirect.commons.HelperTime;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -80,7 +80,7 @@ public class PriseRdvActivity extends AppCompatActivity {
             public void onCallback(ArrayList<Timestamp> list) {
                 LocalDate lastDate = LocalDate.of(2020, 1, 1);
                 for (Timestamp t : list) {
-                    LocalDateTime dateTime = UtilsTimeSlot.getDateTime(t);
+                    LocalDateTime dateTime = HelperTime.getDateTime(t);
                     LocalDate date = dateTime.toLocalDate();
                     LocalTime time = dateTime.toLocalTime();
 

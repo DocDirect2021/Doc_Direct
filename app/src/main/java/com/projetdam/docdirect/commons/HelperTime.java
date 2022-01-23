@@ -11,7 +11,7 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class UtilsTimeSlot {
+public class HelperTime {
     private static final String TAG = "TEST TEST";
 
     private static final ZoneOffset zoneOffset = ZoneOffset.of("+01:00");

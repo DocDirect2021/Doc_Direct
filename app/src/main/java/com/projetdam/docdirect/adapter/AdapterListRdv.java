@@ -19,9 +19,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.projetdam.docdirect.R;
 import com.projetdam.docdirect.commons.AppSingleton;
+import com.projetdam.docdirect.commons.HelperTime;
 import com.projetdam.docdirect.commons.ModelDoctor;
 import com.projetdam.docdirect.commons.ModelTimeSlot;
-import com.projetdam.docdirect.commons.UtilsTimeSlot;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -68,7 +68,7 @@ public class AdapterListRdv extends RecyclerView.Adapter<AdapterListRdv.RdvViewH
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(context, "Rendez-vous annulé !", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Rendez-vous annulé !", Toast.LENGTH_SHORT).show();
                 rdv.delete();
                 patientRdvs.remove(pos);
                 notifyItemRemoved(pos);
@@ -78,7 +78,7 @@ public class AdapterListRdv extends RecyclerView.Adapter<AdapterListRdv.RdvViewH
         builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(context, "Rendez-vous conservé !", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Rendez-vous conservé !", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -104,7 +104,7 @@ public class AdapterListRdv extends RecyclerView.Adapter<AdapterListRdv.RdvViewH
         public void setData(int position) {
             ModelTimeSlot rdv = patientRdvs.get(position);
             LocalDateTime now = LocalDateTime.now();
-            LocalDateTime rdvDT = UtilsTimeSlot.getDateTime(rdv.getRdvDate());
+            LocalDateTime rdvDT = HelperTime.getDateTime(rdv.getRdvDate());
             String date = rdvDT.toLocalDate().format(DateTimeFormatter.ofPattern("E dd/MM/yyyy", Locale.FRANCE));
             String time = rdvDT.toLocalTime().toString();
             txtJour.setText(date);

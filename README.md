@@ -1,3 +1,3 @@
 # Doc'Direct
 Application de **prise de rendez-vous médical**.
->Il permet de 
+> Projet [présenté en fin de formation](../../releases/tag/v0-prez-greta) au GRETA

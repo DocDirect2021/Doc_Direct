@@ -1,8 +1,10 @@
 package com.projetdam.docdirect.fragments;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +43,7 @@ public class FragmentRdvList extends Fragment {
     private void init() {
         rcvRdvList = rootView.findViewById(R.id.rcvRdvList);
         rcvRdvList.setLayoutManager(new LinearLayoutManager(getContext()));
-        rcvRdvList.setHasFixedSize(true);
+//        rcvRdvList.setHasFixedSize(true);
         adapter = new AdapterListRdv(getContext(), patientRdvs);
         rcvRdvList.setAdapter(adapter);
     }
@@ -52,6 +54,7 @@ public class FragmentRdvList extends Fragment {
 
         queryRdvs.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @RequiresApi(api = Build.VERSION_CODES.O)
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (DocumentSnapshot snapshot : queryDocumentSnapshots) {

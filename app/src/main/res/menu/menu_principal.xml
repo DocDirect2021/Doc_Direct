@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item android:title="Accueil"
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single">
+        <item
             android:id="@+id/nav_fragmentAccueil"
-            android:icon="@drawable/ic_menu_01"/>
-        <item android:title="Mes Documents"
-            android:id="@+id/nav_fragmentDocuments"
-            android:icon="@drawable/ic_menu_02"/>
-        <item android:title="Rendez-vous"
+            android:icon="@drawable/ic_menu_01"
+            android:title="Accueil" />
+        <item
             android:id="@+id/nav_fragmentRendezVous"
-            android:icon="@drawable/ic_menu_03"/>
-        <item android:title="Urgence"
+            android:icon="@drawable/ic_menu_03"
+            android:title="Mes rendez-vous" />
+        <item
+            android:id="@+id/nav_fragmentDocuments"
+            android:icon="@drawable/ic_menu_02"
+            android:title="Mes documents" />
+        <item
             android:id="@+id/nav_fragmentUrgence"
-            android:icon="@drawable/ic_menu_04"/>
+            android:icon="@drawable/ic_email_focused"
+            android:title="Message SOS" />
     </group>
 
-    <item android:title="">
-        <menu>
-            <item android:title="Mon Compte"
-                android:id="@+id/nav_fragmentCompte"
-                android:icon="@drawable/ic_menu_05"/>
-            <item android:title="LogOut"
-                android:id="@+id/nav_fragmentLogOut"
-                android:icon="@drawable/ic_menu_06"/>
-        </menu>
-    </item>
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_fragmentCompte"
+            android:icon="@drawable/ic_menu_05"
+            android:title="Mon compte" />
+        <item
+            android:id="@+id/nav_fragmentLogOut"
+            android:icon="@drawable/ic_menu_06"
+            android:title=" Déconnexion" />
+    </group>
+
 </menu>
